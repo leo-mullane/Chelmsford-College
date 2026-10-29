@@ -813,3 +813,97 @@ html.a11y-text-xl .search-mode { grid-template-columns: 1fr; border-radius: var(
 /* Payment provider page */
 .provider-logo { width: 120px !important; height: 26px !important; }
 .wallet-btn { min-height: 48px; border: 1px solid var(--wf-text); border-radius: var(--wf-radius); background: var(--wf-text); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+
+/* Site-wide search overlay (V3-02) --------------------------------------- */
+.site-search[hidden] { display: none !important; }
+.site-search { position: fixed; inset: 0; z-index: 1100; background: rgba(0,0,0,0.45); overflow-y: auto; }
+.site-search-inner { background: var(--wf-page); padding-top: 1.5rem; padding-bottom: 2rem; box-shadow: 0 18px 32px rgba(0,0,0,0.18); }
+html.ss-open { overflow: hidden; }
+.site-search-top { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start; }
+.site-search-form label { display: block; font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; }
+.site-search-close { min-width: 44px; min-height: 44px; border: 1px solid var(--wf-border-strong); border-radius: var(--wf-radius); background: var(--wf-page); font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--wf-text); }
+.site-search-body { margin-top: 1.25rem; }
+.site-search-idle { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) { .site-search-idle { grid-template-columns: 2fr 1fr; } }
+.ss-heading { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 0.5rem; }
+.ss-popular { list-style: none; padding: 0; margin: 0; }
+.ss-popular .chip { text-decoration: none; }
+.ss-count { display: inline-block; min-width: 1.5rem; padding: 0 0.375rem; border-radius: 999px; background: var(--wf-surface); color: var(--wf-text); font-size: 0.75rem; font-weight: 700; text-align: center; letter-spacing: 0; }
+.site-search-results .result-count { margin-top: 0; }
+.ss-groups { display: grid; gap: 1.25rem; }
+@media (min-width: 768px) { .ss-groups { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .ss-groups { grid-template-columns: repeat(3, 1fr); } }
+.ss-group ul { list-style: none; padding: 0; margin: 0; }
+.ss-group a.res { display: block; padding: 0.5rem; border-radius: var(--wf-radius); color: var(--wf-text); min-height: 44px; }
+.ss-group a.res:hover, .ss-group a.res:focus { background: var(--wf-surface); text-decoration: none; }
+.ss-group a.res small { display: block; color: var(--wf-text-muted); font-size: 0.8125rem; }
+.site-search mark, .search-results mark { background: none; font-weight: 700; color: inherit; text-decoration: underline; text-decoration-thickness: 2px; }
+.ss-more { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.875rem; font-weight: 600; padding: 0 0.5rem; }
+.ss-best { display: grid; gap: 0.25rem; padding: 1rem 1.25rem; margin-bottom: 1.25rem; border: 2px solid var(--wf-text); border-radius: var(--wf-radius); color: var(--wf-text); }
+.ss-best:hover { text-decoration: none; background: var(--wf-surface); }
+.ss-best strong { font-size: 1.125rem; }
+
+/* Search results page */
+.search-layout { display: grid; gap: 2rem; padding-top: 1.5rem; padding-bottom: 3rem; }
+@media (min-width: 1024px) { .search-layout { grid-template-columns: minmax(0, 1fr) 18rem; } }
+.search-layout > * { min-width: 0; }
+.search-page-form { max-width: 44rem; }
+.search-page-form label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+.search-types { margin: 0 0 1.25rem; }
+.search-types .chip { gap: 0.5rem; }
+.search-types .chip[aria-pressed="true"] .ss-count { background: #fff; color: var(--wf-text); }
+.search-results { list-style: none; padding: 0; margin: 0; }
+.search-result { padding: 1.25rem 0; border-top: 1px solid var(--wf-border); }
+.search-result h2 { font-size: 1.1875rem; margin: 0.25rem 0 0.375rem; }
+.search-result p { margin: 0 0 0.375rem; }
+.search-meta { font-size: 0.875rem; color: var(--wf-text-muted); display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.search-spell { margin: 0 0 1rem; font-size: 1.0625rem; }
+.search-aside { display: grid; gap: 1rem; align-content: start; }
+.search-help h2 { font-size: 1.125rem; }
+#search-empty .ss-heading { margin-top: 1.5rem; }
+.site-search-idle[hidden], .site-search-results[hidden], #search-more[hidden], #search-empty[hidden], .search-spell[hidden] { display: none !important; }
+
+/* Desktop fly-outs fit the screen without their own scroll bar (V3.2) */
+.mega-all { gap: 0; }
+.mega-all::after { margin-left: 0.375rem; }
+@media (min-width: 1024px) {
+  .mega-inner { padding-top: 1.25rem; padding-bottom: 1.5rem; }
+  .mega-search { padding-bottom: 1rem; margin-bottom: 1.25rem; }
+  .mega-links a { min-height: 36px; padding: 0.125rem 0; }
+  .mega-all { min-height: 36px; margin-top: 0.25rem; }
+  .mega-tabs [role="tab"] { min-height: 40px; padding: 0.5rem 0.875rem; }
+  .mega-panel .promo-card .wf-placeholder { aspect-ratio: 16 / 9; }
+  .mega-results-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 0 2rem; }
+  .mega-results-cols h3:first-child { margin-top: 0; }
+  .mega-results a.res { min-height: 40px; padding: 0.375rem 0.5rem; }
+}
+/* Shorter laptop screens: the promo photo becomes a letterbox so the fly-out still fits */
+@media (min-width: 1024px) and (max-height: 800px) {
+  .mega-panel .promo-card .wf-placeholder { aspect-ratio: 3 / 1; }
+  .mega-search .mega-hint { margin-top: 0.25rem; }
+}
+@media (min-width: 1024px) { .mega-tabpanel .mega-all + .mega-all { margin-left: 1.25rem; } }
+.mega-all { display: inline-block; line-height: 44px; }
+@media (min-width: 1024px) { .mega-all { line-height: 36px; } }
+@media (min-width: 1024px) and (max-height: 800px) {
+  .mega-inner { padding-top: 1rem; }
+  .mega-links a { min-height: 34px; }
+}
+@media (min-width: 1024px) and (max-height: 700px) { .mega-panel .promo-card .promo-text { display: none; } }
+/* Courses menu while searching: results use the full width, one line per course */
+@media (min-width: 1024px) {
+  .is-searching .mega-body-courses .promo-card { display: none; }
+  .is-searching .mega-body-courses .mega-tabs[hidden] ~ .mega-results { grid-column: 1 / -1; }
+  .mega-results .result-count { margin: 0 0 0.75rem; }
+  .mega-results-cols > div:first-child a.res > span { display: flex; align-items: baseline; gap: 0.75rem; min-width: 0; }
+  .mega-results-cols .res-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .mega-results-cols > div:first-child a.res small { display: none; }
+  .mega-results-cols .res-title { flex: 0 1 auto; }
+}
+@media (min-width: 1024px) and (max-height: 700px) {
+  .mega-results-cols > div:first-child li:nth-child(n+5) { display: none; }
+}
+.search-none h2 { font-size: 1.375rem; margin: 0 0 0.75rem; }
+.search-none ul { padding-left: 1.25rem; margin: 0 0 0.5rem; }
+.search-none li { margin-bottom: 0.25rem; }
+#search-status:empty { display: none; }

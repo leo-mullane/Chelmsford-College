@@ -74,7 +74,7 @@ function depthPrefix(relativePath) {
 let count = 0;
 function build(from, relativePath) {
   const resolved = resolve(fs.readFileSync(from, 'utf8'))
-    .replace(/(href|src)="~\//g, `$1="${depthPrefix(relativePath)}`);
+    .replace(/(href|src|action)="~\//g, `$1="${depthPrefix(relativePath)}`);
   const target = path.join(outDir, relativePath);
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, resolved, 'utf8');

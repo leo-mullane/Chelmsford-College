@@ -48,6 +48,7 @@ Sources: Tender Specification (TS), Appendix 1 Website Demo Brief (DB), Appendix
 | R63 | Application tracker with interview booking and parent updates | TS objective 1 |
 | R64 | Display settings: text size, contrast, spacing, underlines, motion | TS accessibility |
 | R65 | “Ask about this course” answers from the course record | TS objective 1 |
+| R66 | Site-wide search: header overlay with grouped live results, full results page with type filters, best bets and spelling suggestions | TS staff, students and job seekers |
 
 ## Modules
 

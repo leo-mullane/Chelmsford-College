@@ -118,7 +118,7 @@ for (const page of pages) {
   }
 
   /* 3. Internal links resolve -------------------------------------------- */
-  const linkRe = /(?:href|src)="([^"]+)"/g;
+  const linkRe = /(?:href|src|action)="([^"]+)"/g;
   while ((m = linkRe.exec(html)) !== null) {
     const href = m[1];
     if (/^(#|https?:|mailto:|tel:|data:|javascript:)/.test(href)) continue;

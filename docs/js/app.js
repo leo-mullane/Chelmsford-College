@@ -327,7 +327,7 @@
     var panels = $('.mega-body-courses .mega-tabpanels');
     function render() {
       var q = input.value.trim().toLowerCase();
-      if (q.length < 2) { results.hidden = true; tabsWrap.hidden = false; panels.hidden = false; return; }
+      if (q.length < 2) { results.hidden = true; tabsWrap.hidden = false; panels.hidden = false; form.parentNode.classList.remove('is-searching'); return; }
       var courses = COURSES.filter(function (c) {
         return (c.title + ' ' + c.subject + ' ' + (c.h1 || '') + ' ' + c.careers.join(' ')).toLowerCase().indexOf(q) > -1;
       });
@@ -336,19 +336,22 @@
       COURSES.forEach(function (c) { c.careers.forEach(function (k) { if (k.indexOf(q) > -1 && careers.indexOf(k) === -1) careers.push(k); }); });
       careers = careers.slice(0, 3);
       var html = '<p class="result-count" role="status">' + courses.length + (courses.length === 1 ? ' course' : ' courses') + ' for “' + esc(input.value.trim()) + '”</p>';
+      html += '<div class="mega-results-cols"><div>';
       if (courses.length) html += '<h3>Courses</h3><ul>' + courses.slice(0, 5).map(function (c) {
-        return '<li><a class="res" href="' + BASE + 'course.html?id=' + c.id + '"><span>' + highlight(c.title, q) + '<small>' + esc(c.subject) + ' &middot; ' + esc(c.duration) + '</small></span><span class="tag tag-solid">' + esc(c.level) + '</span></a></li>';
+        return '<li><a class="res" href="' + BASE + 'course.html?id=' + c.id + '"><span><span class="res-title" title="' + esc(c.title) + '">' + highlight(c.title, q) + '</span><small>' + esc(c.subject) + ' &middot; ' + esc(c.duration) + '</small></span><span class="tag tag-solid">' + esc(c.level) + '</span></a></li>';
       }).join('') + '</ul>';
+      html += '</div><div>';
       if (careers.length) html += '<h3>Careers</h3><ul>' + careers.map(function (k) {
         return '<li><a class="res" href="' + BASE + 'courses.html?mode=career&q=' + encodeURIComponent(k) + '"><span>I want to be a ' + highlight(k, q) + '</span></a></li>';
       }).join('') + '</ul>';
       if (subjects.length) html += '<h3>Subjects</h3><ul>' + subjects.map(function (s) {
         return '<li><a class="res" href="' + BASE + 'courses.html?subject=' + s.id + '"><span>' + highlight(s.title, q) + '</span></a></li>';
       }).join('') + '</ul>';
+      html += '</div></div>';
       if (!courses.length && !careers.length && !subjects.length) html += '<p>Nothing matches yet. Try a subject such as “construction”, or call our careers team on <a href="tel:01245293031">01245 293031</a>.</p>';
       else html += '<a class="mega-all" href="' + BASE + 'courses.html?q=' + encodeURIComponent(input.value.trim()) + '">See all results</a>';
       results.innerHTML = html;
-      results.hidden = false; tabsWrap.hidden = true; panels.hidden = true;
+      results.hidden = false; tabsWrap.hidden = true; panels.hidden = true; form.parentNode.classList.add('is-searching');
     }
     input.addEventListener('input', render);
     input.addEventListener('keydown', function (e) {
@@ -359,6 +362,311 @@
       if (e.key === 'ArrowDown' && i < links.length - 1) { e.preventDefault(); links[i + 1].focus(); }
       if (e.key === 'ArrowUp') { e.preventDefault(); if (i > 0) links[i - 1].focus(); else input.focus(); }
     });
+  }
+
+  /* --- Site-wide search (V3-02): overlay from the header, plus a full results page */
+  var SITE_PAGES = [
+    { t: 'Make a payment', u: 'pay.html', s: 'Information', k: 'pay payment deposit materials fee fees trip card online pay parent carer receipt', d: 'Pay a course deposit, materials fee or trip online. Students and parents or carers can pay without an account.', bet: ['pay', 'payment', 'payments', 'deposit', 'trip', 'materials fee'] },
+    { t: 'How to apply', u: 'apply.html', s: 'Information', k: 'apply application applying form enrol enrolment interview offer', d: 'Apply online for any course. We’ll invite you to an interview and help you choose the right level.', bet: ['apply', 'application', 'how to apply'] },
+    { t: 'Track your application', u: 'application.html?id=374', s: 'Information', k: 'application status track interview book offer enrol', d: 'See where your application is up to and book your interview.' },
+    { t: 'Parents and carers', u: 'parents.html', s: 'Information', k: 'parent parents carer carers mum dad guardian support safeguarding', d: 'Everything you need to help your young person choose a course, apply and settle in at college.', bet: ['parents', 'parent', 'carers'] },
+    { t: 'Employers', u: 'employers.html', s: 'Information', k: 'employer employers business apprentice apprenticeship hire vacancy levy t level placement', d: 'Take on an apprentice, host a T Level placement or train your staff.', bet: ['employer', 'employers', 'hire an apprentice'] },
+    { t: 'Advertise an apprenticeship vacancy', u: 'employers.html#vacancy-title', s: 'Information', k: 'vacancy advertise apprentice apprenticeship employer hire job', d: 'Tell us about the role in three short steps and our team will find you candidates.' },
+    { t: 'Events and open days', u: 'events.html', s: 'Information', k: 'events open evening open day taster tour visit', d: 'Open evenings, taster days and information sessions, in person and online.', bet: ['open evening', 'open day', 'open days', 'events'] },
+    { t: 'Not sure what to study?', u: 'match.html', s: 'Information', k: 'quiz choose help decide course matcher careers advice not sure', d: 'Answer four quick questions and we’ll suggest courses that suit you.' },
+    { t: 'My shortlist', u: 'shortlist.html', s: 'Information', k: 'shortlist saved favourites compare', d: 'Courses you’ve saved, side by side, ready to share with a parent or carer.' },
+    { t: 'Find a course', u: 'courses.html', s: 'Courses', k: 'courses course search find study subjects levels', d: 'Search all our courses and filter by who they’re for, subject, level, study mode and campus.', bet: ['courses', 'course'] },
+    { t: 'Apprenticeships', u: 'courses.html?q=apprenticeship', s: 'Courses', k: 'apprenticeship apprenticeships apprentice earn learn work based', d: 'Earn while you learn, with a job and a qualification.' },
+    { t: 'Term dates', u: '#', s: 'Information', k: 'term dates holidays half term calendar year christmas easter', d: 'Term and holiday dates for the current and next academic year.', bet: ['term dates', 'term', 'holidays', 'half term'] },
+    { t: 'Fees and financial support', u: '#', s: 'Information', k: 'fees funding money cost free bursary bursaries loan advanced learner loan 24+ grant hardship free meals', d: 'What courses cost, who studies for free, Advanced Learner Loans and bursaries for travel, meals and kit.', bet: ['fees', 'funding', 'bursary', 'money', 'cost'] },
+    { t: 'Travel to college', u: '#', s: 'Information', k: 'travel bus buses train transport parking bike cycle getting here directions', d: 'Buses, trains, parking and help with travel costs for both campuses.', bet: ['bus', 'buses', 'travel', 'parking'] },
+    { t: 'SEND and learning support', u: '#', s: 'Information', k: 'send sen special educational needs ehcp learning support disability dyslexia inspire transition', d: 'Support for learners with special educational needs and disabilities, including EHCPs and the INSPIRE programmes.' },
+    { t: 'Display settings', u: '#a11y', s: 'Information', k: 'accessibility text size contrast dyslexia reading display settings larger text', d: 'Make the site easier to read: larger text, high contrast, reading spacing and reduced motion.', a11y: true },
+    { t: 'Safeguarding and wellbeing', u: '#', s: 'Information', k: 'safeguarding safe safety wellbeing mental health worried concern', d: 'How we keep students safe and who to talk to if you’re worried.' },
+    { t: 'Current students', u: '#', s: 'Information', k: 'current students timetable moodle email login it wifi student id', d: 'Timetables, IT log-ins, student ID cards and support for current students.' },
+    { t: 'Contact us', u: '#', s: 'Information', k: 'contact phone email address call switchboard', d: 'Main switchboard 01245 265611. Careers and course advice 01245 293031.' },
+    { t: 'Jobs at the college', u: '#', s: 'Information', k: 'jobs vacancies careers work for us staff recruitment teaching', d: 'Teaching and support roles at Chelmsford College.' }
+  ];
+  var SITE_FAQS = [
+    { t: 'Do I have to pay for my course?', s: 'Help', k: 'fees cost free pay money tuition', d: 'Most full-time courses are free if you’re 16 to 18. Adults may be able to study for free or with an Advanced Learner Loan. Each course page has a fee checker.' },
+    { t: 'When can I apply?', s: 'Help', k: 'apply when deadline application closing date', d: 'You can apply at any time. We recommend applying early, as popular courses fill up.' },
+    { t: 'What grades do I need?', s: 'Help', k: 'grades entry requirements gcse qualifications need', d: 'Each course lists its entry requirements. If you’re not sure which level suits you, our advice team can help.' },
+    { t: 'Can I visit before I apply?', s: 'Help', k: 'visit tour open evening look around', d: 'Yes. Come to an Open Evening or book a taster day to see the campus and meet tutors.' },
+    { t: 'How do I get to college?', s: 'Help', k: 'bus travel train transport get to college', d: 'Both campuses are close to Chelmsford city centre. Help with travel costs is available for eligible students.' }
+  ];
+  var SITE_NEWS = [
+    { t: 'Students celebrate end-of-year awards', s: 'News', k: 'awards ceremony celebration achievement', d: 'Learners from every subject were recognised at this year’s ceremony.' }
+  ];
+  var SYNONYMS = { money: 'fees funding', cost: 'fees', costs: 'fees', price: 'fees', free: 'fees', bus: 'travel', buses: 'travel', train: 'travel', holiday: 'term', holidays: 'term', nursing: 'nurse', hair: 'hairdressing', chef: 'catering', cooking: 'catering', builder: 'construction', building: 'construction', computer: 'ict digital', computing: 'ict digital', it: 'ict digital', open: 'open evening', visit: 'open evening' };
+  /* Everyday words that should only widen the search across information and help, not courses */
+  var INFO_ONLY = { money: 1, cost: 1, costs: 1, price: 1, free: 1, bus: 1, buses: 1, train: 1, holiday: 1, holidays: 1, open: 1, visit: 1 };
+  var INFO_TYPES = { page: 1, help: 1, news: 1, event: 1 };
+  var TYPE_LABELS = { course: 'Courses', subject: 'Subjects', career: 'Careers', event: 'Events', page: 'Information', help: 'Help', news: 'News' };
+  var TYPE_ONE = { course: 'Course', subject: 'Subject', career: 'Career', event: 'Event', page: 'Information', help: 'Help', news: 'News' };
+  var TYPE_ORDER = ['course', 'subject', 'career', 'event', 'page', 'help', 'news'];
+
+  function clip(t, n) { t = t.replace(/\s+/g, ' ').trim(); if (t.length <= n) return t; var c = t.slice(0, n); return c.slice(0, c.lastIndexOf(' ')).replace(/[,.;:]$/, '') + '…'; }
+  var siteIndex = null;
+  function buildSiteIndex() {
+    if (siteIndex) return siteIndex;
+    var idx = [];
+    COURSES.forEach(function (c) {
+      idx.push({ type: 'course', t: c.title, u: 'course.html?id=' + c.id, s: 'Courses › ' + c.subject, k: c.subject + ' ' + (c.h1 || '') + ' ' + c.level + ' ' + c.mode + ' ' + c.careers.join(' '), d: clip(firstPara(c.overview || c.courseForMe), 180), tag: c.level, img: imgFor(c) });
+    });
+    DATA.subjects.forEach(function (s) {
+      var n = COURSES.filter(function (c) { return c.subjectId === s.id; }).length;
+      if (!n) return;
+      idx.push({ type: 'subject', t: s.title, u: 'subject.html?id=' + s.id, s: 'Subjects', k: 'subject ' + s.title, d: clip(s.description || '', 180), tag: n + (n === 1 ? ' course' : ' courses') });
+    });
+    var careers = [];
+    COURSES.forEach(function (c) { c.careers.forEach(function (k) { if (careers.indexOf(k) === -1) careers.push(k); }); });
+    careers.forEach(function (k) {
+      var n = COURSES.filter(function (c) { return c.careers.indexOf(k) > -1; }).length;
+      idx.push({ type: 'career', t: 'I want to be a ' + k, u: 'courses.html?mode=career&q=' + encodeURIComponent(k), s: 'Careers', k: k + ' career job', d: n + (n === 1 ? ' course leads' : ' courses lead') + ' towards becoming a ' + k + '.' });
+    });
+    EVENTS.forEach(function (e) {
+      idx.push({ type: 'event', t: e.title, u: 'event.html?id=' + e.id, s: 'Events › ' + e.type, k: e.type + ' ' + e.campus + ' event', d: e.summary, tag: fmtDate(e.date) });
+    });
+    SITE_PAGES.forEach(function (p) { idx.push(Object.assign({ type: 'page' }, p)); });
+    SITE_FAQS.forEach(function (p) { idx.push(Object.assign({ type: 'help', u: '#' }, p)); });
+    SITE_NEWS.forEach(function (p) { idx.push(Object.assign({ type: 'news', u: '#' }, p)); });
+    idx.forEach(function (it) {
+      it._t = it.t.toLowerCase(); it._k = (it.k || '').toLowerCase(); it._d = (it.d || '').toLowerCase();
+      var split = function (x) { return x.split(/[^a-z0-9+]+/).filter(Boolean); };
+      it._tw = split(it._t); it._kw = split(it._k); it._dw = split(it._d);
+      it._words = it._tw.concat(it._kw);
+    });
+    siteIndex = idx;
+    return idx;
+  }
+  function tokens(q) { return q.toLowerCase().split(/[^a-z0-9+]+/).filter(function (w) { return w.length > 1 || /\d/.test(w); }); }
+  /* Whole words for short terms ("bus" is not "business"), word starts for longer ones ("hair" finds "hairdressing") */
+  function wordsHit(list, w) {
+    for (var i = 0; i < list.length; i++) { if (w.length < 4 ? list[i] === w : list[i].indexOf(w) === 0) return true; }
+    return false;
+  }
+  function wordHit(it, w) { return wordsHit(it._tw, w) || wordsHit(it._kw, w) || wordsHit(it._dw, w); }
+  function siteSearch(raw) {
+    var q = raw.trim().toLowerCase();
+    var idx = buildSiteIndex();
+    var words = tokens(q);
+    if (!words.length) return { results: [], best: null };
+    var results = [];
+    idx.forEach(function (it) {
+      var score = 0, all = true;
+      words.forEach(function (w) {
+        var alt = SYNONYMS[w];
+        if (alt && INFO_ONLY[w] && !INFO_TYPES[it.type]) alt = null;
+        var hit = wordHit(it, w) || (alt && alt.split(' ').some(function (a) { return wordHit(it, a); }));
+        if (!hit) { all = false; return; }
+        if (wordsHit(it._tw, w)) score += 4;
+        else if (wordsHit(it._kw, w) || (alt && wordsHit(it._kw, alt.split(' ')[0]))) score += 2;
+        else score += 1;
+        if (it._words.indexOf(w) > -1) score += 1;
+      });
+      if (!all) return;
+      if (it._t === q) score += 12; else if (it._t.indexOf(q) === 0) score += 6; else if (it._t.indexOf(q) > -1) score += 3;
+      if (it.type === 'page') score += 1;
+      results.push({ it: it, score: score });
+    });
+    results.sort(function (a, b) { return b.score - a.score || TYPE_ORDER.indexOf(a.it.type) - TYPE_ORDER.indexOf(b.it.type); });
+    var best = null;
+    idx.forEach(function (it) { if (!best && it.bet && it.bet.indexOf(q) > -1) best = it; });
+    if (!best) DATA.subjects.forEach(function (s) { if (!best && s.title.toLowerCase() === q) best = idx.filter(function (x) { return x.type === 'subject' && x.t === s.title; })[0] || null; });
+    return { results: results.map(function (r) { return r.it; }), best: best };
+  }
+  function lev(a, b) {
+    var m = a.length, n = b.length, d = [], i, j;
+    for (i = 0; i <= m; i++) d[i] = [i];
+    for (j = 0; j <= n; j++) d[0][j] = j;
+    for (i = 1; i <= m; i++) for (j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+  function spellSuggest(raw) {
+    var vocab = {};
+    buildSiteIndex().forEach(function (it) { it._words.forEach(function (w) { if (w.length > 3) vocab[w] = 1; }); });
+    var changed = false;
+    var out = tokens(raw).map(function (w) {
+      if (vocab[w] || SYNONYMS[w]) return w;
+      var bestW = null, bestD = 3;
+      Object.keys(vocab).forEach(function (v) { if (Math.abs(v.length - w.length) > 2) return; var dd = lev(w, v); if (dd < bestD) { bestD = dd; bestW = v; } });
+      if (bestW && bestD <= (w.length > 6 ? 2 : 1)) { changed = true; return bestW; }
+      return w;
+    });
+    return changed ? out.join(' ') : null;
+  }
+  function hlWords(text, raw) {
+    var html = esc(text);
+    tokens(raw).forEach(function (w) {
+      if (w.length < 2) return;
+      html = html.replace(new RegExp('(^|[^<\\w&])(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '$1<mark>$2</mark>');
+    });
+    return html;
+  }
+  function itemHref(it) {
+    if (!it.u || it.u === '#') return '#';
+    if (it.u === '#a11y') return '#';
+    return BASE + it.u;
+  }
+  function itemAttrs(it) { return it.a11y ? ' data-modal-open="a11y-modal"' : ''; }
+
+  function initSiteSearchOverlay() {
+    var overlay = $('#site-search');
+    var openers = $all('[data-site-search-open]');
+    if (!overlay || !openers.length) return;
+    var input = $('#ss-q'), results = $('[data-ss-results]'), idle = $('[data-ss-idle]');
+    var lastFocus = null;
+    function open(e) {
+      if (document.body.hasAttribute('data-site-search-page')) { e.preventDefault(); var pq = $('#search-q'); if (pq) { pq.focus(); pq.select(); } return; }
+      e.preventDefault();
+      lastFocus = document.activeElement;
+      overlay.hidden = false;
+      document.documentElement.classList.add('ss-open');
+      openers.forEach(function (o) { o.setAttribute('aria-expanded', 'true'); });
+      window.setTimeout(function () { input.focus(); }, 20);
+    }
+    function close() {
+      overlay.hidden = true;
+      document.documentElement.classList.remove('ss-open');
+      openers.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    openers.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); o.addEventListener('click', open); });
+    $('[data-site-search-close]', overlay).addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    overlay.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') {
+        var f = $all('a[href], button:not([hidden]), input', overlay).filter(function (x) { return x.offsetParent !== null; });
+        if (!f.length) return;
+        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    });
+    $all('[data-modal-open]', overlay).forEach(function (b) { b.addEventListener('click', close); });
+    function render() {
+      var raw = input.value.trim();
+      if (raw.length < 2) { results.hidden = true; idle.hidden = false; return; }
+      var r = siteSearch(raw);
+      var groups = {};
+      r.results.forEach(function (it) { (groups[it.type] = groups[it.type] || []).push(it); });
+      var html = '<p class="result-count" role="status">' + r.results.length + (r.results.length === 1 ? ' result' : ' results') + ' for “' + esc(raw) + '”</p>';
+      if (r.best) html += '<a class="ss-best" href="' + itemHref(r.best) + '"' + itemAttrs(r.best) + '><span class="overline">Best match</span><strong>' + esc(r.best.t) + '</strong><span>' + esc(r.best.d) + '</span></a>';
+      html += '<div class="ss-groups">';
+      TYPE_ORDER.forEach(function (type) {
+        var g = groups[type];
+        if (!g) return;
+        html += '<div class="ss-group"><h2 class="ss-heading">' + TYPE_LABELS[type] + ' <span class="ss-count">' + g.length + '</span></h2><ul>' + g.slice(0, type === 'course' ? 4 : 3).map(function (it) {
+          return '<li><a class="res" href="' + itemHref(it) + '"' + itemAttrs(it) + '><span>' + hlWords(it.t, raw) + (it.tag ? '<small>' + esc(it.tag) + '</small>' : '') + '</span></a></li>';
+        }).join('') + '</ul>' + (g.length > (type === 'course' ? 4 : 3) ? '<a class="ss-more" href="' + BASE + 'search.html?q=' + encodeURIComponent(raw) + '&type=' + type + '">All ' + g.length + ' ' + TYPE_LABELS[type].toLowerCase() + '</a>' : '') + '</div>';
+      });
+      html += '</div>';
+      if (!r.results.length) {
+        var sp = spellSuggest(raw);
+        html += '<p>' + (sp ? 'Did you mean <a href="' + BASE + 'search.html?q=' + encodeURIComponent(sp) + '">' + esc(sp) + '</a>? ' : 'Nothing matches yet. ') + 'Try another word, or call our advice team on <a href="tel:01245293031">01245 293031</a>.</p>';
+      } else {
+        html += '<a class="mega-all" href="' + BASE + 'search.html?q=' + encodeURIComponent(raw) + '">See all ' + r.results.length + ' results</a>';
+      }
+      results.innerHTML = html;
+      $all('[data-modal-open]', results).forEach(function (b) { b.addEventListener('click', close); });
+      results.hidden = false; idle.hidden = true;
+    }
+    input.addEventListener('input', render);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' && !results.hidden) { var a = $('a', results); if (a) { e.preventDefault(); a.focus(); } }
+    });
+    results.addEventListener('keydown', function (e) {
+      var links = $all('a', results); var i = links.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown' && i < links.length - 1) { e.preventDefault(); links[i + 1].focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); if (i > 0) links[i - 1].focus(); else input.focus(); }
+    });
+  }
+
+  function initSiteSearchPage() {
+    if (!document.body.hasAttribute('data-site-search-page')) return;
+    var form = $('#search-form'), input = $('#search-q');
+    var status = $('#search-status'), list = $('#search-results'), typesEl = $('#search-types');
+    var bestEl = $('#search-best'), more = $('#search-more'), empty = $('#search-empty'), spell = $('#search-spell');
+    var courseLink = $('#search-course-link');
+    var p = params();
+    var state = { q: p.get('q') || '', type: p.get('type') || 'all', shown: 10 };
+    input.value = state.q;
+    function sync() {
+      var u = new URLSearchParams();
+      if (state.q) u.set('q', state.q);
+      if (state.type !== 'all') u.set('type', state.type);
+      var qs = u.toString();
+      try { history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : '')); } catch (e) { /* file:// */ }
+      document.title = (state.q ? '“' + state.q + '”: search' : 'Search') + ' | Chelmsford College prototype';
+    }
+    function card(it) {
+      var meta = it.s || TYPE_LABELS[it.type];
+      return '<li class="search-result search-result-' + it.type + '">' +
+        '<span class="overline">' + esc(TYPE_ONE[it.type]) + '</span>' +
+        '<h2><a href="' + itemHref(it) + '"' + itemAttrs(it) + '>' + hlWords(it.t, state.q) + '</a></h2>' +
+        (it.d ? '<p>' + hlWords(it.d, state.q) + '</p>' : '') +
+        '<p class="search-meta">' + esc(meta) + (it.tag ? ' <span class="tag">' + esc(it.tag) + '</span>' : '') + '</p></li>';
+    }
+    function render() {
+      sync();
+      courseLink.setAttribute('href', BASE + 'courses.html' + (state.q ? '?q=' + encodeURIComponent(state.q) : ''));
+      spell.hidden = true; bestEl.innerHTML = ''; empty.hidden = true;
+      if (!state.q.trim()) {
+        status.textContent = 'Type a word or two to search courses, events, information and help.';
+        typesEl.innerHTML = ''; list.innerHTML = ''; more.hidden = true;
+        empty.hidden = false;
+        empty.innerHTML = popularHtml();
+        return;
+      }
+      var r = siteSearch(state.q);
+      var counts = {};
+      r.results.forEach(function (it) { counts[it.type] = (counts[it.type] || 0) + 1; });
+      if (state.type !== 'all' && !counts[state.type]) state.type = 'all';
+      var btns = '<button type="button" class="chip" data-type="all" aria-pressed="' + (state.type === 'all') + '">All <span class="ss-count">' + r.results.length + '</span></button>';
+      TYPE_ORDER.forEach(function (t) {
+        if (!counts[t]) return;
+        btns += '<button type="button" class="chip" data-type="' + t + '" aria-pressed="' + (state.type === t) + '">' + TYPE_LABELS[t] + ' <span class="ss-count">' + counts[t] + '</span></button>';
+      });
+      typesEl.innerHTML = r.results.length ? btns : '';
+      var shownList = state.type === 'all' ? r.results : r.results.filter(function (it) { return it.type === state.type; });
+      status.textContent = r.results.length
+        ? (state.type === 'all' ? r.results.length + (r.results.length === 1 ? ' result' : ' results') : shownList.length + ' ' + TYPE_LABELS[state.type].toLowerCase()) + ' for “' + state.q + '”'
+        : 'No results for “' + state.q + '”';
+      if (r.best && state.type === 'all') {
+        bestEl.innerHTML = '<a class="ss-best search-best" href="' + itemHref(r.best) + '"' + itemAttrs(r.best) + '><span class="overline">Best match</span><strong>' + esc(r.best.t) + '</strong><span>' + esc(r.best.d) + '</span></a>';
+      }
+      list.innerHTML = shownList.slice(0, state.shown).map(card).join('');
+      more.hidden = shownList.length <= state.shown;
+      more.textContent = 'Show more results (' + (shownList.length - state.shown) + ' more)';
+      var sp = spellSuggest(state.q);
+      if (sp && r.results.length < 3) { spell.hidden = false; spell.innerHTML = 'Did you mean <a href="?q=' + encodeURIComponent(sp) + '" data-spell="' + esc(sp) + '">' + esc(sp) + '</a>?'; }
+      if (!r.results.length) {
+        empty.hidden = false;
+        empty.innerHTML = '<div class="search-none"><h2>We couldn’t find anything for “' + esc(state.q) + '”</h2><ul><li>Check the spelling, or try fewer words</li><li>Try a general word such as “construction” or “fees”</li><li>Call our advice team on <a href="tel:01245293031">01245 293031</a></li></ul></div>' + popularHtml();
+      }
+    }
+    function popularHtml() {
+      return '<h2 class="ss-heading">Popular searches</h2><ul class="chip-row ss-popular">' + [['open evening', 'Open evening'], ['fees', 'Fees and funding'], ['apprenticeships', 'Apprenticeships'], ['term dates', 'Term dates'], ['bus', 'Buses and travel'], ['payment', 'Make a payment']].map(function (w) {
+        return '<li><a class="chip" href="?q=' + encodeURIComponent(w[0]) + '" data-spell="' + w[0] + '">' + esc(w[1]) + '</a></li>';
+      }).join('') + '</ul>';
+    }
+    form.addEventListener('submit', function (e) { e.preventDefault(); state.q = input.value.trim(); state.type = 'all'; state.shown = 10; render(); });
+    var t = null;
+    input.addEventListener('input', function () { window.clearTimeout(t); t = window.setTimeout(function () { state.q = input.value.trim(); state.shown = 10; render(); }, 250); });
+    typesEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-type]'); if (!b) return;
+      state.type = b.getAttribute('data-type'); state.shown = 10; render();
+      var nb = $('[data-type="' + state.type + '"]', typesEl); if (nb) nb.focus();
+    });
+    more.addEventListener('click', function () {
+      var before = state.shown; state.shown += 10; render();
+      var items = $all('.search-result a', list); if (items[before]) items[before].focus();
+    });
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-spell]'); if (!a) return;
+      e.preventDefault(); state.q = a.getAttribute('data-spell'); input.value = state.q; state.type = 'all'; state.shown = 10; render(); input.focus();
+    });
+    render();
   }
 
   /* --- Level explainer highlight ---------------------------------------- */
@@ -1561,7 +1869,7 @@
      preferences, not personal details, and are kept on purpose.) */
   function resetForms() {
     $all('form').forEach(function (f) {
-      if (f.hasAttribute('data-a11y') || f.id === 'results-form') return;
+      if (f.hasAttribute('data-a11y') || f.id === 'results-form' || f.id === 'search-form') return;
       try { f.reset(); } catch (e) { /* ignore */ }
     });
   }
@@ -1577,6 +1885,8 @@
     resetForms();
     initThemeToggle();
     initHeader();
+    initSiteSearchOverlay();
+    initSiteSearchPage();
     initLevelLinks();
     initSearchPanels();
     initHome();

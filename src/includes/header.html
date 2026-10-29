@@ -63,7 +63,7 @@
                           <li><a href="~/pages/subject.html?id=55">Performing Arts</a></li>
                         </ul>
                         <a class="mega-all" href="~/pages/courses.html?age=16-18">See all <span data-count-age="16-18">30</span> courses for school leavers</a>
-                        <a class="mega-all" href="~/pages/match.html">Not sure? Find the right course in 4 questions</a>
+                        <a class="mega-all" href="~/pages/match.html">Not sure? Take our quiz</a>
                       </div>
                       <div class="mega-tabpanel" role="tabpanel" id="mt-adults" aria-labelledby="mtab-adults" hidden>
                         <h3>Courses for adults</h3>
@@ -319,7 +319,7 @@
           </ul>
         </nav>
         <div class="masthead-actions">
-          <a class="icon-btn" href="~/pages/courses.html" aria-label="Search courses"><span class="glyph glyph-search" aria-hidden="true"></span><span class="hide-sm">Search</span></a>
+          <a class="icon-btn" href="~/pages/search.html" aria-label="Search the site" data-site-search-open aria-controls="site-search"><span class="glyph glyph-search" aria-hidden="true"></span><span class="hide-sm">Search</span></a>
           <a class="icon-btn hide-sm" href="~/pages/shortlist.html">Shortlist <span class="shortlist-count" data-shortlist-count>0</span></a>
           <a class="btn btn-apply" href="~/pages/apply.html">Apply</a>
           <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="glyph glyph-menu" aria-hidden="true"></span> <span class="menu-label">Menu</span></button>
@@ -327,4 +327,41 @@
       </div>
     </div>
   </header>
+  <!-- Site-wide search overlay (V3-02). The Search link works without JavaScript by going to the search page. -->
+  <div class="site-search" id="site-search" role="dialog" aria-modal="true" aria-labelledby="ss-label" hidden>
+    <div class="container site-search-inner">
+      <div class="site-search-top">
+        <form class="site-search-form" action="~/pages/search.html" method="get" role="search" data-site-search>
+          <label for="ss-q" id="ss-label">Search the whole site</label>
+          <div class="search-field">
+            <input type="search" id="ss-q" name="q" placeholder="Courses, events, fees, term dates&hellip;" autocomplete="off" aria-describedby="ss-hint" aria-controls="ss-results">
+            <button class="btn" type="submit">Search</button>
+          </div>
+          <p class="mega-hint" id="ss-hint">Results appear as you type. Press Enter to see them all.</p>
+        </form>
+        <button type="button" class="site-search-close" data-site-search-close aria-label="Close search">&times;</button>
+      </div>
+      <div class="site-search-body">
+        <div class="site-search-idle" data-ss-idle>
+          <div>
+            <h2 class="ss-heading">Popular searches</h2>
+            <ul class="chip-row ss-popular">
+              <li><a class="chip" href="~/pages/search.html?q=open%20evening">Open evening</a></li>
+              <li><a class="chip" href="~/pages/search.html?q=fees">Fees and funding</a></li>
+              <li><a class="chip" href="~/pages/search.html?q=apprenticeships">Apprenticeships</a></li>
+              <li><a class="chip" href="~/pages/search.html?q=term%20dates">Term dates</a></li>
+              <li><a class="chip" href="~/pages/search.html?q=bus">Buses and travel</a></li>
+              <li><a class="chip" href="~/pages/search.html?q=payment">Make a payment</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="ss-heading">Looking for a course?</h2>
+            <p class="muted">Course search lets you filter by level, subject, age and campus.</p>
+            <a class="mega-all" href="~/pages/courses.html">Go to course search</a>
+          </div>
+        </div>
+        <div class="site-search-results" id="ss-results" data-ss-results aria-label="Search results" role="region" hidden></div>
+      </div>
+    </div>
+  </div>
   <div class="flyout-backdrop" aria-hidden="true"></div>

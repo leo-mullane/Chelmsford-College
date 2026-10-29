@@ -474,3 +474,25 @@ html.a11y-contrast a:not(.btn) { text-decoration: underline; }
 /* Video player in the modal: poster with a play mark */
 .video-player { position: relative; border-radius: var(--radius-md); }
 .video-player::after { content: ""; position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 50%; background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l8 5-8 5z' fill='%23062a47'/%3E%3C/svg%3E") center / 34px no-repeat; box-shadow: var(--shadow-overlay); }
+
+/* Site-wide search (V3-02) */
+.site-search { background: rgba(6, 42, 71, 0.55); }
+.site-search-inner { border-radius: 0 0 var(--radius-swoosh) var(--radius-lg); box-shadow: var(--shadow-overlay); border-bottom: 4px solid var(--green); }
+.site-search-form label { font-family: var(--font-display); font-size: 1.5rem; color: var(--blue-900); }
+.site-search-close { border-color: var(--border-strong); color: var(--blue-900); }
+.site-search-close:hover { background: var(--blue-100); }
+.ss-heading { color: var(--blue-900); font-family: var(--font-body); }
+.ss-count { background: var(--blue-100); color: var(--blue-900); }
+.ss-group a.res { text-decoration: none; }
+.ss-group a.res:hover, .ss-group a.res:focus { background: var(--blue-100); }
+.site-search mark, .search-results mark { text-decoration-color: var(--green); }
+.ss-more { color: var(--blue-700); }
+.ss-best { border: 0; background: var(--blue-900); color: #fff; border-radius: var(--radius-swoosh) var(--radius-lg) var(--radius-lg) var(--radius-lg); text-decoration: none; padding: 1.25rem 1.5rem 1.25rem 2rem; }
+.ss-best:hover { box-shadow: var(--shadow-overlay); transform: translateY(-1px); }
+.ss-best .overline { color: var(--green); }
+.ss-best strong { font-family: var(--font-display); font-size: 1.375rem; }
+.search-types .chip[aria-pressed="true"] .ss-count { background: #fff; color: var(--blue-900); }
+.search-result h2 a { color: var(--blue-900); text-decoration: none; }
+.search-result h2 a:hover { text-decoration: underline; color: var(--blue-700); }
+.search-result .overline { color: var(--blue-700); }
+.search-help { border-radius: var(--radius-lg); }
