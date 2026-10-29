@@ -103,6 +103,32 @@
     </div>
   </div>
 
+  <!-- Display settings (R64) -->
+  <div class="wf-modal" id="a11y-modal" role="dialog" aria-modal="true" aria-labelledby="a11y-title">
+    <div class="wf-modal-panel">
+      <button class="wf-modal-close" type="button" aria-label="Close">&times;</button>
+      <h2 id="a11y-title">Display settings</h2>
+      <p class="muted">Make the site easier to read. Your choices are saved on this device.</p>
+      <form data-a11y>
+        <fieldset class="pay-fieldset"><legend style="font-size:1.0625rem">Text size</legend>
+          <div class="radio-row">
+            <label class="radio-pill"><input type="radio" name="a11y-size" value=""><span>Standard</span></label>
+            <label class="radio-pill"><input type="radio" name="a11y-size" value="lg"><span>Large</span></label>
+            <label class="radio-pill"><input type="radio" name="a11y-size" value="xl"><span>Larger</span></label>
+          </div>
+        </fieldset>
+        <div class="a11y-toggles">
+          <label class="check"><input type="checkbox" name="contrast"> High contrast</label>
+          <label class="check"><input type="checkbox" name="readable"> Easier reading (more space between letters, words and lines)</label>
+          <label class="check"><input type="checkbox" name="underline"> Underline all links</label>
+          <label class="check"><input type="checkbox" name="motion"> Reduce motion</label>
+        </div>
+        <div class="row" style="margin-top:1.25rem"><button type="button" class="btn btn-secondary" data-a11y-reset>Reset to default</button></div>
+      </form>
+      <p class="wf-note" data-note="A"><span class="wf-note-label">Accessibility</span>These settings go beyond WCAG, which requires the site to <em>work</em> with browser zoom and text-spacing tools rather than provide its own controls. They're here because many learners won't know those browser tools exist. Each setting changes one class on the page, and the design system's tokens do the rest.</p>
+    </div>
+  </div>
+
   <!-- Global footer -->
   <footer>
     <div class="container">
@@ -119,6 +145,7 @@
           <h4>Study with us</h4>
           <ul>
             <li><a href="../pages/courses.html">Find a course</a></li>
+            <li><a href="../pages/match.html">Not sure what to study?</a></li>
             <li><a href="../pages/apply.html">How to apply</a></li>
             <li><a href="../pages/events.html">Open events</a></li>
             <li><a href="#">Prospectus</a></li>
@@ -128,7 +155,7 @@
           <h4>For you</h4>
           <ul>
             <li><a href="../pages/parents.html">Parents and carers</a></li>
-            <li><a href="#">Employers</a></li>
+            <li><a href="../pages/employers.html">Employers</a></li>
             <li><a href="#">Current students</a></li>
             <li><a href="../pages/pay.html">Make a payment</a></li>
           </ul>
@@ -153,7 +180,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>&copy; Chelmsford College &middot; <a href="#">Accessibility statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Cookies</a></span>
+        <span>&copy; Chelmsford College &middot; <a href="#">Accessibility statement</a> &middot; <button type="button" class="audience-btn" data-modal-open="a11y-modal">Display settings</button> &middot; <a href="#">Privacy</a> &middot; <a href="#">Cookies</a></span>
         <span>Greyscale prototype: structure and behaviour only, not the visual design</span>
       </div>
     </div>

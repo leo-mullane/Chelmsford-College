@@ -38,6 +38,17 @@ Sources: Tender Specification (TS), Appendix 1 Website Demo Brief (DB), Appendix
 | R25 | Shortlist and compare courses | CW |
 | R26 | Apply hand-off from the course page | TS, CW |
 
+## Beyond the brief (V3)
+
+| ID | Requirement | Source |
+| --- | --- | --- |
+| R60 | Course matcher: four questions scored against the course data | CW (conversion) |
+| R61 | Subject pathway pages from `course_sections` and course levels | CW (conversion) |
+| R62 | Employer hub and apprenticeship vacancy form | TS priority audience |
+| R63 | Application tracker with interview booking and parent updates | TS objective 1 |
+| R64 | Display settings: text size, contrast, spacing, underlines, motion | TS accessibility |
+| R65 | “Ask about this course” answers from the course record | TS objective 1 |
+
 ## Modules
 
 | ID | Requirement | Source |

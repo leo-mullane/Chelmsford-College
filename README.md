@@ -28,3 +28,5 @@ rm -rf docs && cp -r dist docs && touch docs/.nojekyll                  # refres
 - V2-02: the on-screen journey guide is removed from the pages. Journeys are listed on the contents page only.
 - V2-03: the demo script is provided separately.
 - V2-04: the design layer is applied from the Chelmsford College design system, using the college's photography and logo.
+- V3-01: beyond-the-brief features: course matcher, subject pathways, employer hub, application tracker, display settings and the course question helper.
+- V3-02: the design system is provided as a PDF.

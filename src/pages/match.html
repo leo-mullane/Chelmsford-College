@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find the right course for you | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="courses">
+  <!-- @@include header.html -->
+
+  <main id="main">
+    <!-- Course matcher (R60) -->
+    <section class="page-head">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="~/pages/home.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/pages/courses.html">Courses</a></li>
+            <li class="breadcrumb-item" aria-current="page">Find the right course</li>
+          </ul>
+        </nav>
+        <h1>Not sure what to study?</h1>
+        <p class="lead">Answer four quick questions and we'll suggest courses that fit what you enjoy and where you are now. It takes about a minute.</p>
+      </div>
+    </section>
+    <div class="container">
+      <div class="pay-wrap" data-match></div>
+      <div class="pay-wrap" style="padding-top:0">
+        <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>One question per screen, with a progress bar and Back. Answers are scored against the course data: interests map to <code>course_sections</code>, expected grades map to level via <code>course_level_link</code>, and stage (school leaver, adult, supported) maps to the age groups. Each result says <em>why</em> it matches. Nothing is stored or sent, and the results can be saved to the shortlist in one tap.</p>
+        <p class="wf-note" data-note="2"><span class="wf-note-label">CMS</span>The interest options and the subjects they point to are editable by marketing, so a new subject area can be added to the matcher without a developer.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

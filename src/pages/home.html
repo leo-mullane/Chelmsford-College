@@ -58,6 +58,7 @@
             <a href="~/pages/courses.html?q=T+Level">T Levels</a>
             <a href="~/pages/courses.html?age=supported">Supported learning</a>
             <a href="~/pages/courses.html">All courses</a>
+            <a href="~/pages/match.html">Not sure? Take the 1-minute quiz</a>
           </div>
         </div>
         <p class="wf-note" data-note="2"><span class="wf-note-label">Behaviour</span>Type two letters to see suggestions grouped as Careers, Subjects and Courses (try “nu” or “fash”). Use the arrow keys to move through them and Escape to close. “I want to be a&hellip;” switches to a career search, which matches jobs to courses using a career taxonomy seeded from each course's <code>C_EMPLOYABILITY</code> text. The quick routes filter by <em>who you are</em>, which is how families think, rather than by college department.</p>
@@ -73,7 +74,7 @@
           <a class="route-card" href="~/pages/courses.html?age=adult"><h3>Adults and career changers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Access to HE, part-time and evening courses, and funding for adults.</p></a>
           <a class="route-card" href="#"><h3>Apprenticeships</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Earn a wage while you train with a local employer.</p></a>
           <a class="route-card" href="~/pages/parents.html"><h3>Parents and carers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Help your young person choose, apply and settle in.</p></a>
-          <a class="route-card" href="#"><h3>Employers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Take on an apprentice, host a T Level placement or train your team.</p></a>
+          <a class="route-card" href="~/pages/employers.html"><h3>Employers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Take on an apprentice, host a T Level placement or train your team.</p></a>
           <a class="route-card" href="~/pages/courses.html?age=supported"><h3>Supported learning</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>INSPIRE programmes for learners with special educational needs.</p></a>
         </div>
       </div>
@@ -84,14 +85,14 @@
       <div class="container">
         <div class="section-head"><h2 id="subjects-title">Explore subjects</h2><a href="~/pages/courses.html">All 18 subjects</a></div>
         <div class="subject-grid">
-          <a class="subject-tile" href="~/pages/courses.html?subject=48"><span class="wf-placeholder" data-img="performing" aria-hidden="true">Image &middot; Creative</span><span class="name">Creative Industries</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=6"><span class="wf-placeholder" data-img="carpentry" aria-hidden="true">Image &middot; Carpentry</span><span class="name">Construction</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=12"><span class="wf-placeholder" data-img="hairdressing" aria-hidden="true">Image &middot; Hairdressing</span><span class="name">Hair &amp; Beauty</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=14"><span class="wf-placeholder" data-img="catering" aria-hidden="true">Image &middot; Catering</span><span class="name">Catering</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=5"><span class="wf-placeholder" data-img="students" aria-hidden="true">Image &middot; Business</span><span class="name">Business and T Levels</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=15"><span class="wf-placeholder" data-img="students" data-pos="right" aria-hidden="true">Image &middot; Digital</span><span class="name">ICT &amp; Digital Skills</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=13"><span class="wf-placeholder" data-img="learners" aria-hidden="true">Image &middot; Care</span><span class="name">Health &amp; Social Care</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=17"><span class="wf-placeholder" data-img="learners" data-pos="right" aria-hidden="true">Image &middot; Uniformed</span><span class="name">Uniformed Services</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=48"><span class="wf-placeholder" data-img="performing" aria-hidden="true">Image &middot; Creative</span><span class="name">Creative Industries</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=6"><span class="wf-placeholder" data-img="carpentry" aria-hidden="true">Image &middot; Carpentry</span><span class="name">Construction</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=12"><span class="wf-placeholder" data-img="hairdressing" aria-hidden="true">Image &middot; Hairdressing</span><span class="name">Hair &amp; Beauty</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=14"><span class="wf-placeholder" data-img="catering" aria-hidden="true">Image &middot; Catering</span><span class="name">Catering</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=5"><span class="wf-placeholder" data-img="students" aria-hidden="true">Image &middot; Business</span><span class="name">Business and T Levels</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=15"><span class="wf-placeholder" data-img="students" data-pos="right" aria-hidden="true">Image &middot; Digital</span><span class="name">ICT &amp; Digital Skills</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=13"><span class="wf-placeholder" data-img="learners" aria-hidden="true">Image &middot; Care</span><span class="name">Health &amp; Social Care</span></a>
+          <a class="subject-tile" href="~/pages/subject.html?id=17"><span class="wf-placeholder" data-img="learners" data-pos="right" aria-hidden="true">Image &middot; Uniformed</span><span class="name">Uniformed Services</span></a>
         </div>
         <p class="wf-note" data-note="3"><span class="wf-note-label">Data</span>Subjects come from <code>course_sections</code> (published rows only). Each subject has a CMS landing page for its image, video and student stories, plus a live list of its courses.</p>
       </div>
@@ -173,7 +174,7 @@
           <h2 id="employer-title">Grow your team with an apprentice</h2>
           <p>We find the right candidate, handle the paperwork and support your apprentice from day one.</p>
         </div>
-        <div class="row"><a class="btn btn-secondary btn-lg" href="#">Hire an apprentice</a><a class="btn btn-secondary btn-lg" href="#">Host a T Level placement</a></div>
+        <div class="row"><a class="btn btn-secondary btn-lg" href="~/pages/employers.html">Hire an apprentice</a><a class="btn btn-secondary btn-lg" href="#">Host a T Level placement</a></div>
       </div>
     </section>
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employers | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="apprenticeships">
+  <!-- @@include header.html -->
+
+  <main id="main">
+    <!-- Employer hub (R62) -->
+    <section class="hero" aria-labelledby="emp-title">
+      <div class="container hero-grid">
+        <div class="hero-media"><div class="wf-placeholder" data-img="carpentry" role="img" aria-label="A tutor shows an apprentice how to use a hand tool at a workbench">Employer image 16:9</div></div>
+        <div class="hero-copy">
+          <span class="overline">For employers</span>
+          <h1 id="emp-title">Find your next apprentice</h1>
+          <p class="lead">Tell us about the role and we'll find candidates, handle the paperwork and train them alongside you.</p>
+          <div class="row">
+            <a class="btn btn-apply btn-lg" href="#vacancy">Tell us about a vacancy</a>
+            <a class="btn btn-secondary btn-lg" href="~/pages/event.html?id=ev5">Come to the employer breakfast</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="services-title">
+      <div class="container">
+        <h2 id="services-title">How we can help your business</h2>
+        <div class="route-grid">
+          <a class="route-card" href="#vacancy"><h3>Hire an apprentice</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>We advertise the role, shortlist candidates and arrange the training. You choose who to hire.</p></a>
+          <a class="route-card" href="#vacancy"><h3>Host a T Level placement</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>A 45-day industry placement for a T Level student in business, legal, marketing or media.</p></a>
+          <a class="route-card" href="#"><h3>Train your team</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Upskill existing staff with apprenticeships, short courses and Skills Bootcamps.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-alt" aria-labelledby="how-title">
+      <div class="container split">
+        <div>
+          <h2 id="how-title">How it works</h2>
+          <ol class="steps-list">
+            <li><div><h3>Tell us about the role</h3><p>Two minutes, using the form on this page.</p></div></li>
+            <li><div><h3>We call you within two working days</h3><p>To agree the apprenticeship standard, funding and start date.</p></div></li>
+            <li><div><h3>We find candidates</h3><p>We advertise the vacancy and send you a shortlist to interview.</p></div></li>
+            <li><div><h3>Your apprentice starts</h3><p>We train them and check in with you throughout.</p></div></li>
+          </ol>
+        </div>
+        <div>
+          <h2>Funding questions</h2>
+          <div class="accordion">
+            <div class="accordion-item"><button class="accordion-title" type="button">How much will it cost us?<span class="accordion-icon" aria-hidden="true">&#9662;</span></button><div class="accordion-content"><p>It depends on the size of your business and the age of your apprentice. For younger apprentices at smaller employers, the government usually pays the full cost of training. Our employer team will confirm what applies to you before you commit.</p></div></div>
+            <div class="accordion-item"><button class="accordion-title" type="button">We pay the apprenticeship levy. Can we use it here?<span class="accordion-icon" aria-hidden="true">&#9662;</span></button><div class="accordion-content"><p>Yes. We can draw training costs from your levy account, and help you transfer unused funds to support apprentices elsewhere in your supply chain.</p></div></div>
+            <div class="accordion-item"><button class="accordion-title" type="button">Who pays the apprentice's wage?<span class="accordion-icon" aria-hidden="true">&#9662;</span></button><div class="accordion-content"><p>You do. Apprentices are your employees and must be paid at least the apprentice minimum wage. We'll explain the current rates when we call.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vacancy form (R62) -->
+    <section class="band" id="vacancy" aria-labelledby="vac-title">
+      <div class="container">
+        <div class="pay-wrap" style="padding-top:0">
+          <h2 id="vac-title">Tell us about your vacancy</h2>
+          <p class="muted">No commitment. We'll call you to talk it through.</p>
+          <div data-vacancy></div>
+        </div>
+        <div class="pay-wrap" style="padding-top:0">
+          <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>Three short steps instead of one long form, with a review before sending. The enquiry goes to the employer team's inbox or CRM with the apprenticeship area already identified, so the first phone call starts in the right place. Employers and apprenticeship partners are a priority audience in the tender, but today they have one “Employers” page.</p>
+          <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>Do employer enquiries need to go into a CRM (for example Dynamics or Salesforce), and should apprenticeship vacancies be published on the site from the college's systems or from the government Find an apprenticeship service?</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

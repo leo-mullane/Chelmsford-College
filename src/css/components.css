@@ -695,3 +695,84 @@ body.in-journey { padding-bottom: 150px; }
 .promo-card { align-self: start; }
 @media (min-width: 1024px) { .mega-body-courses .mega-tabs[hidden] ~ .mega-results { grid-column: 1 / 3; } }
 .mega-events .event-card h3 { text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--wf-text); margin: 0 0 0.25rem; }
+
+/* ==========================================================================
+   V3: beyond the brief
+   ========================================================================== */
+.audience-btn { background: none; border: 0; padding: 0.5rem 0; font: inherit; color: var(--wf-action); text-decoration: underline; cursor: pointer; }
+.mobile-audience .audience-btn { padding: 0.5rem 0; min-height: 40px; }
+.footer-bottom .audience-btn { padding: 0; }
+
+/* Matcher (R60) */
+.progress { height: 8px; border-radius: 999px; background: var(--wf-surface); border: 1px solid var(--wf-border); overflow: hidden; margin-bottom: 1.5rem; }
+.progress span { display: block; height: 100%; background: var(--wf-text); transition: width 0.25s ease; }
+.interest-grid { display: grid; gap: 0.625rem; grid-template-columns: 1fr; margin-bottom: 1.25rem; }
+@media (min-width: 640px) { .interest-grid { grid-template-columns: 1fr 1fr; } }
+.interest-grid .option-card { align-items: center; }
+.match-list { list-style: none; display: grid; gap: 1rem; counter-reset: m; }
+.match-item { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; padding: 1rem; border: 1px solid var(--wf-border); border-radius: var(--wf-radius); }
+@media (min-width: 640px) { .match-item { grid-template-columns: 160px 1fr; } }
+.match-item .wf-placeholder { aspect-ratio: 1; border-radius: var(--wf-radius); }
+@media (min-width: 640px) { .match-item .wf-placeholder { aspect-ratio: 3 / 2; } }
+.match-item h3 { font-size: 1.0625rem; margin: 0.375rem 0; }
+.why { list-style: none; display: flex; flex-wrap: wrap; gap: 0.375rem; }
+.why li { font-size: 0.8125rem; padding: 0.125rem 0.5rem; border-radius: 999px; background: var(--wf-surface); border: 1px solid var(--wf-border); }
+.why li::before { content: "\2713 "; font-weight: 700; }
+
+/* Subject pathway (R61) */
+.subject-hero .breadcrumb { padding-top: 0; }
+.pathway { list-style: none; display: grid; gap: 0.75rem; margin-top: 1.25rem; }
+@media (min-width: 1024px) { .pathway { grid-auto-flow: column; grid-auto-columns: 1fr; align-items: stretch; } }
+.rung { border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 1rem; display: grid; gap: 0.75rem; align-content: start; position: relative; }
+.rung-level span { display: block; font-weight: 700; font-size: 1.25rem; }
+.rung-level small { color: var(--wf-text-muted); }
+.rung ul { list-style: none; display: grid; gap: 0.5rem; font-size: 0.9375rem; }
+.rung ul li { line-height: 1.35; }
+.rung ul .muted { font-size: 0.8125rem; }
+@media (min-width: 1024px) { .rung:not(:last-child)::after { content: "\2192"; position: absolute; right: -0.7rem; top: 1.1rem; font-weight: 700; z-index: 1; } }
+.career-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.career-cloud .chip { text-decoration: none; min-height: 40px; }
+
+/* Application tracker (R63) */
+.timeline { list-style: none; margin: 1.5rem 0; display: grid; gap: 0; }
+.timeline li { position: relative; padding: 0 0 1.25rem 2.5rem; display: grid; }
+.timeline li::before { content: ""; position: absolute; left: 0; top: 0; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 2px solid var(--wf-border-strong); background: var(--wf-page); z-index: 1; }
+.timeline li::after { content: ""; position: absolute; left: 0.7rem; top: 1.5rem; bottom: 0; width: 2px; background: var(--wf-border); }
+.timeline li:last-child::after { display: none; }
+.timeline .tl-done::before { content: "\2713"; background: var(--wf-text); border-color: var(--wf-text); color: #fff; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.timeline .tl-current::before { border-width: 4px; border-color: var(--wf-text); }
+.timeline strong { font-size: 1.0625rem; }
+.timeline span { color: var(--wf-text-muted); font-size: 0.9375rem; }
+.slot-day { font-weight: 700; margin: 0.75rem 0 0.375rem; }
+
+/* Course helper (R65) */
+.course-helper { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--wf-border); border-radius: var(--wf-radius); }
+.course-helper h2 { font-size: 1.375rem; margin-bottom: 0.25rem; }
+.helper-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.helper-chips .chip { min-height: 40px; }
+.helper-log { display: grid; gap: 0.75rem; margin-bottom: 1rem; }
+.helper-log[hidden] { display: none; }
+.helper-q { justify-self: end; margin: 0; padding: 0.5rem 0.875rem; border-radius: 16px 16px 4px 16px; background: var(--wf-text); color: #fff; max-width: 85%; }
+.helper-a { padding: 0.75rem 1rem; border-radius: 16px 16px 16px 4px; background: var(--wf-surface); border: 1px solid var(--wf-border); max-width: 92%; }
+.helper-src { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--wf-text-muted); margin-bottom: 0.25rem; }
+.helper-qa { display: grid; gap: 0.5rem; }
+.helper-form input { border-radius: 999px; }
+
+/* Display settings (R64): structural effects. Colours for high contrast live in theme.css */
+html.a11y-text-lg { font-size: 125% !important; }
+html.a11y-text-xl { font-size: 150% !important; }
+html.a11y-readable body { letter-spacing: 0.06em; word-spacing: 0.16em; line-height: 1.85; }
+html.a11y-readable p, html.a11y-readable li { max-width: 62ch; }
+html.a11y-underline a { text-decoration: underline !important; }
+html.a11y-motion *, html.a11y-motion *::before, html.a11y-motion *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+html.a11y-contrast { --wf-text: #000; --wf-text-muted: #222; --wf-border: #000; --wf-border-strong: #000; --wf-surface: #fff; --wf-action: #0033cc; }
+.a11y-toggles { display: grid; gap: 0.25rem; }
+/* Larger text settings: keep the masthead on one line on small phones */
+@media (max-width: 479px) {
+  html.a11y-text-lg .menu-label, html.a11y-text-xl .menu-label { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 479px) { html.a11y-text-lg .masthead-actions > a.icon-btn:first-child, html.a11y-text-xl .masthead-actions > a.icon-btn:first-child { display: none; } }
+html.a11y-text-lg body, html.a11y-text-xl body { overflow-wrap: anywhere; }
+html.a11y-text-lg .btn, html.a11y-text-xl .btn, html.a11y-text-lg .search-mode button, html.a11y-text-xl .search-mode button { white-space: normal; }
+html.a11y-text-xl .search-mode { grid-template-columns: 1fr; border-radius: var(--wf-radius); }
+.route-card > *, .course-actions > * { min-width: 0; }

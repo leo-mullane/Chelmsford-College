@@ -686,7 +686,7 @@
     root.innerHTML =
       '<div class="container"><nav class="breadcrumb" aria-label="Breadcrumb"><ul class="breadcrumb-list">' +
       '<li class="breadcrumb-item"><a href="home.html">Home</a></li><li class="breadcrumb-item"><a href="courses.html">Courses</a></li>' +
-      '<li class="breadcrumb-item"><a href="courses.html?subject=' + c.subjectId + '">' + esc(c.subject) + '</a></li><li class="breadcrumb-item" aria-current="page">' + esc(c.h1 || c.title) + '</li></ul></nav></div>' +
+      '<li class="breadcrumb-item"><a href="subject.html?id=' + c.subjectId + '">' + esc(c.subject) + '</a></li><li class="breadcrumb-item" aria-current="page">' + esc(c.h1 || c.title) + '</li></ul></nav></div>' +
 
       '<!-- Course header (R15) --><section class="course-hero"><div class="container course-hero-grid">' +
       '<div><span class="overline" data-field="course_sections.S_TITLE">' + esc(c.subject) + '</span>' +
@@ -716,6 +716,11 @@
       '<!-- Course detail accordions (R16 R36) --><div class="accordion" style="margin-top:1.5rem">' + accordion + '</div>' +
       '<p class="wf-note" data-note="4"><span class="wf-note-label">Behaviour</span>On mobile, accordions keep a long course page scannable: the first section opens by default and the headings act as a contents list. The chips above jump straight to a section and open it. On desktop, a sticky “On this page” panel sits beside the content.</p>' +
 
+      '<!-- Ask about this course (R65) --><section class="course-helper" data-course-helper aria-labelledby="helper-title"><h2 id="helper-title">Ask about this course</h2><p class="muted">Quick answers from the course record. Anything else goes to a person.</p>' +
+      '<div class="helper-chips">' + ['How much does it cost?', 'What grades do I need?', 'When does it start?', 'How will I be assessed?', 'What jobs can it lead to?', 'Where is it taught?'].map(function (q) { return '<button type="button" class="chip" data-q-chip>' + q + '</button>'; }).join('') + '</div>' +
+      '<div class="helper-log" aria-live="polite" hidden></div>' +
+      '<form class="search-field helper-form"><label for="helper-q" class="visually-hidden">Ask your own question</label><input type="text" id="helper-q" placeholder="Or type your own question"><button class="btn" type="submit">Ask</button></form>' +
+      '<p class="wf-note" data-note="8"><span class="wf-note-label">Behaviour</span>Answers are put together from this course\'s own fields (<code>C_FEES</code>, <code>C_ELIGIBILITY</code>, <code>C_STARTDATE</code> and so on), so they can never contradict the page. A question it can\'t match goes to admissions with the course attached. A generative AI assistant could sit behind the same box, limited to the college\'s own data. We\'d recommend that as a later phase, once the college is comfortable with how it answers.</p></section>' +
       '<!-- How to apply (R26) --><section id="how-to-apply" class="band" style="padding-bottom:0"><h2>How to apply</h2><ol class="steps-list">' +
       '<li><div><h3>Apply online</h3><p>It takes about 15 minutes. You can save it and come back.</p></div></li>' +
       '<li><div><h3>Come to an interview</h3><p>A friendly chat with a tutor about the course and your plans.</p></div></li>' +
@@ -767,6 +772,7 @@
 
     bindSaveButtons(root);
     initFeeChecker(c);
+    initCourseHelper(c);
   }
 
   /* --- Events listing (R17 R40) ----------------------------------------- */
@@ -1184,7 +1190,7 @@
     var form = $('form', root);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      $('[data-apply-form]', root).innerHTML = '<div class="confirm-panel" tabindex="-1" id="applied"><div class="tick" aria-hidden="true">&#10003;</div><h2>Application started</h2><p>We’ve emailed you a link so you can finish your application on any device. It’s saved as you go.</p><p><a class="btn" href="events.html">Book an open event while you wait</a></p></div>';
+      $('[data-apply-form]', root).innerHTML = '<div class="confirm-panel" tabindex="-1" id="applied"><div class="tick" aria-hidden="true">&#10003;</div><h2>Application started</h2><p>We’ve emailed you a link so you can finish your application on any device. It’s saved as you go.</p><p>The same email has a link to track your application and book your interview.</p><div class="row"><a class="btn btn-apply" href="application.html?id=' + (c ? c.id : 374) + '">Track your application</a><a class="btn btn-secondary" href="events.html">Book an open event</a></div></div>';
       $('#applied').focus();
     });
   }
@@ -1206,6 +1212,322 @@
     var start = params().get('page');
     if (start) select.value = start;
     render();
+  }
+
+  /* ======================================================================
+     Beyond the brief (V3)
+     ====================================================================== */
+
+  /* --- Course matcher (R60) --------------------------------------------- */
+  var INTERESTS = [
+    { v: 'make', l: 'Making and building things', s: [6, 8, 9] },
+    { v: 'food', l: 'Cooking and food', s: [14] },
+    { v: 'style', l: 'Hair, beauty and styling', s: [12] },
+    { v: 'create', l: 'Art, design, fashion and media', s: [48] },
+    { v: 'stage', l: 'Performing on stage', s: [55, 48] },
+    { v: 'tech', l: 'Computers and technology', s: [15] },
+    { v: 'biz', l: 'Business, law and marketing', s: [5] },
+    { v: 'care', l: 'Caring for and helping people', s: [13, 7, 2] },
+    { v: 'sci', l: 'Science and investigation', s: [3] },
+    { v: 'sport', l: 'Sport and fitness', s: [19] },
+    { v: 'serve', l: 'Police, fire and armed forces', s: [17] },
+    { v: 'travel', l: 'Travel and meeting people', s: [21] }
+  ];
+  var HANDS_ON = [6, 8, 9, 12, 14, 19, 55];
+  var BOOKISH = [2, 3, 5, 13, 15];
+  function initMatch() {
+    var root = $('[data-match]');
+    if (!root) return;
+    var a = { interests: [], stage: '', grades: '', style: '' };
+    var steps = ['interests', 'stage', 'grades', 'style', 'results'];
+    var i = 0;
+    function visibleSteps() { return steps.filter(function (s) { return s !== 'grades' || a.stage === 'leaver' || a.stage === 'year11'; }); }
+    function progress() {
+      var vs = visibleSteps(); var n = vs.indexOf(steps[i]) + 1; var total = vs.length - 1;
+      return '<p class="step-label">Question ' + n + ' of ' + total + '</p><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + n + '" aria-label="Question ' + n + ' of ' + total + '"><span style="width:' + Math.round(n / total * 100) + '%"></span></div>';
+    }
+    function radios(name, opts, cur) {
+      return '<div class="option-cards">' + opts.map(function (o) {
+        return '<label class="option-card"><input type="radio" name="' + name + '" value="' + o[0] + '"' + (cur === o[0] ? ' checked' : '') + '><strong>' + esc(o[1]) + '</strong>' + (o[2] ? '<span class="desc">' + esc(o[2]) + '</span>' : '') + '</label>';
+      }).join('') + '</div>';
+    }
+    function nav(last) {
+      return '<p class="field-error" data-match-err hidden></p><div class="row"><button class="btn btn-lg" type="submit">' + (last ? 'Show my matches' : 'Next') + '</button>' + (i > 0 ? '<button type="button" class="btn-link" data-back>Back</button>' : '') + '</div>';
+    }
+    function score() {
+      var subj = {};
+      a.interests.forEach(function (v) { INTERESTS.filter(function (x) { return x.v === v; })[0].s.forEach(function (s) { subj[s] = true; }); });
+      var target = a.stage === 'adult' ? 3 : a.stage === 'support' ? 0 : ({ high: 3, some: 2, low: 1, unsure: 2 })[a.grades] || 2;
+      return COURSES.map(function (c) {
+        var why = [], sc = 0;
+        if (subj[c.subjectId]) { sc += 6; why.push('You enjoy ' + c.subject.toLowerCase()); }
+        var age = a.stage === 'adult' ? 'adult' : a.stage === 'support' ? 'supported' : '16-18';
+        if (c.ageGroups.indexOf(age) > -1) { sc += 3; why.push(age === 'adult' ? 'Designed for adults' : age === 'supported' ? 'Supported learning' : 'Full time for school leavers'); }
+        else if (age === 'adult' && subj[c.subjectId]) { sc += 1; }
+        if (a.stage !== 'support') {
+          if (c.levelNum === target) { sc += 3; why.push(c.level + ' suits your expected grades'); }
+          else if (c.levelNum === target - 1) { sc += 1; why.push(c.level + ': a step up to Level ' + target + ' later'); }
+        }
+        if (a.style === 'hands' && HANDS_ON.indexOf(c.subjectId) > -1) { sc += 1; why.push('Mostly hands-on'); }
+        if (a.style === 'class' && BOOKISH.indexOf(c.subjectId) > -1) { sc += 1; why.push('More classroom and project work'); }
+        return { c: c, sc: sc, why: why };
+      }).filter(function (r) { return r.sc >= 6; }).sort(function (x, y) { return y.sc - x.sc; }).slice(0, 6);
+    }
+    function render(focus) {
+      var step = steps[i], html = '';
+      if (step === 'interests') {
+        html = progress() + '<form data-q><fieldset class="pay-fieldset"><legend>What do you enjoy? Choose up to three.</legend><div class="interest-grid">' +
+          INTERESTS.map(function (o) { return '<label class="option-card"><input type="checkbox" name="interest" value="' + o.v + '"' + (a.interests.indexOf(o.v) > -1 ? ' checked' : '') + '><strong>' + esc(o.l) + '</strong></label>'; }).join('') +
+          '</div></fieldset>' + nav(false) + '</form>';
+      }
+      if (step === 'stage') html = progress() + '<form data-q><fieldset class="pay-fieldset"><legend>Where are you now?</legend>' + radios('stage', [['year11', 'I’m in Year 11', 'Finishing school this summer'], ['leaver', 'I’ve left school and I’m 16 to 18', ''], ['adult', 'I’m 19 or over', 'Returning to learning or changing career'], ['support', 'I need extra support with learning', 'For example an EHCP or special educational needs']], a.stage) + '</fieldset>' + nav(false) + '</form>';
+      if (step === 'grades') html = progress() + '<form data-q><fieldset class="pay-fieldset"><legend>What grades do you expect in English and maths?</legend>' + radios('grades', [['high', 'Mostly 4 or above', ''], ['some', 'Some 4s, some 3s', ''], ['low', 'Mostly 3 or below', ''], ['unsure', 'I’m not sure yet', 'That’s fine. We’ll suggest a middle level and you can talk it through at interview.']], a.grades) + '</fieldset>' + nav(false) + '</form>';
+      if (step === 'style') html = progress() + '<form data-q><fieldset class="pay-fieldset"><legend>How do you like to learn?</legend>' + radios('style', [['hands', 'Hands-on, in a workshop, salon or kitchen', ''], ['mix', 'A mix of practical and classroom', ''], ['class', 'Projects, research and computers', '']], a.style) + '</fieldset>' + nav(true) + '</form>';
+      if (step === 'results') {
+        var res = score();
+        html = '<h2 tabindex="-1" id="match-title">' + (res.length ? 'Your ' + res.length + ' best matches' : 'We couldn’t find a close match') + '</h2>' +
+          (res.length ? '<p>Based on what you told us. Open any course to see more, or save them all to compare.</p><div class="row" style="margin-bottom:1.25rem"><button type="button" class="btn btn-secondary" data-save-all>Save all to my shortlist</button><button type="button" class="btn-link" data-restart>Start again</button></div>' +
+            '<ol class="match-list">' + res.map(function (r) {
+              return '<li class="match-item">' + imgPh(imgFor(r.c), 'Image', 'match-img') + '<div><div class="tags"><span class="tag tag-solid">' + esc(r.c.level) + '</span><span class="tag">' + esc(r.c.subject) + '</span></div><h3><a href="course.html?id=' + r.c.id + '">' + esc(r.c.title) + '</a></h3><ul class="why">' + r.why.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></div></li>';
+            }).join('') + '</ol>' +
+            '<p style="margin-top:1.5rem">Want to see how a subject builds from Level 1 to university? <a href="subject.html?id=' + res[0].c.subjectId + '">Explore the ' + esc(res[0].c.subject) + ' pathway</a>.</p>'
+            : '<p>Try choosing different interests, or talk to our careers team on <a href="tel:01245293031">01245 293031</a>. They do this every day.</p><button type="button" class="btn" data-restart>Start again</button>');
+      }
+      root.innerHTML = html;
+      var form = $('form', root);
+      if (form) form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var err = $('[data-match-err]', root);
+        if (step === 'interests') {
+          a.interests = $all('input[name="interest"]:checked', form).map(function (x) { return x.value; });
+          if (!a.interests.length) { err.textContent = 'Choose at least one thing you enjoy'; err.hidden = false; $('input', form).focus(); return; }
+          if (a.interests.length > 3) { err.textContent = 'Choose up to three, so we can find the closest matches'; err.hidden = false; return; }
+        } else {
+          var picked = $('input[type="radio"]:checked', form);
+          if (!picked) { err.textContent = 'Choose one answer to continue'; err.hidden = false; $('input', form).focus(); return; }
+          a[step] = picked.value;
+        }
+        do { i++; } while (steps[i] === 'grades' && visibleSteps().indexOf('grades') < 0);
+        render(true);
+      });
+      var back = $('[data-back]', root);
+      if (back) back.addEventListener('click', function () { do { i--; } while (steps[i] === 'grades' && visibleSteps().indexOf('grades') < 0); render(true); });
+      $all('[data-restart]', root).forEach(function (b) { b.addEventListener('click', function () { a = { interests: [], stage: '', grades: '', style: '' }; i = 0; render(true); }); });
+      var sa = $('[data-save-all]', root);
+      if (sa) sa.addEventListener('click', function () {
+        var list = shortlist();
+        score().forEach(function (r) { if (list.indexOf(r.c.id) < 0) list.push(r.c.id); });
+        setShortlist(list); sa.textContent = 'Saved to your shortlist'; sa.disabled = true; announce('All matches saved to your shortlist');
+      });
+      if (focus) { var f = $('#match-title', root) || $('legend', root); if (f) { f.setAttribute('tabindex', '-1'); f.focus(); } }
+    }
+    render(false);
+  }
+
+  /* --- Subject pathway page (R61) --------------------------------------- */
+  function initSubject() {
+    var root = $('[data-subject]');
+    if (!root) return;
+    var id = Number(params().get('id') || 48);
+    var s = DATA.subjects.filter(function (x) { return x.id === id; })[0] || DATA.subjects.filter(function (x) { return x.id === 48; })[0];
+    var courses = COURSES.filter(function (c) { return c.subjectId === s.id; });
+    document.title = s.title + ' | Chelmsford College prototype';
+    var key = IMG_BY_SUBJECT[s.id] || 'learners';
+    var careers = [];
+    courses.forEach(function (c) { c.careers.forEach(function (k) { if (careers.indexOf(k) < 0) careers.push(k); }); });
+    var levels = [0, 1, 2, 3];
+    var rungs = levels.map(function (L) {
+      var cs = courses.filter(function (c) { return c.levelNum === L; });
+      if (!cs.length) return '';
+      return '<li class="rung"><div class="rung-level"><span>' + (L === 0 ? 'Entry' : 'Level ' + L) + '</span><small>' + ({ 0: 'Building skills', 1: 'Like GCSEs 3 to 1', 2: 'Like GCSEs 9 to 4', 3: 'Like A Levels' })[L] + '</small></div><ul>' +
+        cs.map(function (c) { return '<li><a href="course.html?id=' + c.id + '">' + esc(c.title) + '</a> <span class="muted">' + esc(c.duration) + '</span></li>'; }).join('') + '</ul></li>';
+    }).join('');
+    var events = EVENTS.filter(function (e) { return e.subjects.indexOf(s.id) > -1 || e.type === 'Open event'; }).slice(0, 2);
+    root.innerHTML =
+      '<section class="hero subject-hero"><div class="container hero-grid">' +
+      '<div class="hero-media">' + imgPh(key, 'Subject image 16:9 &middot; ' + esc(s.title)) + '</div>' +
+      '<div class="hero-copy"><nav class="breadcrumb" aria-label="Breadcrumb"><ul class="breadcrumb-list"><li class="breadcrumb-item"><a href="home.html">Home</a></li><li class="breadcrumb-item"><a href="courses.html">Courses</a></li><li class="breadcrumb-item" aria-current="page">' + esc(s.title) + '</li></ul></nav>' +
+      '<span class="overline">Subject</span><h1>' + esc(s.title) + '</h1><p class="lead">' + esc((s.description || '').split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) + '</p>' +
+      '<div class="row"><a class="btn btn-apply btn-lg" href="courses.html?subject=' + s.id + '">See all ' + courses.length + ' courses</a></div></div></div></section>' +
+      '<div class="container"><p class="wf-note" data-note="1"><span class="wf-note-label">Data</span>The heading and introduction come from <code>course_sections</code> (<code>S_TITLE</code>, <code>S_DESCRIPTION</code>). The route below is built from the courses in this section, grouped by level, so it updates itself when a course is added. Marketing adds the image, video and student stories in the CMS.</p></div>' +
+      '<section class="band"><div class="container"><h2>Your route through ' + esc(s.title) + '</h2><p class="muted">Start at the level that suits your grades and move up a level each year.</p><ol class="pathway">' + rungs +
+      '<li class="rung rung-next"><div class="rung-level"><span>Next</span><small>After college</small></div><ul><li>University degree or a Higher Technical Qualification</li><li>Higher or degree apprenticeship</li><li>Straight into work</li></ul></li></ol>' +
+      '<p class="wf-note" data-note="2"><span class="wf-note-label">Behaviour</span>The “pathway” idea already exists on the current site as an image. Here it is live data, and every rung links to a course page.</p></div></section>' +
+      (careers.length ? '<section class="band band-alt"><div class="container"><h2>Where it can lead</h2><div class="career-cloud">' + careers.map(function (k) { return '<a class="chip" href="courses.html?mode=career&q=' + encodeURIComponent(k) + '">' + esc(k.charAt(0).toUpperCase() + k.slice(1)) + '</a>'; }).join('') + '</div></div></section>' : '') +
+      '<section class="band"><div class="container"><div class="section-head"><h2>Come and see us</h2><a href="events.html">All events</a></div><div class="event-list">' + events.map(eventCard).join('') + '</div></div></section>';
+  }
+
+  /* --- Employer vacancy form (R62) -------------------------------------- */
+  function initVacancy() {
+    var root = $('[data-vacancy]');
+    if (!root) return;
+    var v = {};
+    var step = 0;
+    var LBL = ['Your business', 'The role', 'Contact'];
+    function stepper() {
+      return '<ol class="stepper" aria-label="Vacancy form progress">' + LBL.concat(['Check']).map(function (l, n) { return '<li data-n="' + (n + 1) + '" class="' + (n < step ? 'done' : '') + '"' + (n === step ? ' aria-current="step"' : '') + '><span>' + l + '</span></li>'; }).join('') + '</ol>';
+    }
+    function field(id, label, val, extra) { return '<div class="field"><label for="' + id + '">' + label + '</label><input type="text" id="' + id + '" value="' + esc(val || '') + '"' + (extra || '') + '></div>'; }
+    function render(focus) {
+      var html = stepper();
+      if (step === 0) html += '<form data-v novalidate>' + field('v-org', 'Business name', v.org, ' autocomplete="organization"') +
+        '<div class="field"><label for="v-size">Number of employees</label><select id="v-size"><option value="">Choose one</option><option>1 to 9</option><option>10 to 49</option><option>50 to 249</option><option>250 or more</option></select></div>' +
+        '<fieldset class="pay-fieldset"><legend style="font-size:1rem;font-weight:600">Do you pay the apprenticeship levy?</legend><div class="radio-row"><label class="radio-pill"><input type="radio" name="v-levy" value="Yes"><span>Yes</span></label><label class="radio-pill"><input type="radio" name="v-levy" value="No"><span>No</span></label><label class="radio-pill"><input type="radio" name="v-levy" value="Not sure"><span>Not sure</span></label></div></fieldset>';
+      if (step === 1) html += '<form data-v novalidate>' + field('v-role', 'Job title', v.role) +
+        '<div class="field"><label for="v-area">Area of work</label><select id="v-area"><option value="">Choose one</option><option>Construction and building services</option><option>Electrical</option><option>Engineering</option><option>Business and administration</option><option>Accounting</option><option>Digital and IT</option><option>Hair and beauty</option><option>Hospitality and catering</option><option>Health and care</option><option>Childcare and education</option><option>Something else</option></select></div>' +
+        '<fieldset class="pay-fieldset"><legend style="font-size:1rem;font-weight:600">What are you looking for?</legend><div class="radio-row"><label class="radio-pill"><input type="radio" name="v-type" value="A new apprentice"><span>A new apprentice</span></label><label class="radio-pill"><input type="radio" name="v-type" value="Train an existing employee"><span>Train an existing employee</span></label><label class="radio-pill"><input type="radio" name="v-type" value="T Level placement"><span>T Level placement</span></label></div></fieldset>' +
+        '<div class="field"><label for="v-start">When would you like them to start? <span class="opt">(optional)</span></label><select id="v-start"><option>As soon as possible</option><option>In the next 3 months</option><option>September 2027</option><option>Not sure yet</option></select></div>';
+      if (step === 2) html += '<form data-v novalidate>' + field('v-name', 'Your name', v.name, ' autocomplete="name"') + field('v-email', 'Email address', v.email, ' autocomplete="email" type="email"') + field('v-phone', 'Phone number', v.phone, ' autocomplete="tel" inputmode="tel"');
+      if (step === 3) html += '<dl class="summary-list">' + [['Business', v.org + ' (' + v.size + ', levy: ' + v.levy + ')', 0], ['Role', v.role + ', ' + v.area, 1], ['Looking for', v.type + ', ' + v.start, 1], ['Contact', v.name + ', ' + v.email + ', ' + v.phone, 2]].map(function (r) {
+        return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd><dd class="change"><a href="#vacancy" data-goto="' + r[2] + '">Change<span class="visually-hidden"> ' + r[0].toLowerCase() + '</span></a></dd></div>';
+      }).join('') + '</dl><form data-v novalidate><p class="field-hint">We’ll use these details to contact you about this vacancy. <a href="#">Privacy notice</a>.</p>';
+      if (step === 4) {
+        root.innerHTML = '<div class="confirm-panel" tabindex="-1" id="v-done"><div class="tick" aria-hidden="true">&#10003;</div><h3>Thanks, ' + esc(v.name.split(' ')[0]) + '. We’ve got your vacancy.</h3><p>Reference <strong>EMP-' + String(Date.now()).slice(-5) + '</strong>. Someone from our employer team will call you on ' + esc(v.phone) + ' within two working days to talk about the ' + esc(v.role) + ' role.</p><p>We’ve sent a copy to ' + esc(v.email) + '.</p><p><a class="btn btn-secondary" href="event.html?id=ev5">Meet us at the employer breakfast</a></p></div>';
+        $('#v-done').focus();
+        return;
+      }
+      html += '<div class="error-summary" role="alert" tabindex="-1" hidden><h2>There is a problem</h2><ul></ul></div><div class="row"><button class="btn btn-lg ' + (step === 3 ? 'btn-apply' : '') + '" type="submit">' + (step === 3 ? 'Send vacancy' : 'Continue') + '</button>' + (step > 0 ? '<button type="button" class="btn-link" data-vback>Back</button>' : '') + '</div>' +
+        (step === 0 ? '<button type="button" class="btn-link" data-vdemo>Fill with demo details (prototype only)</button>' : '') + '</form>';
+      root.innerHTML = html;
+      if (step === 0) { if (v.size) $('#v-size').value = v.size; if (v.levy) { var lv = $('input[name="v-levy"][value="' + v.levy + '"]'); if (lv) lv.checked = true; } }
+      if (step === 1) { if (v.area) $('#v-area').value = v.area; if (v.type) { var t = $('input[name="v-type"][value="' + v.type + '"]'); if (t) t.checked = true; } if (v.start) $('#v-start').value = v.start; }
+      var form = $('form', root);
+      $all('[data-goto]', root).forEach(function (l) { l.addEventListener('click', function (e) { e.preventDefault(); step = Number(l.getAttribute('data-goto')); render(true); }); });
+      var back = $('[data-vback]', root); if (back) back.addEventListener('click', function () { step--; render(true); });
+      var demo = $('[data-vdemo]', root);
+      if (demo) demo.addEventListener('click', function () {
+        v = { org: 'Moulsham Joinery Ltd', size: '10 to 49', levy: 'No', role: 'Apprentice joiner', area: 'Construction and building services', type: 'A new apprentice', start: 'September 2027', name: 'Priya Shah', email: 'priya@example.com', phone: '01245 000000' };
+        render(false);
+      });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var errs = [];
+        function need(id, msg) { var el = $('#' + id); if (!el.value.trim()) errs.push([id, msg]); return el.value.trim(); }
+        if (step === 0) { v.org = need('v-org', 'Enter your business name'); v.size = need('v-size', 'Choose how many people you employ'); var l = $('input[name="v-levy"]:checked'); if (!l) errs.push(['v-org', 'Tell us whether you pay the levy (choose “Not sure” if you don’t know)']); else v.levy = l.value; }
+        if (step === 1) { v.role = need('v-role', 'Enter the job title'); v.area = need('v-area', 'Choose the area of work'); var t = $('input[name="v-type"]:checked'); if (!t) errs.push(['v-role', 'Choose what you are looking for']); else v.type = t.value; v.start = $('#v-start').value; }
+        if (step === 2) { v.name = need('v-name', 'Enter your name'); v.email = need('v-email', 'Enter your email address'); v.phone = need('v-phone', 'Enter a phone number so we can call you'); if (v.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) errs.push(['v-email', 'Enter an email address in the correct format, like name@example.com']); }
+        if (errs.length) { var sum = $('.error-summary', root); $('ul', sum).innerHTML = errs.map(function (x) { return '<li><a href="#' + x[0] + '">' + esc(x[1]) + '</a></li>'; }).join(''); sum.hidden = false; sum.focus(); return; }
+        step++; render(true);
+      });
+      if (focus) { var h = $('.stepper', root); var first = $('input, select', root) || $('dl', root); if (first) first.focus(); }
+    }
+    render(false);
+  }
+
+  /* --- Display settings (R64) ------------------------------------------- */
+  function applyA11y(p) {
+    var h = document.documentElement;
+    ['a11y-text-lg', 'a11y-text-xl', 'a11y-contrast', 'a11y-readable', 'a11y-underline', 'a11y-motion'].forEach(function (c) { h.classList.remove(c); });
+    if (p.size) h.classList.add('a11y-text-' + p.size);
+    if (p.contrast) h.classList.add('a11y-contrast');
+    if (p.readable) h.classList.add('a11y-readable');
+    if (p.underline) h.classList.add('a11y-underline');
+    if (p.motion) h.classList.add('a11y-motion');
+  }
+  applyA11y(local.get('cc-a11y', {}));
+  function initA11y() {
+    var form = $('[data-a11y]');
+    if (!form) return;
+    var p = local.get('cc-a11y', {});
+    function sync() {
+      $all('input[name="a11y-size"]', form).forEach(function (r) { r.checked = (r.value === (p.size || '')); });
+      ['contrast', 'readable', 'underline', 'motion'].forEach(function (k) { $('input[name="' + k + '"]', form).checked = !!p[k]; });
+    }
+    sync();
+    form.addEventListener('change', function () {
+      var size = $('input[name="a11y-size"]:checked', form);
+      p = { size: size ? size.value : '', contrast: $('input[name="contrast"]', form).checked, readable: $('input[name="readable"]', form).checked, underline: $('input[name="underline"]', form).checked, motion: $('input[name="motion"]', form).checked };
+      local.set('cc-a11y', p); applyA11y(p); announce('Display settings updated');
+    });
+    $('[data-a11y-reset]', form).addEventListener('click', function () { p = {}; local.set('cc-a11y', p); applyA11y(p); sync(); announce('Display settings reset'); });
+  }
+
+  /* --- Application tracker + interview booking (R63) -------------------- */
+  function initApplication() {
+    var root = $('[data-application]');
+    if (!root) return;
+    var c = courseById(params().get('id') || 374) || courseById(374);
+    var st = session.get('cc-app', {});
+    var SLOTS = [['2026-11-10', ['4pm', '4.30pm', '5pm']], ['2026-11-12', ['10am', '2pm']], ['2026-11-17', ['4pm', '4.30pm']], ['2026-11-19', ['1pm', '1.30pm', '2pm']]];
+    function render(focusSel) {
+      var booked = st.slot;
+      var steps = [
+        ['done', 'Application received', 'Thursday 29 October 2026'],
+        [booked ? 'done' : 'current', booked ? 'Interview booked' : 'Book your interview', booked ? fmtDate(booked.d) + ' at ' + booked.t + ', ' + c.campus : 'Choose a time that suits you'],
+        ['todo', 'Your offer', 'Usually within a week of your interview'],
+        ['todo', 'Enrol', 'Summer 2027, once you have your results']
+      ];
+      var html = '<span class="overline">Your application &middot; APP-2027-04821</span><h1 tabindex="-1">Hi Maya, here’s where you are</h1>' +
+        '<div class="lookup-result"><span class="overline">Applied for</span><p style="font-weight:700;margin:0"><a href="course.html?id=' + c.id + '">' + esc(c.title) + '</a></p><p class="muted" style="margin:0">' + esc(c.level) + ' &middot; starts ' + esc(c.start) + ' &middot; ' + esc(c.campus) + '</p></div>' +
+        '<ol class="timeline">' + steps.map(function (s) { return '<li class="tl-' + s[0] + '"' + (s[0] === 'current' ? ' aria-current="step"' : '') + '><strong>' + esc(s[1]) + '</strong><span>' + esc(s[2]) + '</span></li>'; }).join('') + '</ol>';
+      if (!booked) {
+        html += '<section class="booking" style="position:static" aria-labelledby="slot-title"><h2 id="slot-title">Book your interview</h2><p>A relaxed 20-minute chat with a tutor about the course and what you enjoy. Bring any artwork or photos of things you’ve made.</p>' +
+          '<form data-slot><fieldset class="pay-fieldset"><legend style="font-size:1rem;font-weight:600">Choose a day and time</legend>' +
+          SLOTS.map(function (d) { return '<p class="slot-day">' + fmtDate(d[0]) + '</p><div class="radio-row">' + d[1].map(function (t) { return '<label class="radio-pill"><input type="radio" name="slot" value="' + d[0] + '|' + t + '"><span>' + t + '</span></label>'; }).join('') + '</div>'; }).join('') +
+          '</fieldset><p class="field-error" data-slot-err hidden>Choose a time for your interview</p><label class="check" style="margin-bottom:1rem"><input type="checkbox" id="slot-parent" checked> Send the details to my parent or carer as well</label><button class="btn btn-apply btn-lg" type="submit">Book this interview</button></form>' +
+          '<p class="muted" style="margin-top:1rem">None of these work? <a href="tel:01245265611">Call admissions on 01245 265611</a>.</p></section>';
+      } else {
+        html += '<div class="confirm-panel" tabindex="-1" id="slot-done"><div class="tick" aria-hidden="true">&#10003;</div><h2>Your interview is booked</h2><p><strong>' + fmtDate(booked.d) + ' at ' + booked.t + '</strong><br>' + esc(c.campus) + ' campus, main reception</p><p>We’ve emailed you' + (booked.parent ? ' and your parent or carer' : '') + ', and we’ll text a reminder the day before.</p><div class="row"><a class="btn btn-secondary" href="' + icsFor({ id: 'interview', date: booked.d, startH: '160000', endH: '162000', title: 'Interview: ' + c.title, location: c.campus + ' campus, Chelmsford College' }) + '" download="chelmsford-interview.ics">Add to calendar</a><button type="button" class="btn-link" data-rebook>Change time</button></div></div>' +
+          '<h2 style="margin-top:2rem;font-size:1.25rem">Before your interview</h2><ul class="fact-list"><li>Bring any artwork, sketchbooks or photos of things you’ve made</li><li>Bring your latest school report or predicted grades</li><li>Tell us about any support you’ll need: <a href="#">add support needs</a></li><li>Have a look round at the <a href="event.html?id=ev1">Open Evening</a> first</li></ul>';
+      }
+      root.innerHTML = html;
+      var f = $('[data-slot]', root);
+      if (f) f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var s = $('input[name="slot"]:checked', f);
+        if (!s) { var er = $('[data-slot-err]', f); er.hidden = false; $('input[name="slot"]', f).focus(); return; }
+        var parts = s.value.split('|');
+        st.slot = { d: parts[0], t: parts[1], parent: $('#slot-parent').checked };
+        session.set('cc-app', st); render('#slot-done');
+      });
+      var rb = $('[data-rebook]', root);
+      if (rb) rb.addEventListener('click', function () { st.slot = null; session.set('cc-app', st); render('#slot-title'); });
+      if (focusSel) { var el = $(focusSel, root); if (el) { if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1'); el.focus(); } }
+    }
+    render(null);
+  }
+
+  /* --- "Ask about this course" helper (R65) ----------------------------- */
+  function courseAnswer(c, q) {
+    q = q.toLowerCase();
+    var link = function (id, t) { return ' <a href="#' + id + '" data-open-acc="' + id + '">' + t + '</a>'; };
+    if (/(cost|fee|pay|price|free|money|£|loan)/.test(q)) return (plain(c.fees) ? 'Fees: ' + esc(plain(c.fees)) + '. ' : '') + (c.funding.indexOf('16-18') > -1 ? 'Tuition is free if you’re 16 to 18. ' : '') + (c.additionalFees ? esc(plain(c.additionalFees)) + ' ' : '') + link('fees', 'See fees and funding');
+    if (/(grade|gcse|entry|require|need to get|qualif|get in)/.test(q)) return c.eligibility ? 'You’ll need: ' + esc(plain(c.eligibility)) + link('entry', 'See entry requirements') : 'Entry requirements aren’t listed for this course yet. Our admissions team can tell you.';
+    if (/(start|when|date|begin|september|january)/.test(q)) return 'It starts ' + esc(c.start) + (c.duration ? ' and lasts ' + esc(c.duration) : '') + '.';
+    if (/(assess|exam|test|coursework|portfolio|mark)/.test(q)) return c.assessment ? esc(plain(c.assessment)) + link('assess', 'More on assessment') : 'Assessment details aren’t listed for this course yet.';
+    if (/(job|career|lead|after|university|degree|progress|work)/.test(q)) return c.employability ? esc(firstPara(c.employability)) + link('next', 'See where it can lead') : 'Our careers team can talk you through where this course can lead.';
+    if (/(where|campus|location|site|travel|bus)/.test(q)) return 'It’s taught at ' + esc(c.campus) + (c.campus === 'Online' ? '' : ' campus in Chelmsford') + '. <a href="#">Travel and directions</a>';
+    if (/(level|hard|difficult|a level|equivalent)/.test(q)) return esc(c.level) + (c.levelNum === 3 ? ', which is equivalent to A Levels.' : c.levelNum === 2 ? ', which is equivalent to GCSEs at grades 9 to 4.' : c.levelNum === 1 ? ', which is equivalent to GCSEs at grades 3 to 1.' : '.') + ' <a href="#" data-modal-open="level-modal" data-level="' + c.levelNum + '">What do the levels mean?</a>';
+    if (/(how long|duration|years|hours|days|part)/.test(q)) return 'It lasts ' + esc(c.duration) + ' and is ' + esc(c.mode.toLowerCase()) + '.';
+    return null;
+  }
+  function initCourseHelper(c) {
+    var box = $('[data-course-helper]');
+    if (!box) return;
+    var log = $('.helper-log', box);
+    var form = $('form', box);
+    function ask(q) {
+      var a = courseAnswer(c, q);
+      var item = document.createElement('div');
+      item.className = 'helper-qa';
+      item.innerHTML = '<p class="helper-q">' + esc(q) + '</p><div class="helper-a">' + (a ? '<span class="helper-src">From the course record</span>' + a : 'I can’t answer that from the course record, so it’s one for a person. <a href="#" data-ask-human>Send it to our admissions team</a> or call <a href="tel:01245293031">01245 293031</a>.') + '</div>';
+      log.appendChild(item);
+      log.hidden = false;
+      announce(a ? plain(a) : 'That question needs a person. Send it to the admissions team.');
+      var human = $('[data-ask-human]', item);
+      if (human) human.addEventListener('click', function (e) {
+        e.preventDefault();
+        human.parentNode.innerHTML = 'Thanks. We’ve sent your question to admissions with this course attached, and they’ll reply by email within a working day. <span class="muted">(Prototype: they would ask for your email address first.)</span>';
+      });
+    }
+    $all('[data-q-chip]', box).forEach(function (b) { b.addEventListener('click', function () { ask(b.textContent); }); });
+    form.addEventListener('submit', function (e) { e.preventDefault(); var i = $('input', form); if (i.value.trim()) { ask(i.value.trim()); i.value = ''; } });
+    box.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-open-acc]');
+      if (!a) return;
+      var item = document.getElementById(a.getAttribute('data-open-acc'));
+      if (item && !item.classList.contains('open')) { var t = $('.accordion-title', item); window.setTimeout(function () { t.click(); t.focus(); }, 0); }
+    });
   }
 
   /* --- Greyscale / designed toggle (V2-04) ------------------------------- */
@@ -1240,6 +1562,11 @@
     initShortlist();
     initApply();
     initViewer();
+    initMatch();
+    initSubject();
+    initVacancy();
+    initA11y();
+    initApplication();
     bindSaveButtons(document);
   });
 })();

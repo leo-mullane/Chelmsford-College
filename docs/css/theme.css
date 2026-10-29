@@ -375,3 +375,54 @@ body > footer::before { content: ""; position: absolute; top: 0; left: 0; right:
 
 /* Links on tinted grounds use the text-safe blue (brand blue is 4.58:1 on white only) */
 .lookup-result a, .notice a, .fee-checker a, .fee-result a, .career-hint a, .confirm-panel a:not(.btn), .aside-box a:not(.btn), .empty-state a:not(.btn), .page-head a:not(.btn), .course-hero a:not(.btn), .key-facts a, .band-alt a:not(.btn):not(.route-card):not(.subject-tile):not(.course-card a) { color: var(--blue-700); }
+
+/* ==========================================================================
+   V3: beyond the brief (design layer)
+   ========================================================================== */
+.audience-bar .audience-btn { color: #fff; text-decoration: none; font-weight: 400; }
+.audience-bar .audience-btn:hover { text-decoration: underline; }
+body > footer .audience-btn { color: #fff; }
+.progress { background: var(--blue-100); border: 0; height: 10px; }
+.progress span { background: linear-gradient(90deg, var(--blue), var(--green)); }
+.match-item { border: 0; border-radius: var(--radius-lg); box-shadow: var(--shadow-raised), 0 0 0 1px var(--border); }
+.match-item .wf-placeholder { border-radius: var(--radius-md); }
+.match-item h3 { font-family: var(--font-display); }
+.match-item h3 a { color: var(--ink); text-decoration: none; }
+.match-item h3 a:hover { color: var(--blue-700); text-decoration: underline; }
+.why li { background: var(--green-100); border: 0; color: var(--ink); }
+.why li::before { color: var(--green-700); }
+.subject-hero .breadcrumb a, .subject-hero .breadcrumb-item { color: #dbe7f1; }
+.subject-hero .breadcrumb-item[aria-current] { color: #fff; }
+.rung { border: 0; background: var(--surface); box-shadow: var(--shadow-raised), 0 0 0 1px var(--border); border-radius: var(--radius-lg); border-top: 6px solid var(--blue); }
+.rung:nth-child(2) { border-top-color: #2f8fcf; }
+.rung:nth-child(3) { border-top-color: #4ea9a0; }
+.rung:nth-child(4) { border-top-color: var(--green); }
+.rung-next { background: var(--blue-900); color: #fff; border-top-color: var(--sun); }
+.rung-next .rung-level small { color: #c4d4e2; }
+.rung-level span { font-family: var(--font-display); color: var(--blue-900); }
+.rung-next .rung-level span { color: #fff; }
+.rung a { color: var(--ink); text-decoration-color: var(--green); }
+.rung:not(:last-child)::after { color: var(--green-700); }
+.career-cloud .chip { background: #fff; color: var(--blue-900); border-color: var(--border-strong); }
+.career-cloud .chip:hover { background: var(--blue-900); color: #fff; }
+.timeline .tl-done::before { background: var(--green); border-color: var(--green); color: var(--blue-900); }
+.timeline li::after { background: var(--border); }
+.timeline .tl-done::after { background: var(--green); }
+.timeline .tl-current::before { border-color: var(--blue); }
+.timeline strong { font-family: var(--font-display); color: var(--blue-900); }
+.course-helper { border: 0; background: var(--surface-alt); border-radius: var(--radius-swoosh) var(--radius-lg) var(--radius-lg) var(--radius-lg); padding: 1.5rem; }
+.course-helper h2 { color: var(--blue-900); }
+.helper-q { background: var(--blue); }
+.helper-a { background: #fff; border-color: var(--border); }
+.helper-src { color: var(--green-700); }
+.helper-a a { color: var(--blue-700); }
+
+/* High contrast (R64): redefine the brand tokens so every component follows */
+html.a11y-contrast {
+  --blue: #00467a; --blue-700: #00345c; --blue-900: #000; --blue-100: #fff; --green: #7bc242; --green-700: #1f4d0a;
+  --green-100: #fff; --sun-100: #fff; --ink: #000; --ink-muted: #1a1a1a; --surface-alt: #fff; --border: #000; --border-strong: #000;
+}
+html.a11y-contrast .course-card, html.a11y-contrast .event-card, html.a11y-contrast .route-card, html.a11y-contrast .key-facts, html.a11y-contrast .news-card, html.a11y-contrast .rung, html.a11y-contrast .match-item, html.a11y-contrast .subject-tile { box-shadow: 0 0 0 2px #000 !important; }
+html.a11y-contrast .page-head, html.a11y-contrast .course-hero { background: #fff; border-bottom: 2px solid #000; }
+html.a11y-contrast .tag-soft, html.a11y-contrast .tag { box-shadow: inset 0 0 0 1px #000; }
+html.a11y-contrast a:not(.btn) { text-decoration: underline; }

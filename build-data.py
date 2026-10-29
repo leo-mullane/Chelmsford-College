@@ -48,9 +48,9 @@ def clean_html(v):
     out = out.replace('\xa0', ' ')
     out = re.sub(r'\s+', ' ', out)
     out = re.sub(r'<p>\s*</p>', '', out)
-    out = re.sub(r'<strong>\s*</strong>', '', out)
-    out = re.sub(r'\s+</', '</', out)
-    out = re.sub(r'>\s+<', '><', out)
+    out = re.sub(r'<strong>\s*</strong>', ' ', out)
+    # Trim whitespace around block tags only; spaces next to inline tags (<strong>) are meaningful
+    out = re.sub(r'\s*(</?(?:p|ul|ol|li|br)>)\s*', r'\1', out)
     return out.strip() or None
 
 
