@@ -24,6 +24,24 @@
   })();
   var COURSES = DATA.courses;
 
+  /* --- Imagery: placeholders carry a data-img key; theme.css maps it to the
+     college's photo, and the greyscale wireframe keeps the labelled block. */
+  var IMG = {
+    catering: 'Two catering students in chef’s whites in the college training kitchen',
+    carpentry: 'A tutor shows a student how to use a hand tool at a workbench',
+    hairdressing: 'A hairdressing tutor works with a student in the college salon',
+    performing: 'A student dances on stage under purple stage lights',
+    learners: 'Four learners laughing together outdoors on campus',
+    students: 'Three students working together around a laptop',
+    news: 'A student receives a certificate at the college awards'
+  };
+  var IMG_BY_SUBJECT = { 14: 'catering', 6: 'carpentry', 8: 'carpentry', 9: 'carpentry', 12: 'hairdressing', 48: 'performing', 55: 'performing', 2: 'students', 3: 'students', 5: 'students', 15: 'students', 21: 'students' };
+  var IMG_BY_EVENT = { ev1: 'learners', ev2: 'students', ev3: 'students', ev4: 'performing', ev5: 'carpentry', ev6: 'learners', ev7: 'carpentry', ev8: 'learners' };
+  function imgFor(c) { return IMG_BY_SUBJECT[c.subjectId] || 'learners'; }
+  function imgPh(key, label, cls, extra) {
+    return '<div class="wf-placeholder' + (cls ? ' ' + cls : '') + '" data-img="' + key + '" role="img" aria-label="' + esc(IMG[key]) + '"' + (extra || '') + '>' + label + '</div>';
+  }
+
   /* --- Utilities -------------------------------------------------------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -144,7 +162,7 @@
     var tags = '<span class="tag tag-solid">' + esc(c.level) + '</span><span class="tag">' + esc(c.mode) + '</span>';
     if (c.funding && c.funding.indexOf('16-18') > -1) tags += '<span class="tag tag-soft">Free for 16–18</span>';
     return '<article class="course-card">' +
-      '<div class="wf-placeholder">Image 3:2 &middot; ' + esc(c.image) + '</div>' +
+      imgPh(imgFor(c), 'Image 3:2 &middot; ' + esc(c.image)) +
       '<div class="course-card-body">' +
       '<div class="tags">' + tags + '</div>' +
       '<h3><a href="' + BASE + 'course.html?id=' + c.id + '">' + esc(c.title) + '</a></h3>' +
@@ -165,23 +183,182 @@
   function initHeader() {
     var btn = $('.menu-btn');
     var nav = $('#site-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', function () {
-        var open = !nav.classList.contains('open');
-        nav.classList.toggle('open', open);
-        btn.setAttribute('aria-expanded', open);
-        btn.lastChild.textContent = open ? ' Close' : ' Menu';
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && nav.classList.contains('open')) { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.lastChild.textContent = ' Menu'; btn.focus(); }
-      });
+    var backdrop = $('.flyout-backdrop');
+    var desktop = window.matchMedia('(min-width: 1024px)');
+    var items = $all('.mega-item');
+    var hoverTimer = null;
+    var closeTimer = null;
+
+    function setMenu(open) {
+      if (!nav || !btn) return;
+      nav.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      $('.menu-label', btn).textContent = open ? 'Close' : 'Menu';
+      if (!open) closeAll(false);
     }
+    function closeAll(restoreFocusTo) {
+      items.forEach(function (it) {
+        it.classList.remove('open');
+        var t = $('.mega-trigger', it);
+        t.setAttribute('aria-expanded', 'false');
+        $('.mega-panel', it).hidden = true;
+      });
+      if (nav) nav.classList.remove('drilled');
+      if (backdrop) backdrop.classList.remove('active');
+      if (restoreFocusTo) restoreFocusTo.focus();
+    }
+    function openItem(it, focusFirst) {
+      if (it.classList.contains('open')) return;
+      closeAll(false);
+      it.classList.add('open');
+      $('.mega-trigger', it).setAttribute('aria-expanded', 'true');
+      $('.mega-panel', it).hidden = false;
+      if (desktop.matches) { if (backdrop) backdrop.classList.add('active'); }
+      else nav.classList.add('drilled');
+      if (focusFirst) {
+        // Mobile: focus "Main menu" (no surprise keyboard); desktop keyboard users land in the panel
+        var f = desktop.matches ? $('.mega-panel input, .mega-panel a', it) : $('[data-mega-back]');
+        if (f) f.focus();
+      }
+    }
+
+    if (btn && nav) {
+      btn.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
+    }
+    items.forEach(function (it) {
+      var trigger = $('.mega-trigger', it);
+      trigger.addEventListener('click', function () {
+        if (it.classList.contains('open') && desktop.matches) { closeAll(false); return; }
+        openItem(it, !desktop.matches);
+      });
+      trigger.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); openItem(it, true); }
+      });
+      // Hover intent on desktop: open after a short pause, so moving the mouse across the bar doesn't flash panels
+      it.addEventListener('mouseenter', function () {
+        if (!desktop.matches) return;
+        window.clearTimeout(closeTimer);
+        window.clearTimeout(hoverTimer);
+        hoverTimer = window.setTimeout(function () { openItem(it, false); }, $('.mega-item.open') ? 60 : 180);
+      });
+      it.addEventListener('mouseleave', function () {
+        if (!desktop.matches) return;
+        window.clearTimeout(hoverTimer);
+        closeTimer = window.setTimeout(function () {
+          var focusedInside = it.contains(document.activeElement) && document.activeElement.tagName === 'INPUT';
+          if (!focusedInside) closeAll(false);
+        }, 300);
+      });
+      // Desktop: leaving the panel with Tab closes it
+      it.addEventListener('focusout', function () {
+        if (!desktop.matches) return;
+        window.setTimeout(function () { if (!it.contains(document.activeElement)) { it.classList.remove('open'); $('.mega-trigger', it).setAttribute('aria-expanded', 'false'); $('.mega-panel', it).hidden = true; if (!$('.mega-item.open') && backdrop) backdrop.classList.remove('active'); } }, 10);
+      });
+    });
+    var back = $('[data-mega-back]');
+    if (back) back.addEventListener('click', function () {
+      var open = $('.mega-item.open');
+      closeAll(open ? $('.mega-trigger', open) : null);
+    });
+    if (backdrop) backdrop.addEventListener('click', function () { closeAll(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var open = $('.mega-item.open');
+      if (open) { closeAll($('.mega-trigger', open)); return; }
+      if (nav && nav.classList.contains('open')) { setMenu(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (desktop.matches && $('.mega-item.open') && !e.target.closest('.site-header')) closeAll(false);
+    });
+    desktop.addEventListener ? desktop.addEventListener('change', function () { closeAll(false); setMenu(false); }) : null;
+
+    // Courses tabs: click, hover or arrow keys switch the audience panel
+    var tabs = $all('.mega-tabs [role="tab"]');
+    function selectTab(tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { selectTab(t, false); });
+      t.addEventListener('mouseenter', function () { if (desktop.matches) selectTab(t, false); });
+      t.addEventListener('keydown', function (e) {
+        var n = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (n) { e.preventDefault(); selectTab(n, true); }
+      });
+    });
+    $all('[data-count-age]').forEach(function (el) {
+      var a = el.getAttribute('data-count-age');
+      el.textContent = COURSES.filter(function (c) { return c.ageGroups.indexOf(a) > -1; }).length;
+    });
+
+    // Upcoming events in the Events menu
+    var ne = $('[data-nav-events]');
+    if (ne) ne.innerHTML = EVENTS.slice(0, 2).map(eventCard).join('');
+
+    initNavSearch();
+
     var section = document.body.getAttribute('data-section');
     if (section) {
-      var link = $('.site-nav .nav-link[data-section="' + section + '"]');
-      if (link) link.setAttribute('aria-current', 'page');
+      var cur = $('.mega-item[data-section="' + section + '"] .mega-trigger');
+      if (cur) cur.setAttribute('aria-current', 'page');
     }
     updateShortlistCounts();
+  }
+
+  /* --- Live course search inside the Courses menu (V2-01) --------------- */
+  function highlight(text, q) {
+    var i = text.toLowerCase().indexOf(q);
+    if (i < 0) return esc(text);
+    return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+  }
+  function initNavSearch() {
+    var form = $('[data-nav-search]');
+    if (!form) return;
+    var input = $('input', form);
+    var results = $('[data-nav-results]');
+    var tabsWrap = $('.mega-body-courses .mega-tabs');
+    var panels = $('.mega-body-courses .mega-tabpanels');
+    function render() {
+      var q = input.value.trim().toLowerCase();
+      if (q.length < 2) { results.hidden = true; tabsWrap.hidden = false; panels.hidden = false; return; }
+      var courses = COURSES.filter(function (c) {
+        return (c.title + ' ' + c.subject + ' ' + (c.h1 || '') + ' ' + c.careers.join(' ')).toLowerCase().indexOf(q) > -1;
+      });
+      var subjects = DATA.subjects.filter(function (s) { return s.title.toLowerCase().indexOf(q) > -1; }).slice(0, 3);
+      var careers = [];
+      COURSES.forEach(function (c) { c.careers.forEach(function (k) { if (k.indexOf(q) > -1 && careers.indexOf(k) === -1) careers.push(k); }); });
+      careers = careers.slice(0, 3);
+      var html = '<p class="result-count" role="status">' + courses.length + (courses.length === 1 ? ' course' : ' courses') + ' for “' + esc(input.value.trim()) + '”</p>';
+      if (courses.length) html += '<h3>Courses</h3><ul>' + courses.slice(0, 5).map(function (c) {
+        return '<li><a class="res" href="' + BASE + 'course.html?id=' + c.id + '"><span>' + highlight(c.title, q) + '<small>' + esc(c.subject) + ' &middot; ' + esc(c.duration) + '</small></span><span class="tag tag-solid">' + esc(c.level) + '</span></a></li>';
+      }).join('') + '</ul>';
+      if (careers.length) html += '<h3>Careers</h3><ul>' + careers.map(function (k) {
+        return '<li><a class="res" href="' + BASE + 'courses.html?mode=career&q=' + encodeURIComponent(k) + '"><span>I want to be a ' + highlight(k, q) + '</span></a></li>';
+      }).join('') + '</ul>';
+      if (subjects.length) html += '<h3>Subjects</h3><ul>' + subjects.map(function (s) {
+        return '<li><a class="res" href="' + BASE + 'courses.html?subject=' + s.id + '"><span>' + highlight(s.title, q) + '</span></a></li>';
+      }).join('') + '</ul>';
+      if (!courses.length && !careers.length && !subjects.length) html += '<p>Nothing matches yet. Try a subject such as “construction”, or call our careers team on <a href="tel:01245293031">01245 293031</a>.</p>';
+      else html += '<a class="mega-all" href="' + BASE + 'courses.html?q=' + encodeURIComponent(input.value.trim()) + '">See all results</a>';
+      results.innerHTML = html;
+      results.hidden = false; tabsWrap.hidden = true; panels.hidden = true;
+    }
+    input.addEventListener('input', render);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' && !results.hidden) { var a = $('a', results); if (a) { e.preventDefault(); a.focus(); } }
+    });
+    results.addEventListener('keydown', function (e) {
+      var links = $all('a', results); var i = links.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown' && i < links.length - 1) { e.preventDefault(); links[i + 1].focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); if (i > 0) links[i - 1].focus(); else input.focus(); }
+    });
   }
 
   /* --- Level explainer highlight ---------------------------------------- */
@@ -519,7 +696,7 @@
       '<p class="lead" data-field="C_COURSEFORME (first paragraph)">' + esc(firstPara(c.courseForMe || c.overview)) + '</p>' +
       '<div class="course-actions" id="hero-actions"><a class="btn btn-apply btn-lg" href="apply.html?id=' + c.id + '">Apply now</a>' +
       '<button type="button" class="save-btn" data-save="' + c.id + '" data-save-long aria-pressed="' + isSaved(c.id) + '"><span class="glyph glyph-heart" aria-hidden="true"></span><span>' + (isSaved(c.id) ? 'Saved to shortlist' : 'Save to shortlist') + '</span></button></div></div>' +
-      '<div><div class="wf-placeholder" data-field="Umbraco media (by subject)">Course image 4:3 &middot; ' + esc(c.image) + '</div></div>' +
+      '<div>' + imgPh(imgFor(c), 'Course image 4:3 &middot; ' + esc(c.image), 'course-img', ' data-field="Umbraco media (by subject)"') + '</div>' +
       '</div></section>' +
 
       '<div class="container"><p class="wf-note" data-note="1"><span class="wf-note-label">Data</span>Everything on this page is rendered from the supplied course data (Appendix 2). The orange labels show the SQL column behind each element. One template renders all ' + COURSES.length + ' courses: try <a href="course.html?id=527">Access to HE</a> or <a href="course.html?id=540">Carpentry and Joinery</a>. Empty fields hide themselves, so a course never shows “NULL”.</p>' +
@@ -690,7 +867,7 @@
       '<div class="container"><nav class="breadcrumb" aria-label="Breadcrumb"><ul class="breadcrumb-list"><li class="breadcrumb-item"><a href="home.html">Home</a></li><li class="breadcrumb-item"><a href="events.html">Events</a></li><li class="breadcrumb-item" aria-current="page">' + esc(e.title) + '</li></ul></nav></div>' +
       '<div class="container event-layout"><div>' +
       '<span class="overline">' + esc(e.type) + '</span><h1>' + esc(e.title) + '</h1>' +
-      '<div class="wf-placeholder ratio-16-9" style="margin:1rem 0">Event image 16:9</div>' +
+      imgPh(IMG_BY_EVENT[e.id] || 'learners', 'Event image 16:9', 'ratio-16-9 event-img') +
       '<p class="lead">' + esc(e.summary) + '</p>' +
       '<dl class="event-facts">' +
       '<div><dt>Date</dt><dd><time datetime="' + e.date + '">' + fmtDate(e.date) + '</time></dd></div>' +
@@ -848,7 +1025,7 @@
           '<dl class="summary-list">' +
           '<div><dt>Payment type</dt><dd>' + esc(T.label) + '</dd><a class="change" href="#type">Change<span class="visually-hidden"> payment type</span></a></div>' +
           '<div><dt>Student</dt><dd>' + esc(st.learner) + ' (' + esc(st.ref) + ')</dd><a class="change" href="#find">Change<span class="visually-hidden"> student</span></a></div>' +
-          '<div><dt>Course</dt><dd>' + esc(st.courseTitle) + '</dd><span></span></div>' +
+          '<div><dt>Course</dt><dd>' + esc(st.courseTitle) + '</dd><dd></dd></div>' +
           sel.map(function (x) { return '<div><dt>' + esc(x.label) + '</dt><dd>' + money(x.amount) + '</dd><a class="change" href="#you">Change<span class="visually-hidden"> items</span></a></div>'; }).join('') +
           '<div><dt>Paid by</dt><dd>' + esc(st.payer.name) + '<br>' + esc(st.payer.email) + '</dd><a class="change" href="#you">Change<span class="visually-hidden"> your details</span></a></div></dl>' +
           '<div class="total-row"><span>Total to pay</span><span>' + money(total()) + '</span></div>' +
@@ -875,7 +1052,7 @@
       if (name === 'done') {
         html = '<div class="confirm-panel" tabindex="-1" id="pay-done"><div class="tick" aria-hidden="true">&#10003;</div><h1>Payment complete</h1>' +
           '<p class="lead">You paid <strong>' + money(st.paid || 0) + '</strong> for ' + esc(st.learner) + '</p>' +
-          '<dl class="summary-list"><div><dt>Payment reference</dt><dd>' + esc(st.receipt) + '</dd><span></span></div><div><dt>Payment type</dt><dd>' + esc(T.label) + '</dd><span></span></div><div><dt>Course</dt><dd>' + esc(st.courseTitle) + '</dd><span></span></div></dl>' +
+          '<dl class="summary-list"><div><dt>Payment reference</dt><dd>' + esc(st.receipt) + '</dd><dd></dd></div><div><dt>Payment type</dt><dd>' + esc(T.label) + '</dd><dd></dd></div><div><dt>Course</dt><dd>' + esc(st.courseTitle) + '</dd><dd></dd></div></dl>' +
           '<p>We’ve emailed a receipt to <strong>' + esc(st.payer.email) + '</strong>' + (st.copy ? ' and a copy to the student' : '') + '.</p>' +
           '<h2 style="font-size:1.25rem">What happens next</h2><p>' + (st.type === 'deposit' ? 'Your place is now secured. We’ll be in touch about enrolment in the summer, and the deposit comes off any fees you pay later.' : st.type === 'materials' ? 'Your tutor will be told the fee is paid, and your kit will be ready at your first lesson.' : 'Your trip place is confirmed. Your tutor will share the itinerary and consent form.') + '</p>' +
           '<div class="row"><button type="button" class="btn btn-secondary" data-print>Print receipt</button><a class="btn" href="pay.html" data-new-payment>Make another payment</a><a href="home.html">Back to the homepage</a></div></div>' +
@@ -1031,66 +1208,26 @@
     render();
   }
 
-  /* --- Demo journey guide ----------------------------------------------- */
-  var JOURNEYS = {
-    1: { title: 'Journey 1: Maya, 16, on her phone', steps: [
-      { url: 'home.html', text: 'Homepage. Point out the single campaign (no carousel) and the course search, then tap “I’m 16–18”.' },
-      { url: 'courses.html?age=16-18', text: 'Search “fashion”, then open Filters and tick Level 3. The count updates live. Open the Fashion Design course.' },
-      { url: 'course.html?id=374', text: 'Course template from SQL. Tap the Level 3 tag, open “Fees and funding”, try the free-study checker (16 to 18), then Save to shortlist. Scroll down to see the sticky Apply bar.' },
-      { url: 'shortlist.html', text: 'Her shortlist: share it with a parent and compare courses side by side.' },
-      { url: 'event.html?id=ev1', text: 'Book the Open Evening for Maya and a parent. Add it to the calendar.' },
-      { url: 'apply.html?id=374', text: 'Apply: the course is carried through from the course page.' }
-    ] },
-    2: { title: 'Journey 2: Sam, a parent, pays a deposit', steps: [
-      { url: 'home.html', text: 'Sam opens the menu (or the audience bar on desktop) and chooses “Make a payment”.' },
-      { url: 'pay.html', text: 'Course deposit, then “I’m a parent or carer”. Use the demo details, then go through details, check and pay. Try the declined card link once.' }
-    ] },
-    3: { title: 'Journey 3: Dee, 34, changing career', steps: [
-      { url: 'home.html', text: 'Use “I want to be a…” in the search panel and type “nurse”.' },
-      { url: 'courses.html?mode=career&q=nurse', text: 'Courses that lead to nursing. Open the Access to HE Diploma (Health Professions).' },
-      { url: 'course.html?id=527', text: 'Three start dates and an online course. In Fees and funding, try the checker for “24 or over” to see the Advanced Learner Loan explained.' },
-      { url: 'events.html?audience=adult', text: 'Events filtered to adult learners. Book the adult learning information session.' }
-    ] },
-    4: { title: 'Journey 4: Josh pays a trip fee', steps: [
-      { url: 'pay.html?type=trip', text: 'Linked straight from a tutor’s email. Choose “I’m the student”, use the demo details, and choose which outstanding items to pay.' }
-    ] }
-  };
-  function initJourney() {
-    var p = params();
-    var startJ = p.get('journey');
-    var js = session.get('cc-journey', null);
-    if (startJ && JOURNEYS[startJ]) {
-      var idx = Number(p.get('step') || 0);
-      js = { j: startJ, s: idx };
-      session.set('cc-journey', js);
-      if (JOURNEYS[startJ].steps[idx].url.indexOf('pay.html') === 0) session.del('cc-pay');
-    }
-    if (!js || !JOURNEYS[js.j]) return;
-    var J = JOURNEYS[js.j];
-    var step = J.steps[js.s];
-    var here = window.location.pathname.split('/').pop();
-    var onPage = step && step.url.split('?')[0] === here;
-    var bar = document.createElement('div');
-    bar.className = 'journey-bar';
-    bar.setAttribute('role', 'region');
-    bar.setAttribute('aria-label', 'Demo journey guide');
-    var next = J.steps[js.s + 1];
-    bar.innerHTML = '<div class="jb-top"><span>' + esc(J.title) + ' &middot; step ' + (js.s + 1) + ' of ' + J.steps.length + '</span><span><button type="button" class="jb-exit" data-jmin aria-expanded="true">Hide</button> <button type="button" class="jb-exit" data-jexit>Exit journey</button></span></div>' +
-      '<p>' + (onPage ? esc(step.text) : 'You’ve left the planned route. <a href="' + step.url + '">Return to step ' + (js.s + 1) + '</a>') + '</p>' +
-      '<div class="jb-actions">' + (js.s > 0 ? '<a class="jb-btn" href="' + J.steps[js.s - 1].url + '" data-jstep="' + (js.s - 1) + '">Previous</a>' : '') +
-      (next ? '<a class="jb-btn primary" href="' + next.url + '" data-jstep="' + (js.s + 1) + '">Next step</a>' : '<a class="jb-btn primary" href="../index.html" data-jend>Finish</a>') + '</div>';
-    document.body.appendChild(bar);
-    document.body.classList.add('in-journey');
-    $all('[data-jstep]', bar).forEach(function (a) { a.addEventListener('click', function () { js.s = Number(a.getAttribute('data-jstep')); session.set('cc-journey', js); if (J.steps[js.s].url.indexOf('pay.html') === 0) session.del('cc-pay'); }); });
-    $all('[data-jend]', bar).forEach(function (a) { a.addEventListener('click', function () { session.del('cc-journey'); }); });
-    $('[data-jexit]', bar).addEventListener('click', function () { session.del('cc-journey'); bar.remove(); document.body.classList.remove('in-journey'); });
-    var minBtn = $('[data-jmin]', bar);
-    function setMin(m) { bar.classList.toggle('min', m); minBtn.textContent = m ? 'Show guide' : 'Hide'; minBtn.setAttribute('aria-expanded', m ? 'false' : 'true'); js.min = m; session.set('cc-journey', js); }
-    minBtn.addEventListener('click', function () { setMin(!bar.classList.contains('min')); });
-    if (js.min) setMin(true);
+  /* --- Greyscale / designed toggle (V2-04) ------------------------------- */
+  function applyTheme() {
+    var lofi = session.get('cc-lofi', false);
+    $all('link[rel="stylesheet"]').forEach(function (l) { if (/theme\.css$/.test(l.getAttribute('href'))) l.disabled = !!lofi; });
+    document.documentElement.classList.toggle('lofi', !!lofi);
+    $all('[data-theme-toggle]').forEach(function (b) {
+      b.setAttribute('aria-pressed', lofi ? 'true' : 'false');
+      b.textContent = lofi ? 'View the designed version' : 'View the greyscale wireframe';
+    });
   }
+  function initThemeToggle() {
+    applyTheme();
+    $all('[data-theme-toggle]').forEach(function (b) {
+      b.addEventListener('click', function () { session.set('cc-lofi', !session.get('cc-lofi', false)); applyTheme(); });
+    });
+  }
+  applyTheme();
 
   document.addEventListener('DOMContentLoaded', function () {
+    initThemeToggle();
     initHeader();
     initLevelLinks();
     initSearchPanels();
@@ -1103,7 +1240,6 @@
     initShortlist();
     initApply();
     initViewer();
-    initJourney();
     bindSaveButtons(document);
   });
 })();

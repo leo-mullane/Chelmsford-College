@@ -16,7 +16,7 @@
     <!-- Campaign hero (R10 R30) -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
-        <div class="hero-media"><div class="wf-placeholder">Campaign image 16:9 &middot; learners on campus</div></div>
+        <div class="hero-media"><div class="wf-placeholder" data-img="learners" role="img" aria-label="Four learners laughing together outdoors on campus">Campaign image 16:9 &middot; learners on campus</div></div>
         <div class="hero-copy">
           <span class="overline">Open Evening &middot; Tuesday 17 November, 5pm to 7.30pm</span>
           <h1 id="hero-title">Find your future here</h1>
@@ -29,6 +29,7 @@
       </div>
     </section>
     <div class="container">
+      <p class="wf-note" data-note="N"><span class="wf-note-label">Navigation</span>Every top-level item opens a mega menu with second-tier links and one promoted card. Editors choose the card's image, text and link per menu, and can schedule it like the campaign hero. The Courses menu has audience tabs (hover, click or arrow keys) and a live search that returns courses, careers and subjects as you type, straight from the course data. On mobile the menus drill down inside the menu drawer, with a “Main menu” back link. Escape closes any menu and returns focus to its button.</p>
       <p class="wf-note" data-note="1"><span class="wf-note-label">CMS</span>One campaign at a time, scheduled by marketing with start and end dates (for example Open Evening, then “Applications open”, then Results Day). There is no auto-rotating carousel: the current site rotates 13 slides, so only the first is ever seen, and auto-rotation fails WCAG 2.2.2 without a pause control. Up to three secondary messages sit as cards further down the page.</p>
     </div>
 
@@ -45,7 +46,7 @@
             <input type="hidden" name="mode" value="course">
             <label for="home-q">Search by subject or course</label>
             <div class="search-field">
-              <input type="search" id="home-q" name="q" placeholder="e.g. fashion, plumbing, business" autocomplete="off" aria-controls="home-suggest" aria-expanded="false" aria-autocomplete="list">
+              <input type="search" role="combobox" id="home-q" name="q" placeholder="e.g. fashion, plumbing, business" autocomplete="off" aria-controls="home-suggest" aria-expanded="false" aria-autocomplete="list">
               <button class="btn" type="submit">Search</button>
               <ul class="suggest" id="home-suggest" hidden></ul>
             </div>
@@ -83,14 +84,14 @@
       <div class="container">
         <div class="section-head"><h2 id="subjects-title">Explore subjects</h2><a href="~/pages/courses.html">All 18 subjects</a></div>
         <div class="subject-grid">
-          <a class="subject-tile" href="~/pages/courses.html?subject=48"><span class="wf-placeholder">Image &middot; Creative</span><span class="name">Creative Industries</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=6"><span class="wf-placeholder">Image &middot; Carpentry</span><span class="name">Construction</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=12"><span class="wf-placeholder">Image &middot; Hairdressing</span><span class="name">Hair &amp; Beauty</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=14"><span class="wf-placeholder">Image &middot; Catering</span><span class="name">Catering</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=5"><span class="wf-placeholder">Image &middot; Business</span><span class="name">Business and T Levels</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=15"><span class="wf-placeholder">Image &middot; Digital</span><span class="name">ICT &amp; Digital Skills</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=13"><span class="wf-placeholder">Image &middot; Care</span><span class="name">Health &amp; Social Care</span></a>
-          <a class="subject-tile" href="~/pages/courses.html?subject=17"><span class="wf-placeholder">Image &middot; Uniformed</span><span class="name">Uniformed Services</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=48"><span class="wf-placeholder" data-img="performing" aria-hidden="true">Image &middot; Creative</span><span class="name">Creative Industries</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=6"><span class="wf-placeholder" data-img="carpentry" aria-hidden="true">Image &middot; Carpentry</span><span class="name">Construction</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=12"><span class="wf-placeholder" data-img="hairdressing" aria-hidden="true">Image &middot; Hairdressing</span><span class="name">Hair &amp; Beauty</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=14"><span class="wf-placeholder" data-img="catering" aria-hidden="true">Image &middot; Catering</span><span class="name">Catering</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=5"><span class="wf-placeholder" data-img="students" aria-hidden="true">Image &middot; Business</span><span class="name">Business and T Levels</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=15"><span class="wf-placeholder" data-img="students" data-pos="right" aria-hidden="true">Image &middot; Digital</span><span class="name">ICT &amp; Digital Skills</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=13"><span class="wf-placeholder" data-img="learners" aria-hidden="true">Image &middot; Care</span><span class="name">Health &amp; Social Care</span></a>
+          <a class="subject-tile" href="~/pages/courses.html?subject=17"><span class="wf-placeholder" data-img="learners" data-pos="right" aria-hidden="true">Image &middot; Uniformed</span><span class="name">Uniformed Services</span></a>
         </div>
         <p class="wf-note" data-note="3"><span class="wf-note-label">Data</span>Subjects come from <code>course_sections</code> (published rows only). Each subject has a CMS landing page for its image, video and student stories, plus a live list of its courses.</p>
       </div>
@@ -100,7 +101,7 @@
     <section class="band" aria-labelledby="why-title">
       <div class="container split">
         <div class="video">
-          <div class="wf-placeholder">Video 16:9 &middot; a day at Chelmsford College (poster image)</div>
+          <div class="wf-placeholder" data-img="students" role="img" aria-label="Video poster: students working together">Video 16:9 &middot; a day at Chelmsford College (poster image)</div>
           <button class="play-btn" type="button" data-modal-open="video-modal" aria-label="Play video: a day at Chelmsford College (2 minutes, captioned)">Play</button>
         </div>
         <div>
@@ -148,7 +149,7 @@
             </blockquote>
           </div>
         </div>
-        <div class="wf-placeholder ratio-4-3">Image 4:3 &middot; student at work</div>
+        <div class="wf-placeholder ratio-4-3 story-img" data-img="carpentry" role="img" aria-label="A tutor shows a carpentry student how to use a hand tool">Image 4:3 &middot; student at work</div>
       </div>
     </section>
 
@@ -157,9 +158,9 @@
       <div class="container">
         <div class="section-head"><h2 id="news-title">News</h2><a href="#">All news</a></div>
         <div class="card-grid cols-3">
-          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; award presentation</div><div class="body"><p class="muted">22 October 2026</p><h3><a href="#">Students celebrate end-of-year awards</a></h3></div></article>
-          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; catering</div><div class="body"><p class="muted">15 October 2026</p><h3><a href="#">Catering students cook for local business leaders</a></h3></div></article>
-          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; T Levels</div><div class="body"><p class="muted">8 October 2026</p><h3><a href="#">T Level students start their industry placements</a></h3></div></article>
+          <article class="news-card"><div class="wf-placeholder" data-img="news" role="img" aria-label="A student receives a certificate at the college awards">Image 3:2 &middot; award presentation</div><div class="body"><p class="muted">22 October 2026</p><h3><a href="#">Students celebrate end-of-year awards</a></h3></div></article>
+          <article class="news-card"><div class="wf-placeholder" data-img="catering" role="img" aria-label="Two catering students in the training kitchen">Image 3:2 &middot; catering</div><div class="body"><p class="muted">15 October 2026</p><h3><a href="#">Catering students cook for local business leaders</a></h3></div></article>
+          <article class="news-card"><div class="wf-placeholder" data-img="students" role="img" aria-label="Three students working at a laptop">Image 3:2 &middot; T Levels</div><div class="body"><p class="muted">8 October 2026</p><h3><a href="#">T Level students start their industry placements</a></h3></div></article>
         </div>
       </div>
     </section>

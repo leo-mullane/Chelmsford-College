@@ -10,7 +10,7 @@
 </head>
 <body class="wf-notes-hidden" data-section="courses">
   <a class="skip-link" href="#main">Skip to main content</a>
-  <!-- Global header (R03 R04 R05) -->
+  <!-- Global header (R03 R04 R05) with mega menus (V2-01) -->
   <header class="site-header">
     <div class="audience-bar">
       <div class="container">
@@ -28,54 +28,294 @@
     </div>
     <div class="masthead">
       <div class="container masthead-inner">
-        <a class="logo-link" href="../pages/home.html" aria-label="Chelmsford College home"><span class="wf-placeholder logo">College logo</span></a>
+        <a class="logo-link" href="../pages/home.html"><span class="wf-placeholder logo" data-img="logo" role="img" aria-label="Chelmsford College home">College logo</span></a>
         <nav class="site-nav" id="site-nav" aria-label="Main">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-section="courses">Courses <span aria-hidden="true">&#9662;</span></a>
-              <div class="nav-flyout wide">
-                <div class="flyout-columns">
-                  <div class="flyout-column">
-                    <h5>Who are you?</h5>
-                    <ul>
-                      <li><a href="../pages/courses.html?age=16-18">School leavers (16&ndash;18)</a></li>
-                      <li><a href="../pages/courses.html?age=adult">Adults (19+)</a></li>
-                      <li><a href="../pages/courses.html?age=supported">Supported learning (INSPIRE)</a></li>
-                      <li><a href="#">Apprenticeships</a></li>
-                      <li><a href="#">T Levels</a></li>
-                      <li><a href="#">Higher education (HTQs)</a></li>
-                    </ul>
-                  </div>
-                  <div class="flyout-column">
-                    <h5>Popular subjects</h5>
-                    <ul>
-                      <li><a href="../pages/courses.html?subject=48">Creative Industries</a></li>
-                      <li><a href="../pages/courses.html?subject=6">Construction</a></li>
-                      <li><a href="../pages/courses.html?subject=12">Hair &amp; Beauty</a></li>
-                      <li><a href="../pages/courses.html?subject=5">Business</a></li>
-                      <li><a href="../pages/courses.html?subject=14">Catering</a></li>
-                      <li><a href="../pages/courses.html">All courses A&ndash;Z</a></li>
-                    </ul>
-                  </div>
-                  <div class="flyout-column">
-                    <h5>Help choosing</h5>
-                    <ul>
-                      <li><a href="../pages/courses.html?mode=career">Search by career</a></li>
-                      <li><a href="#" data-modal-open="level-modal">What do the levels mean?</a></li>
-                      <li><a href="../pages/events.html">Open events and taster days</a></li>
-                      <li><a href="../pages/apply.html">How to apply</a></li>
-                      <li><a href="#">Download the prospectus</a></li>
-                      <li><a href="#">Talk to a careers adviser</a></li>
-                    </ul>
+          <button type="button" class="mega-back" data-mega-back><span aria-hidden="true">&lsaquo;</span> Main menu</button>
+          <ul class="mega-list">
+
+            <!-- Courses: audience tabs + live course search (V2-01) -->
+            <li class="mega-item" data-section="courses">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-courses">Courses <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-courses" hidden>
+                <div class="container mega-inner">
+                  <form class="mega-search" action="~/pages/courses.html" method="get" role="search" data-nav-search>
+                    <label for="nav-q">Search courses, subjects and careers</label>
+                    <div class="search-field">
+                      <input type="search" id="nav-q" name="q" placeholder="Try ‘plumbing’, ‘nurse’ or ‘fashion’" autocomplete="off" aria-describedby="nav-q-hint" aria-controls="nav-results">
+                      <button class="btn" type="submit">Search</button>
+                    </div>
+                    <p class="mega-hint" id="nav-q-hint">Results appear as you type. Press the down arrow to move into them.</p>
+                  </form>
+                  <div class="mega-body mega-body-courses">
+                    <div class="mega-tabs" role="tablist" aria-label="Courses for" aria-orientation="vertical">
+                      <button type="button" role="tab" id="mtab-leavers" aria-controls="mt-leavers" aria-selected="true">School leavers <small>16&ndash;18</small></button>
+                      <button type="button" role="tab" id="mtab-adults" aria-controls="mt-adults" aria-selected="false" tabindex="-1">Adults <small>19+</small></button>
+                      <button type="button" role="tab" id="mtab-apprentices" aria-controls="mt-apprentices" aria-selected="false" tabindex="-1">Apprenticeships</button>
+                      <button type="button" role="tab" id="mtab-tlevels" aria-controls="mt-tlevels" aria-selected="false" tabindex="-1">T Levels</button>
+                      <button type="button" role="tab" id="mtab-he" aria-controls="mt-he" aria-selected="false" tabindex="-1">Higher education</button>
+                      <button type="button" role="tab" id="mtab-supported" aria-controls="mt-supported" aria-selected="false" tabindex="-1">Supported learning</button>
+                    </div>
+                    <div class="mega-tabpanels">
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-leavers" aria-labelledby="mtab-leavers">
+                        <h3>Full-time courses for school leavers</h3>
+                        <ul class="mega-links cols-2">
+                          <li><a href="../pages/courses.html?subject=48">Creative Industries</a></li>
+                          <li><a href="../pages/courses.html?subject=6">Construction</a></li>
+                          <li><a href="../pages/courses.html?subject=12">Hair &amp; Beauty</a></li>
+                          <li><a href="../pages/courses.html?subject=14">Catering</a></li>
+                          <li><a href="../pages/courses.html?subject=5">Business</a></li>
+                          <li><a href="../pages/courses.html?subject=15">ICT &amp; Digital Skills</a></li>
+                          <li><a href="../pages/courses.html?subject=7">Childcare</a></li>
+                          <li><a href="../pages/courses.html?subject=13">Health &amp; Social Care</a></li>
+                          <li><a href="../pages/courses.html?subject=8">Electrical Installation</a></li>
+                          <li><a href="../pages/courses.html?subject=9">Engineering</a></li>
+                          <li><a href="../pages/courses.html?subject=17">Uniformed Services</a></li>
+                          <li><a href="../pages/courses.html?subject=55">Performing Arts</a></li>
+                        </ul>
+                        <a class="mega-all" href="../pages/courses.html?age=16-18">See all <span data-count-age="16-18">30</span> courses for school leavers</a>
+                      </div>
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-adults" aria-labelledby="mtab-adults" hidden>
+                        <h3>Courses for adults</h3>
+                        <ul class="mega-links cols-2">
+                          <li><a href="../pages/course.html?id=527">Access to HE (Health Professions)</a></li>
+                          <li><a href="#">Part-time and evening courses</a></li>
+                          <li><a href="#">Online courses</a></li>
+                          <li><a href="#">Skills Bootcamps</a></li>
+                          <li><a href="#">English and maths</a></li>
+                          <li><a href="#">Back to work (SWAP)</a></li>
+                          <li><a href="#">Green Skills</a></li>
+                          <li><a href="#">Free courses for adults</a></li>
+                        </ul>
+                        <a class="mega-all" href="../pages/courses.html?age=adult">See all courses for adults</a>
+                      </div>
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-apprentices" aria-labelledby="mtab-apprentices" hidden>
+                        <h3>Earn while you learn</h3>
+                        <ul class="mega-links cols-2">
+                          <li><a href="#">What is an apprenticeship?</a></li>
+                          <li><a href="#">Apprenticeship vacancies</a></li>
+                          <li><a href="#">Apprenticeship subjects</a></li>
+                          <li><a href="#">How to apply</a></li>
+                          <li><a href="#">Hire an apprentice (employers)</a></li>
+                          <li><a href="#">Funding and the levy</a></li>
+                        </ul>
+                        <a class="mega-all" href="#">See all apprenticeships</a>
+                      </div>
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-tlevels" aria-labelledby="mtab-tlevels" hidden>
+                        <h3>T Levels: equivalent to three A Levels</h3>
+                        <ul class="mega-links">
+                          <li><a href="../pages/course.html?id=495">Management and Administration</a></li>
+                          <li><a href="../pages/course.html?id=699">Marketing</a></li>
+                          <li><a href="../pages/course.html?id=721">Legal Services</a></li>
+                          <li><a href="../pages/course.html?id=557">Media, Broadcast and Production</a></li>
+                          <li><a href="#">What is a T Level?</a></li>
+                        </ul>
+                        <a class="mega-all" href="../pages/courses.html?q=T+Level">See all T Levels</a>
+                      </div>
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-he" aria-labelledby="mtab-he" hidden>
+                        <h3>Higher education in Chelmsford</h3>
+                        <ul class="mega-links">
+                          <li><a href="#">Higher Technical Qualifications (HTQs)</a></li>
+                          <li><a href="#">HNCs in Construction</a></li>
+                          <li><a href="#">Level 4 Creative Enterprise</a></li>
+                          <li><a href="#">Institute of Technology</a></li>
+                          <li><a href="#">Student finance for HE</a></li>
+                        </ul>
+                        <a class="mega-all" href="#">See all higher education</a>
+                      </div>
+                      <div class="mega-tabpanel" role="tabpanel" id="mt-supported" aria-labelledby="mtab-supported" hidden>
+                        <h3>INSPIRE: supported learning</h3>
+                        <ul class="mega-links">
+                          <li><a href="../pages/course.html?id=544">Life Skills and Independence</a></li>
+                          <li><a href="../pages/course.html?id=543">Bespoke Provision (RARPA)</a></li>
+                          <li><a href="#">Transition to college</a></li>
+                          <li><a href="#">EHCPs and the local offer</a></li>
+                        </ul>
+                        <a class="mega-all" href="../pages/courses.html?age=supported">See all supported learning</a>
+                      </div>
+                    </div>
+                    <div class="mega-results" id="nav-results" data-nav-results hidden></div>
+                    <a class="promo-card" href="../pages/event.html?id=ev1">
+                      <span class="wf-placeholder" data-img="learners" role="img" aria-label="Learners chatting outside on campus">Promo image 3:2</span>
+                      <span class="overline">Open Evening</span>
+                      <strong>Tuesday 17 November, 5pm to 7.30pm</strong>
+                      <span class="promo-text">Meet tutors, see the workshops and apply on the night.</span>
+                      <span class="promo-cta">Book your place</span>
+                    </a>
                   </div>
                 </div>
               </div>
             </li>
-            <li class="nav-item"><a class="nav-link" href="../pages/courses.html?age=adult" data-section="adults">Adults</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" data-section="apprenticeships">Apprenticeships</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" data-section="life">Life at college</a></li>
-            <li class="nav-item"><a class="nav-link" href="../pages/events.html" data-section="events">Events</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" data-section="about">About us</a></li>
+
+            <!-- Adults -->
+            <li class="mega-item" data-section="adults">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-adults">Adults <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-adults" hidden>
+                <div class="container mega-inner">
+                  <div class="mega-body mega-body-cols">
+                    <div><h3>Study as an adult</h3><ul class="mega-links">
+                      <li><a href="../pages/course.html?id=527">Access to Higher Education</a></li>
+                      <li><a href="#">Part-time and evening courses</a></li>
+                      <li><a href="#">Online courses</a></li>
+                      <li><a href="#">Skills Bootcamps</a></li>
+                      <li><a href="#">English, maths and ESOL</a></li>
+                    </ul></div>
+                    <div><h3>Paying for your course</h3><ul class="mega-links">
+                      <li><a href="#">Free courses for adults</a></li>
+                      <li><a href="#">Advanced Learner Loans</a></li>
+                      <li><a href="#">Help with childcare and travel</a></li>
+                      <li><a href="../pages/pay.html">Make a payment</a></li>
+                    </ul></div>
+                    <div><h3>Get advice</h3><ul class="mega-links">
+                      <li><a href="../pages/events.html?audience=adult">Adult information sessions</a></li>
+                      <li><a href="#">Talk to a careers adviser</a></li>
+                      <li><a href="../pages/courses.html?mode=career">Search by career</a></li>
+                    </ul></div>
+                    <a class="promo-card" href="../pages/course.html?id=527">
+                      <span class="wf-placeholder" data-img="students" role="img" aria-label="Three students working together at a laptop">Promo image 3:2</span>
+                      <span class="overline">Change your career</span>
+                      <strong>Access to HE: Health Professions</strong>
+                      <span class="promo-text">Study online, start in January or April, and go on to nursing or midwifery.</span>
+                      <span class="promo-cta">Find out more</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Apprenticeships -->
+            <li class="mega-item" data-section="apprenticeships">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-apprenticeships">Apprenticeships <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-apprenticeships" hidden>
+                <div class="container mega-inner">
+                  <div class="mega-body mega-body-cols">
+                    <div><h3>For apprentices</h3><ul class="mega-links">
+                      <li><a href="#">What is an apprenticeship?</a></li>
+                      <li><a href="#">Current vacancies</a></li>
+                      <li><a href="#">Apprenticeship subjects</a></li>
+                      <li><a href="#">How to apply</a></li>
+                    </ul></div>
+                    <div><h3>For employers</h3><ul class="mega-links">
+                      <li><a href="#">Hire an apprentice</a></li>
+                      <li><a href="#">Funding and the levy</a></li>
+                      <li><a href="#">Host a T Level placement</a></li>
+                      <li><a href="#">Train your staff</a></li>
+                    </ul></div>
+                    <div><h3>For parents</h3><ul class="mega-links">
+                      <li><a href="#">Apprenticeships explained</a></li>
+                      <li><a href="../pages/parents.html">Parents and carers hub</a></li>
+                    </ul></div>
+                    <a class="promo-card" href="../pages/event.html?id=ev5">
+                      <span class="wf-placeholder" data-img="carpentry" role="img" aria-label="A tutor shows a student how to use a hand tool at a workbench">Promo image 3:2</span>
+                      <span class="overline">Employer breakfast</span>
+                      <strong>Thursday 10 December, 8am</strong>
+                      <span class="promo-text">Apprenticeships and T Level placements explained over breakfast.</span>
+                      <span class="promo-cta">Book a place</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Life at college -->
+            <li class="mega-item" data-section="life">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-life">Life at college <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-life" hidden>
+                <div class="container mega-inner">
+                  <div class="mega-body mega-body-cols">
+                    <div><h3>Campus life</h3><ul class="mega-links">
+                      <li><a href="#">Moulsham Street campus</a></li>
+                      <li><a href="#">Princes Road campus</a></li>
+                      <li><a href="#">The Princes Salons</a></li>
+                      <li><a href="#">The Igloo</a></li>
+                      <li><a href="#">Football Academy</a></li>
+                      <li><a href="#">Virtual tour</a></li>
+                    </ul></div>
+                    <div><h3>Support</h3><ul class="mega-links">
+                      <li><a href="#">Wellbeing and safeguarding</a></li>
+                      <li><a href="#">SEND and learning support</a></li>
+                      <li><a href="#">Bursaries and financial help</a></li>
+                      <li><a href="#">Travel to college</a></li>
+                      <li><a href="#">Careers Advice Zone</a></li>
+                    </ul></div>
+                    <div><h3>Parents and carers</h3><ul class="mega-links">
+                      <li><a href="../pages/parents.html">Parents and carers hub</a></li>
+                      <li><a href="#">Term dates</a></li>
+                      <li><a href="../pages/pay.html">Make a payment</a></li>
+                    </ul></div>
+                    <a class="promo-card" href="#">
+                      <span class="wf-placeholder" data-img="hairdressing" role="img" aria-label="A tutor helps a hairdressing student in the college salon">Promo image 3:2</span>
+                      <span class="overline">Facilities</span>
+                      <strong>The Princes Salons</strong>
+                      <span class="promo-text">Train in a real salon that's open to the public.</span>
+                      <span class="promo-cta">Take a look inside</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Events -->
+            <li class="mega-item" data-section="events">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-events">Events <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-events" hidden>
+                <div class="container mega-inner">
+                  <div class="mega-body mega-body-cols">
+                    <div class="span-2"><h3>Coming up</h3><div class="mega-events" data-nav-events></div></div>
+                    <div><h3>Browse events</h3><ul class="mega-links">
+                      <li><a href="../pages/events.html?type=Open%20event">Open events</a></li>
+                      <li><a href="../pages/events.html?type=Taster%20day">Taster days</a></li>
+                      <li><a href="../pages/events.html?audience=parents">For parents and carers</a></li>
+                      <li><a href="../pages/events.html?audience=adult">For adults</a></li>
+                      <li><a href="../pages/events.html?type=Employer%20event">For employers</a></li>
+                      <li><a href="../pages/events.html">All events</a></li>
+                    </ul></div>
+                    <a class="promo-card" href="../pages/event.html?id=ev4">
+                      <span class="wf-placeholder" data-img="performing" role="img" aria-label="A student dances on stage under purple stage lights">Promo image 3:2</span>
+                      <span class="overline">Taster morning</span>
+                      <strong>Creative Industries, Saturday 5 December</strong>
+                      <span class="promo-text">Try fashion, media and performing arts workshops.</span>
+                      <span class="promo-cta">Book a taster</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- About us -->
+            <li class="mega-item" data-section="about">
+              <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-about">About us <span class="chev" aria-hidden="true"></span></button>
+              <div class="mega-panel" id="mega-about" hidden>
+                <div class="container mega-inner">
+                  <div class="mega-body mega-body-cols">
+                    <div><h3>The college</h3><ul class="mega-links">
+                      <li><a href="#">Principal's welcome</a></li>
+                      <li><a href="#">Ofsted and quality</a></li>
+                      <li><a href="#">Leadership and governance</a></li>
+                      <li><a href="#">Policies and documents</a></li>
+                      <li><a href="#">Sustainability</a></li>
+                    </ul></div>
+                    <div><h3>Work with us</h3><ul class="mega-links">
+                      <li><a href="#">Vacancies</a></li>
+                      <li><a href="#">Teach at Chelmsford</a></li>
+                      <li><a href="#">Staff benefits</a></li>
+                    </ul></div>
+                    <div><h3>Get in touch</h3><ul class="mega-links">
+                      <li><a href="#">Contact us</a></li>
+                      <li><a href="#">Find us</a></li>
+                      <li><a href="#">News</a></li>
+                      <li><a href="../pages/pay.html">Make a payment</a></li>
+                    </ul></div>
+                    <a class="promo-card" href="#">
+                      <span class="wf-placeholder" data-img="news" role="img" aria-label="A student receives a certificate at the college awards">Promo image 3:2</span>
+                      <span class="overline">News</span>
+                      <strong>Students celebrate end-of-year awards</strong>
+                      <span class="promo-text">Learners from every subject were recognised at this year's ceremony.</span>
+                      <span class="promo-cta">Read the story</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
           <ul class="mobile-audience" aria-label="Quick links">
             <li><a href="../pages/shortlist.html">My shortlist</a></li>
@@ -90,7 +330,7 @@
           <a class="icon-btn" href="../pages/courses.html" aria-label="Search courses"><span class="glyph glyph-search" aria-hidden="true"></span><span class="hide-sm">Search</span></a>
           <a class="icon-btn hide-sm" href="../pages/shortlist.html">Shortlist <span class="shortlist-count" data-shortlist-count>0</span></a>
           <a class="btn btn-apply" href="../pages/apply.html">Apply</a>
-          <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="glyph glyph-menu" aria-hidden="true"></span> Menu</button>
+          <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="glyph glyph-menu" aria-hidden="true"></span> <span class="menu-label">Menu</span></button>
         </div>
       </div>
     </div>
@@ -129,7 +369,7 @@
     <div class="container">
       <div class="footer-campuses">
         <div>
-          <span class="wf-placeholder logo">College logo</span>
+          <span class="wf-placeholder logo" data-img="logo-white" role="img" aria-label="Chelmsford College">College logo</span>
           <p class="muted" style="margin-top:0.75rem">Main switchboard <a href="tel:01245265611">01245 265611</a><br>Careers advice <a href="tel:01245293031">01245 293031</a></p>
         </div>
         <address><strong>Moulsham Street campus</strong><br>Moulsham Street, Chelmsford<br><a href="#">Map and directions</a></address>
