@@ -712,7 +712,7 @@
       '<div><dt>Fees</dt><dd data-field="C_FEES">' + esc(feeLine.length > 60 ? (funded ? 'Free for 16–18' : 'See fees and funding') : feeLine) + '</dd></div>' +
       '</dl>' +
       '<p class="wf-note query" data-note="3"><span class="wf-note-label">Open question</span>Campus is not in the supplied <code>courses</code> table, so it is illustrative here. Which table holds campus, and will part-time and evening courses be in the same table (all 33 demo courses are <code>FT</code>)?</p>' +
-      '<nav class="jump-links" aria-label="On this page">' + sections.map(function (s) { return '<a href="#' + s.id + '">' + s.title + '</a>'; }).join('') + '<a href="#how-to-apply">How to apply</a></nav>' +
+      '<details class="toc-mobile"><summary>On this page</summary><nav aria-label="On this page"><ul>' + sections.map(function (s) { return '<li><a href="#' + s.id + '">' + s.title + '</a></li>'; }).join('') + '<li><a href="#helper-title">Ask about this course</a></li><li><a href="#how-to-apply">How to apply</a></li></ul></nav></details>' +
       '<!-- Course detail accordions (R16 R36) --><div class="accordion" style="margin-top:1.5rem">' + accordion + '</div>' +
       '<p class="wf-note" data-note="4"><span class="wf-note-label">Behaviour</span>On mobile, accordions keep a long course page scannable: the first section opens by default and the headings act as a contents list. The chips above jump straight to a section and open it. On desktop, a sticky “On this page” panel sits beside the content.</p>' +
 
@@ -763,6 +763,7 @@
     root.addEventListener('click', function (e) {
       var a = e.target.closest('a[href^="#"]');
       if (!a) return;
+      var dd = a.closest('details.toc-mobile'); if (dd) dd.open = false;
       var item = document.getElementById(a.getAttribute('href').slice(1));
       if (item && item.classList.contains('accordion-item') && !item.classList.contains('open')) {
         var t = $('.accordion-title', item);
@@ -961,11 +962,13 @@
     if (!root) return;
     var STEPS = ['type', 'find', 'you', 'review', 'card', 'done'];
     var LABELS = ['Payment', 'Find', 'Your details', 'Check', 'Pay'];
-    var st = session.get('cc-pay', {});
+    // Held in memory only: leaving the page clears everything the payer typed
+    var st = {};
     var pt = params().get('type');
-    if (pt && PAY_TYPES[pt] && !window.location.hash) { st = { type: pt }; session.set('cc-pay', st); }
+    if (pt && PAY_TYPES[pt]) { st = { type: pt }; }
+    if (window.location.hash && window.location.hash !== '#type') { try { window.history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) { /* sandboxed */ } }
 
-    function save() { session.set('cc-pay', st); }
+    function save() { /* in memory only */ }
     function stepIndex() { var h = (window.location.hash || '#type').slice(1); var i = STEPS.indexOf(h); return i < 0 ? 0 : i; }
     function go(name) { window.location.hash = name; }
     function stepper(i) {
@@ -1042,10 +1045,10 @@
       }
       if (name === 'card') {
         html = stepper(4) + '<h1 class="visually-hidden">Pay by card</h1>' +
-          '<div class="provider-frame"><div class="provider-bar"><span class="wf-placeholder logo" style="width:110px;height:28px">College logo</span><span>Secure payment &middot; hosted by the payment provider</span></div>' +
+          '<div class="provider-frame"><div class="provider-bar"><span class="wf-placeholder logo provider-logo" data-img="logo" role="img" aria-label="Chelmsford College">College logo</span><span>Secure payment &middot; hosted by the payment provider</span></div>' +
           '<p style="font-weight:700;font-size:1.25rem;margin-bottom:0.25rem">Pay ' + money(total()) + '</p><p class="muted">' + esc(T.label) + ' for ' + esc(st.learner) + '</p>' +
           (st.declined ? '<div class="notice error" role="alert"><strong>Your card was declined</strong>No money has been taken. Check your card details, or try another card.</div>' : '') +
-          '<div class="wallet-row"><div class="wf-placeholder">Apple Pay</div><div class="wf-placeholder">Google Pay</div></div>' +
+          '<div class="wallet-row"><button type="button" class="wallet-btn" data-wallet>Pay with Apple Pay</button><button type="button" class="wallet-btn" data-wallet>Pay with Google Pay</button></div>' +
           '<p class="muted" style="text-align:center">or pay by card</p>' +
           '<form data-step="card" novalidate><div class="field"><label for="c-num">Card number</label><input type="text" id="c-num" inputmode="numeric" autocomplete="cc-number" value="4444 3333 2222 1111"></div>' +
           '<div class="card-grid-2"><div class="field"><label for="c-exp">Expiry date</label><input type="text" id="c-exp" autocomplete="cc-exp" placeholder="MM / YY" value="09 / 29"></div><div class="field"><label for="c-cvc">Security code</label><input type="text" id="c-cvc" inputmode="numeric" autocomplete="cc-csc" value="123"></div></div>' +
@@ -1079,10 +1082,11 @@
       if (demo) demo.addEventListener('click', function () { $('#f-ref').value = PAY_TYPES[st.type].refEx; $('#f-dd').value = st.type === 'trip' ? '2' : '14'; $('#f-mm').value = st.type === 'trip' ? '7' : '3'; $('#f-yy').value = st.type === 'trip' ? '2009' : '2010'; });
       var dec = $('[data-decline]', root);
       if (dec) dec.addEventListener('click', function () { st.declined = true; save(); render(); });
+      $all('[data-wallet]', root).forEach(function (w) { w.addEventListener('click', function () { var f = $('form[data-step="card"]', root); if (f) f.requestSubmit ? f.requestSubmit() : f.dispatchEvent(new Event('submit', { cancelable: true })); }); });
       var pr = $('[data-print]', root);
       if (pr) pr.addEventListener('click', function () { window.print(); });
       var np = $('[data-new-payment]', root);
-      if (np) np.addEventListener('click', function () { session.del('cc-pay'); });
+      if (np) np.addEventListener('click', function () { st = {}; });
       if (!form) return;
       form.addEventListener('submit', function (ev) {
         ev.preventDefault();
@@ -1157,7 +1161,9 @@
         '<div class="row"><button type="button" class="btn btn-secondary" data-share>Share with a parent or carer</button></div></div>' +
         '<p class="field-hint" data-share-msg hidden></p>' +
         '<div class="card-grid cols-3">' + list.map(courseCard).join('') + '</div>' +
-        (cmp.length > 1 ? '<h2 style="margin-top:2.5rem">Compare</h2><div class="compare-wrap"><table class="compare"><caption class="visually-hidden">Comparison of saved courses</caption><thead><tr><td></td>' + cmp.map(function (c) { return '<th scope="col"><a href="course.html?id=' + c.id + '">' + esc(c.title) + '</a></th>'; }).join('') + '</tr></thead><tbody>' +
+        (cmp.length > 1 ? '<h2 style="margin-top:2.5rem">Compare</h2>' +
+          '<div class="compare-cards">' + cmp.map(function (c) { return '<section class="compare-card"><h3><a href="course.html?id=' + c.id + '">' + esc(c.title) + '</a></h3><dl>' + rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(typeof r[1] === 'function' ? r[1](c) : c[r[1]]) + '</dd></div>'; }).join('') + '</dl><a class="btn btn-apply btn-block" href="apply.html?id=' + c.id + '">Apply</a></section>'; }).join('') + '</div>' +
+          '<div class="compare-wrap"><table class="compare"><caption class="visually-hidden">Comparison of saved courses</caption><thead><tr><td></td>' + cmp.map(function (c) { return '<th scope="col"><a href="course.html?id=' + c.id + '">' + esc(c.title) + '</a></th>'; }).join('') + '</tr></thead><tbody>' +
           rows.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th>' + cmp.map(function (c) { return '<td>' + esc(typeof r[1] === 'function' ? r[1](c) : c[r[1]]) + '</td>'; }).join('') + '</tr>'; }).join('') +
           '<tr><th scope="row"></th>' + cmp.map(function (c) { return '<td><a class="btn btn-apply" href="apply.html?id=' + c.id + '">Apply</a></td>'; }).join('') + '</tr></tbody></table></div>' : '<p class="muted" style="margin-top:1.5rem">Save one more course to compare them side by side.</p>');
       bindSaveButtons(root);
@@ -1447,7 +1453,7 @@
     var root = $('[data-application]');
     if (!root) return;
     var c = courseById(params().get('id') || 374) || courseById(374);
-    var st = session.get('cc-app', {});
+    var st = {};
     var SLOTS = [['2026-11-10', ['4pm', '4.30pm', '5pm']], ['2026-11-12', ['10am', '2pm']], ['2026-11-17', ['4pm', '4.30pm']], ['2026-11-19', ['1pm', '1.30pm', '2pm']]];
     function render(focusSel) {
       var booked = st.slot;
@@ -1478,10 +1484,10 @@
         if (!s) { var er = $('[data-slot-err]', f); er.hidden = false; $('input[name="slot"]', f).focus(); return; }
         var parts = s.value.split('|');
         st.slot = { d: parts[0], t: parts[1], parent: $('#slot-parent').checked };
-        session.set('cc-app', st); render('#slot-done');
+        render('#slot-done');
       });
       var rb = $('[data-rebook]', root);
-      if (rb) rb.addEventListener('click', function () { st.slot = null; session.set('cc-app', st); render('#slot-title'); });
+      if (rb) rb.addEventListener('click', function () { st.slot = null; render('#slot-title'); });
       if (focusSel) { var el = $(focusSel, root); if (el) { if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1'); el.focus(); } }
     }
     render(null);
@@ -1548,7 +1554,27 @@
   }
   applyTheme();
 
+  /* --- Never keep what someone typed (V3.1) -------------------------------
+     Browsers restore form fields on Back/Forward and reload. On a shared
+     college or library computer that leaks one person's details to the next,
+     so every form starts empty. (Display settings and the shortlist are
+     preferences, not personal details, and are kept on purpose.) */
+  function resetForms() {
+    $all('form').forEach(function (f) {
+      if (f.hasAttribute('data-a11y') || f.id === 'results-form') return;
+      try { f.reset(); } catch (e) { /* ignore */ }
+    });
+  }
+  // Browsers put typed values back during load (after DOMContentLoaded), so
+  // clear again once the page is shown, and reload pages restored from cache.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) { window.location.reload(); return; }
+    resetForms();
+    window.setTimeout(resetForms, 0);
+  });
+
   document.addEventListener('DOMContentLoaded', function () {
+    resetForms();
     initThemeToggle();
     initHeader();
     initLevelLinks();

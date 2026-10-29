@@ -30,3 +30,4 @@ rm -rf docs && cp -r dist docs && touch docs/.nojekyll                  # refres
 - V2-04: the design layer is applied from the Chelmsford College design system, using the college's photography and logo.
 - V3-01: beyond-the-brief features: course matcher, subject pathways, employer hub, application tracker, display settings and the course question helper.
 - V3-02: the design system is provided as a PDF.
+- V3.1: hero contrast over the swoosh fixed; annotations no longer obscured; no sideways-scrolling rows on mobile; forms cleared between visits; leftover placeholders replaced.

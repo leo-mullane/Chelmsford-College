@@ -28,10 +28,6 @@
         </div>
       </div>
     </section>
-    <div class="container">
-      <p class="wf-note" data-note="N"><span class="wf-note-label">Navigation</span>Every top-level item opens a mega menu with second-tier links and one promoted card. Editors choose the card's image, text and link per menu, and can schedule it like the campaign hero. The Courses menu has audience tabs (hover, click or arrow keys) and a live search that returns courses, careers and subjects as you type, straight from the course data. On mobile the menus drill down inside the menu drawer, with a “Main menu” back link. Escape closes any menu and returns focus to its button.</p>
-      <p class="wf-note" data-note="1"><span class="wf-note-label">CMS</span>One campaign at a time, scheduled by marketing with start and end dates (for example Open Evening, then “Applications open”, then Results Day). There is no auto-rotating carousel: the current site rotates 13 slides, so only the first is ever seen, and auto-rotation fails WCAG 2.2.2 without a pause control. Up to three secondary messages sit as cards further down the page.</p>
-    </div>
 
     <!-- Course search (R11 R31 R32) -->
     <section class="home-search" aria-labelledby="search-title">
@@ -61,6 +57,8 @@
             <a href="~/pages/match.html">Not sure? Take the 1-minute quiz</a>
           </div>
         </div>
+        <p class="wf-note" data-note="N"><span class="wf-note-label">Navigation</span>Every top-level item opens a mega menu with second-tier links and one promoted card. Editors choose the card's image, text and link per menu, and can schedule it like the campaign hero. The Courses menu has audience tabs (hover, click or arrow keys) and a live search that returns courses, careers and subjects as you type, straight from the course data. On mobile the menus drill down inside the menu drawer, with a “Main menu” back link. Escape closes any menu and returns focus to its button.</p>
+        <p class="wf-note" data-note="1"><span class="wf-note-label">Campaign area (above)</span>One campaign at a time, scheduled by marketing with start and end dates (for example Open Evening, then “Applications open”, then Results Day). There is no auto-rotating carousel: the current site rotates 13 slides, so only the first is ever seen, and auto-rotation fails WCAG 2.2.2 without a pause control. Up to three secondary messages sit as cards further down the page.</p>
         <p class="wf-note" data-note="2"><span class="wf-note-label">Behaviour</span>Type two letters to see suggestions grouped as Careers, Subjects and Courses (try “nu” or “fash”). Use the arrow keys to move through them and Escape to close. “I want to be a&hellip;” switches to a career search, which matches jobs to courses using a career taxonomy seeded from each course's <code>C_EMPLOYABILITY</code> text. The quick routes filter by <em>who you are</em>, which is how families think, rather than by college department.</p>
       </div>
     </section>
@@ -136,19 +134,18 @@
       </div>
     </section>
 
-    <!-- Student story -->
+    <!-- Progression story (no invented testimonial; real student stories come from the college) -->
     <section class="band band-alt" aria-labelledby="story-title">
       <div class="container split">
         <div>
-          <span class="overline">Student story</span>
-          <h2 id="story-title">From Level 1 Carpentry to an apprenticeship</h2>
-          <div class="story">
-            <div class="wf-placeholder">Photo 1:1</div>
-            <blockquote>
-              <p>[Student quote, 1 to 2 sentences, supplied by the college: why they chose the course and where it has taken them.]</p>
-              <footer class="muted">[Student name], [course], [former school]</footer>
-            </blockquote>
+          <span class="overline">Your route</span>
+          <h2 id="story-title">Start where you are, then move up a level each year</h2>
+          <p class="lead">Not got the grades for Level 3 yet? Start at Level 1 or 2 in Carpentry and Joinery and build up to an apprenticeship, a Higher Technical Qualification or a job.</p>
+          <div class="row" style="margin-top:1.25rem">
+            <a class="btn" href="~/pages/subject.html?id=6">See the Construction route</a>
+            <a class="btn btn-secondary" href="~/pages/match.html">Find the right course for you</a>
           </div>
+          <p class="wf-note" data-note="5"><span class="wf-note-label">CMS</span>This band holds a real student story when the college supplies one: a photo, a short quote, the student's course and former school. We haven't invented one for the prototype.</p>
         </div>
         <div class="wf-placeholder ratio-4-3 story-img" data-img="carpentry" role="img" aria-label="A tutor shows a carpentry student how to use a hand tool">Image 4:3 &middot; student at work</div>
       </div>
@@ -182,7 +179,8 @@
     <div class="wf-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video player">
       <div class="wf-modal-panel">
         <button class="wf-modal-close" type="button" aria-label="Close video">&times;</button>
-        <div class="wf-placeholder ratio-16-9">Video player &middot; captions on by default</div>
+        <div class="wf-placeholder ratio-16-9 video-player" data-img="students" role="img" aria-label="Video player showing a day at Chelmsford College, with captions on">Video player &middot; captions on by default</div>
+        <p class="muted" style="margin:0.5rem 0 0">A day at Chelmsford College &middot; 2 minutes &middot; captions on</p>
         <p style="margin-top:1rem"><a href="#">Read the transcript</a></p>
       </div>
     </div>
