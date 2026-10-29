@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="courses">
+  <!-- @@include header.html -->
+
+  <main id="main" data-apply>
+    <div class="container">
+      <div class="pay-wrap">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="~/pages/home.html">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">Apply</li>
+          </ul>
+        </nav>
+        <h1>Apply to Chelmsford College</h1>
+        <p class="lead">It takes about 15 minutes. Your application saves as you go.</p>
+
+        <!-- Apply hand-off (R26 R52) -->
+        <div data-apply-course></div>
+
+        <h2 style="font-size:1.25rem">What you'll need</h2>
+        <ul class="fact-list">
+          <li>Your predicted or actual GCSE grades (if you have them)</li>
+          <li>Your school or last place of study</li>
+          <li>A parent or carer's contact details if you are under 18</li>
+        </ul>
+
+        <div data-apply-form>
+          <ol class="stepper" aria-label="Application progress">
+            <li data-n="1" aria-current="step"><span>About you</span></li>
+            <li data-n="2"><span>Education</span></li>
+            <li data-n="3"><span>Support</span></li>
+            <li data-n="4"><span>Submit</span></li>
+          </ol>
+          <form novalidate>
+            <div class="field"><label for="a-first">First name</label><input type="text" id="a-first" autocomplete="given-name"></div>
+            <div class="field"><label for="a-last">Last name</label><input type="text" id="a-last" autocomplete="family-name"></div>
+            <div class="field"><label for="a-email">Email address</label><input type="email" id="a-email" autocomplete="email"></div>
+            <div class="field"><label for="a-postcode">Postcode</label><input type="text" id="a-postcode" autocomplete="postal-code" style="max-width:10rem"></div>
+            <button class="btn btn-apply btn-lg" type="submit">Save and continue</button>
+          </form>
+        </div>
+
+        <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>The course and start date are carried through from the course page, so the learner never has to find it again. This is the measurable step for the college's main objective, conversion from course page to application. Every Apply click is tracked as an analytics event with the course id.</p>
+        <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span><code>C_APPTYPE</code> and <code>C_APPLYFORMTYPE</code> are empty in the demo data. Does Apply hand off to an existing application system (with the course code passed through), or should the new site host the form and write applications to SQL? Either works. Personal data would be encrypted at rest and retained in line with the college's data protection policy.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

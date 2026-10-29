@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find a course | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="courses" data-results>
+  <!-- @@include header.html -->
+
+  <main id="main">
+    <!-- Search bar (R11 R32) -->
+    <section class="page-head" aria-labelledby="results-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="~/pages/home.html">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">Find a course</li>
+          </ul>
+        </nav>
+        <h1 id="results-title">All courses</h1>
+        <div data-search-panel>
+          <div class="search-mode" role="group" aria-label="Search by">
+            <button type="button" data-mode="course" aria-pressed="true">Course or subject</button>
+            <button type="button" data-mode="career" aria-pressed="false">I want to be a&hellip;</button>
+          </div>
+          <form id="results-form" role="search">
+            <input type="hidden" name="mode" value="course">
+            <label for="results-q">Search by subject or course</label>
+            <div class="search-field">
+              <input type="search" id="results-q" name="q" autocomplete="off" aria-controls="results-suggest" aria-expanded="false" aria-autocomplete="list">
+              <button class="btn" type="submit">Search</button>
+              <ul class="suggest" id="results-suggest" hidden></ul>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results with filters (R13 R33) -->
+    <div class="container results-layout">
+      <div>
+        <button type="button" class="btn btn-secondary filters-toggle" id="filters-open" aria-controls="filters" aria-expanded="false">Filters <span data-filter-count></span></button>
+        <div class="filters" id="filters" role="region" aria-labelledby="filters-heading">
+          <div class="filters-head">
+            <h2 id="filters-heading">Filter courses</h2>
+            <button type="button" class="icon-btn filters-close" data-filters-close aria-label="Close filters">&times;</button>
+          </div>
+          <div id="filters-body"></div>
+          <div class="filters-foot">
+            <button type="button" class="btn btn-lg" data-filters-close data-show-count>Show courses</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="results-bar">
+          <p class="result-count" id="result-count" aria-live="off">0 courses</p>
+          <div class="row">
+            <label for="sort" class="visually-hidden">Sort by</label>
+            <select id="sort">
+              <option value="relevance">Sort: best match</option>
+              <option value="az">Sort: A to Z</option>
+              <option value="level">Sort: level, lowest first</option>
+            </select>
+          </div>
+        </div>
+        <div class="active-filters" id="active-filters"></div>
+        <div class="career-hint" id="career-hint" hidden></div>
+
+        <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>Filters apply instantly. The count next to each option shows how many courses you would get, and options that would give no results are disabled, so users never hit a dead end. Screen readers hear “24 courses found” after each change. On mobile the filters open in a full-screen drawer with a sticky “Show 12 courses” button. The URL updates, so a filtered search can be bookmarked or shared.</p>
+        <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>The brief asks to filter by <strong>study mode</strong> and <strong>campus</strong>. All 33 demo courses are full time and the data has no campus field, so campus is illustrative here and part-time and evening are disabled. Which tables hold these, and will apprenticeships and adult part-time courses come from the same source?</p>
+
+        <div id="results-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

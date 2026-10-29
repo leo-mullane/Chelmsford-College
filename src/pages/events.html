@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="events">
+  <!-- @@include header.html -->
+
+  <main id="main" data-events>
+    <section class="page-head">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="~/pages/home.html">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">Events</li>
+          </ul>
+        </nav>
+        <h1>Open events and taster days</h1>
+        <p class="lead">The best way to choose a college is to visit. All events are free.</p>
+      </div>
+    </section>
+
+    <!-- Event filters (R17 R40) -->
+    <div class="container">
+      <div class="event-filters">
+        <div>
+          <span class="overline" id="type-label">Event type</span>
+          <div class="chip-row" id="event-types" role="group" aria-labelledby="type-label"></div>
+        </div>
+        <div class="field" style="margin:0"><label for="event-audience">Who is it for?</label><select id="event-audience"></select></div>
+        <div class="field" style="margin:0"><label for="event-campus">Campus</label>
+          <select id="event-campus">
+            <option value="">All campuses</option>
+            <option>Moulsham Street</option>
+            <option>Princes Road</option>
+            <option>Online</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-bar">
+        <p class="result-count" id="event-count">0 events</p>
+        <div class="view-toggle" role="group" aria-label="View as">
+          <button type="button" data-view="list" aria-pressed="true">List</button>
+          <button type="button" data-view="calendar" aria-pressed="false">Calendar</button>
+        </div>
+      </div>
+      <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>Filter by type, audience and campus. The list is grouped by month, and the calendar view shows the same results by date. Past events drop off automatically. A link like <code>events.html?audience=parents</code> can be used in emails and on the parents' page.</p>
+      <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>The sample event details mentioned in the brief were not in the pack, so these are realistic placeholders. Please send the real events and confirm whether an events table exists today.</p>
+      <div id="event-results" style="padding-bottom:3rem"></div>
+    </div>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

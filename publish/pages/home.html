@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="home">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <!-- Global header (R03 R04 R05) -->
+  <header class="site-header">
+    <div class="audience-bar">
+      <div class="container">
+        <nav aria-label="Audience">
+          <ul>
+            <li><a href="#">Current students</a></li>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+            <li><a href="#">Jobs at the college</a></li>
+          </ul>
+        </nav>
+        <span>Call us: <a href="tel:01245265611">01245 265611</a></span>
+      </div>
+    </div>
+    <div class="masthead">
+      <div class="container masthead-inner">
+        <a class="logo-link" href="../pages/home.html" aria-label="Chelmsford College home"><span class="wf-placeholder logo">College logo</span></a>
+        <nav class="site-nav" id="site-nav" aria-label="Main">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="courses">Courses <span aria-hidden="true">&#9662;</span></a>
+              <div class="nav-flyout wide">
+                <div class="flyout-columns">
+                  <div class="flyout-column">
+                    <h5>Who are you?</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?age=16-18">School leavers (16&ndash;18)</a></li>
+                      <li><a href="../pages/courses.html?age=adult">Adults (19+)</a></li>
+                      <li><a href="../pages/courses.html?age=supported">Supported learning (INSPIRE)</a></li>
+                      <li><a href="#">Apprenticeships</a></li>
+                      <li><a href="#">T Levels</a></li>
+                      <li><a href="#">Higher education (HTQs)</a></li>
+                    </ul>
+                  </div>
+                  <div class="flyout-column">
+                    <h5>Popular subjects</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?subject=48">Creative Industries</a></li>
+                      <li><a href="../pages/courses.html?subject=6">Construction</a></li>
+                      <li><a href="../pages/courses.html?subject=12">Hair &amp; Beauty</a></li>
+                      <li><a href="../pages/courses.html?subject=5">Business</a></li>
+                      <li><a href="../pages/courses.html?subject=14">Catering</a></li>
+                      <li><a href="../pages/courses.html">All courses A&ndash;Z</a></li>
+                    </ul>
+                  </div>
+                  <div class="flyout-column">
+                    <h5>Help choosing</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?mode=career">Search by career</a></li>
+                      <li><a href="#" data-modal-open="level-modal">What do the levels mean?</a></li>
+                      <li><a href="../pages/events.html">Open events and taster days</a></li>
+                      <li><a href="../pages/apply.html">How to apply</a></li>
+                      <li><a href="#">Download the prospectus</a></li>
+                      <li><a href="#">Talk to a careers adviser</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="../pages/courses.html?age=adult" data-section="adults">Adults</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="apprenticeships">Apprenticeships</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="life">Life at college</a></li>
+            <li class="nav-item"><a class="nav-link" href="../pages/events.html" data-section="events">Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="about">About us</a></li>
+          </ul>
+          <ul class="mobile-audience" aria-label="Quick links">
+            <li><a href="../pages/shortlist.html">My shortlist</a></li>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+            <li><a href="#">Current students</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="tel:01245265611">Call 01245 265611</a></li>
+          </ul>
+        </nav>
+        <div class="masthead-actions">
+          <a class="icon-btn" href="../pages/courses.html" aria-label="Search courses"><span class="glyph glyph-search" aria-hidden="true"></span><span class="hide-sm">Search</span></a>
+          <a class="icon-btn hide-sm" href="../pages/shortlist.html">Shortlist <span class="shortlist-count" data-shortlist-count>0</span></a>
+          <a class="btn btn-apply" href="../pages/apply.html">Apply</a>
+          <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="glyph glyph-menu" aria-hidden="true"></span> Menu</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="flyout-backdrop" aria-hidden="true"></div>
+
+
+  <main id="main">
+
+    <!-- Campaign hero (R10 R30) -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-media"><div class="wf-placeholder">Campaign image 16:9 &middot; learners on campus</div></div>
+        <div class="hero-copy">
+          <span class="overline">Open Evening &middot; Tuesday 17 November, 5pm to 7.30pm</span>
+          <h1 id="hero-title">Find your future here</h1>
+          <p class="lead">Meet our tutors, try our workshops and apply on the night. Bring a parent or carer.</p>
+          <div class="row">
+            <a class="btn btn-apply btn-lg" href="../pages/event.html?id=ev1">Book your place</a>
+            <a class="btn btn-secondary btn-lg" href="../pages/events.html">See all events</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="container">
+      <p class="wf-note" data-note="1"><span class="wf-note-label">CMS</span>One campaign at a time, scheduled by marketing with start and end dates (for example Open Evening, then “Applications open”, then Results Day). There is no auto-rotating carousel: the current site rotates 13 slides, so only the first is ever seen, and auto-rotation fails WCAG 2.2.2 without a pause control. Up to three secondary messages sit as cards further down the page.</p>
+    </div>
+
+    <!-- Course search (R11 R31 R32) -->
+    <section class="home-search" aria-labelledby="search-title">
+      <div class="container">
+        <div class="search-panel" data-search-panel>
+          <h2 id="search-title">Find your course</h2>
+          <div class="search-mode" role="group" aria-label="Search by">
+            <button type="button" data-mode="course" aria-pressed="true">Course or subject</button>
+            <button type="button" data-mode="career" aria-pressed="false">I want to be a&hellip;</button>
+          </div>
+          <form action="~/pages/courses.html" method="get" role="search">
+            <input type="hidden" name="mode" value="course">
+            <label for="home-q">Search by subject or course</label>
+            <div class="search-field">
+              <input type="search" id="home-q" name="q" placeholder="e.g. fashion, plumbing, business" autocomplete="off" aria-controls="home-suggest" aria-expanded="false" aria-autocomplete="list">
+              <button class="btn" type="submit">Search</button>
+              <ul class="suggest" id="home-suggest" hidden></ul>
+            </div>
+          </form>
+          <div class="quick-routes" aria-label="Browse by who you are">
+            <a href="../pages/courses.html?age=16-18">I&rsquo;m 16&ndash;18</a>
+            <a href="../pages/courses.html?age=adult">I&rsquo;m an adult (19+)</a>
+            <a href="#">Apprenticeships</a>
+            <a href="../pages/courses.html?q=T+Level">T Levels</a>
+            <a href="../pages/courses.html?age=supported">Supported learning</a>
+            <a href="../pages/courses.html">All courses</a>
+          </div>
+        </div>
+        <p class="wf-note" data-note="2"><span class="wf-note-label">Behaviour</span>Type two letters to see suggestions grouped as Careers, Subjects and Courses (try “nu” or “fash”). Use the arrow keys to move through them and Escape to close. “I want to be a&hellip;” switches to a career search, which matches jobs to courses using a career taxonomy seeded from each course's <code>C_EMPLOYABILITY</code> text. The quick routes filter by <em>who you are</em>, which is how families think, rather than by college department.</p>
+      </div>
+    </section>
+
+    <!-- Audience routes (R04 R44) -->
+    <section class="band" aria-labelledby="routes-title">
+      <div class="container">
+        <h2 id="routes-title">Where do you want to start?</h2>
+        <div class="route-grid">
+          <a class="route-card" href="../pages/courses.html?age=16-18"><h3>Leaving school</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Full-time courses and T Levels for 16 to 18 year olds. Free tuition.</p></a>
+          <a class="route-card" href="../pages/courses.html?age=adult"><h3>Adults and career changers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Access to HE, part-time and evening courses, and funding for adults.</p></a>
+          <a class="route-card" href="#"><h3>Apprenticeships</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Earn a wage while you train with a local employer.</p></a>
+          <a class="route-card" href="../pages/parents.html"><h3>Parents and carers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Help your young person choose, apply and settle in.</p></a>
+          <a class="route-card" href="#"><h3>Employers</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Take on an apprentice, host a T Level placement or train your team.</p></a>
+          <a class="route-card" href="../pages/courses.html?age=supported"><h3>Supported learning</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>INSPIRE programmes for learners with special educational needs.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subject browse -->
+    <section class="band band-alt" aria-labelledby="subjects-title">
+      <div class="container">
+        <div class="section-head"><h2 id="subjects-title">Explore subjects</h2><a href="../pages/courses.html">All 18 subjects</a></div>
+        <div class="subject-grid">
+          <a class="subject-tile" href="../pages/courses.html?subject=48"><span class="wf-placeholder">Image &middot; Creative</span><span class="name">Creative Industries</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=6"><span class="wf-placeholder">Image &middot; Carpentry</span><span class="name">Construction</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=12"><span class="wf-placeholder">Image &middot; Hairdressing</span><span class="name">Hair &amp; Beauty</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=14"><span class="wf-placeholder">Image &middot; Catering</span><span class="name">Catering</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=5"><span class="wf-placeholder">Image &middot; Business</span><span class="name">Business and T Levels</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=15"><span class="wf-placeholder">Image &middot; Digital</span><span class="name">ICT &amp; Digital Skills</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=13"><span class="wf-placeholder">Image &middot; Care</span><span class="name">Health &amp; Social Care</span></a>
+          <a class="subject-tile" href="../pages/courses.html?subject=17"><span class="wf-placeholder">Image &middot; Uniformed</span><span class="name">Uniformed Services</span></a>
+        </div>
+        <p class="wf-note" data-note="3"><span class="wf-note-label">Data</span>Subjects come from <code>course_sections</code> (published rows only). Each subject has a CMS landing page for its image, video and student stories, plus a live list of its courses.</p>
+      </div>
+    </section>
+
+    <!-- Video and why Chelmsford (R12 R43) -->
+    <section class="band" aria-labelledby="why-title">
+      <div class="container split">
+        <div class="video">
+          <div class="wf-placeholder">Video 16:9 &middot; a day at Chelmsford College (poster image)</div>
+          <button class="play-btn" type="button" data-modal-open="video-modal" aria-label="Play video: a day at Chelmsford College (2 minutes, captioned)">Play</button>
+        </div>
+        <div>
+          <span class="overline">Why Chelmsford College</span>
+          <h2 id="why-title">Learn by doing, in the heart of Chelmsford</h2>
+          <ul class="fact-list">
+            <li>Industry-standard workshops, salons, kitchens and studios</li>
+            <li>Two campuses: Moulsham Street and Princes Road</li>
+            <li>Rated Good by Ofsted</li>
+            <li>Careers advice before, during and after your course</li>
+          </ul>
+          <a class="btn btn-secondary" href="#">Take a virtual tour</a>
+        </div>
+      </div>
+      <div class="container"><p class="wf-note" data-note="4"><span class="wf-note-label">Behaviour</span>The video never autoplays. Pressing Play opens a captioned player with a transcript link. Editors choose YouTube, Vimeo or a self-hosted file in the CMS.</p></div>
+    </section>
+
+    <!-- Featured courses -->
+    <section class="band band-alt" aria-labelledby="featured-title">
+      <div class="container">
+        <div class="section-head"><h2 id="featured-title">Popular courses for September</h2><a href="../pages/courses.html">Browse all courses</a></div>
+        <div class="card-grid cols-3" data-home-courses></div>
+      </div>
+    </section>
+
+    <!-- Upcoming events (R17) -->
+    <section class="band" aria-labelledby="events-title">
+      <div class="container">
+        <div class="section-head"><h2 id="events-title">Come and see us</h2><a href="../pages/events.html">All events</a></div>
+        <div class="card-grid cols-3" data-home-events></div>
+      </div>
+    </section>
+
+    <!-- Student story -->
+    <section class="band band-alt" aria-labelledby="story-title">
+      <div class="container split">
+        <div>
+          <span class="overline">Student story</span>
+          <h2 id="story-title">From Level 1 Carpentry to an apprenticeship</h2>
+          <div class="story">
+            <div class="wf-placeholder">Photo 1:1</div>
+            <blockquote>
+              <p>[Student quote, 1 to 2 sentences, supplied by the college: why they chose the course and where it has taken them.]</p>
+              <footer class="muted">[Student name], [course], [former school]</footer>
+            </blockquote>
+          </div>
+        </div>
+        <div class="wf-placeholder ratio-4-3">Image 4:3 &middot; student at work</div>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section class="band" aria-labelledby="news-title">
+      <div class="container">
+        <div class="section-head"><h2 id="news-title">News</h2><a href="#">All news</a></div>
+        <div class="card-grid cols-3">
+          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; award presentation</div><div class="body"><p class="muted">22 October 2026</p><h3><a href="#">Students celebrate end-of-year awards</a></h3></div></article>
+          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; catering</div><div class="body"><p class="muted">15 October 2026</p><h3><a href="#">Catering students cook for local business leaders</a></h3></div></article>
+          <article class="news-card"><div class="wf-placeholder">Image 3:2 &middot; T Levels</div><div class="body"><p class="muted">8 October 2026</p><h3><a href="#">T Level students start their industry placements</a></h3></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Employer band -->
+    <section class="band band-dark" aria-labelledby="employer-title">
+      <div class="container split">
+        <div>
+          <span class="overline">For employers</span>
+          <h2 id="employer-title">Grow your team with an apprentice</h2>
+          <p>We find the right candidate, handle the paperwork and support your apprentice from day one.</p>
+        </div>
+        <div class="row"><a class="btn btn-secondary btn-lg" href="#">Hire an apprentice</a><a class="btn btn-secondary btn-lg" href="#">Host a T Level placement</a></div>
+      </div>
+    </section>
+
+    <!-- Video modal -->
+    <div class="wf-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video player">
+      <div class="wf-modal-panel">
+        <button class="wf-modal-close" type="button" aria-label="Close video">&times;</button>
+        <div class="wf-placeholder ratio-16-9">Video player &middot; captions on by default</div>
+        <p style="margin-top:1rem"><a href="#">Read the transcript</a></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Level explainer modal (R39), available on every page -->
+  <div class="wf-modal" id="level-modal" role="dialog" aria-modal="true" aria-labelledby="level-modal-title">
+    <div class="wf-modal-panel">
+      <button class="wf-modal-close" type="button" aria-label="Close">&times;</button>
+      <h2 id="level-modal-title">What do the levels mean?</h2>
+      <p>Every qualification has a level. The higher the level, the more advanced it is. You can move up a level each year.</p>
+      <table class="level-table">
+        <thead><tr><th scope="col">Level</th><th scope="col">Roughly the same as</th></tr></thead>
+        <tbody>
+          <tr data-level="0"><td>Entry level and supported</td><td>Building skills and confidence before Level 1</td></tr>
+          <tr data-level="1"><td>Level 1</td><td>GCSEs at grades 3 to 1</td></tr>
+          <tr data-level="2"><td>Level 2</td><td>GCSEs at grades 9 to 4</td></tr>
+          <tr data-level="3"><td>Level 3</td><td>A Levels and T Levels: can lead to university</td></tr>
+          <tr data-level="4"><td>Level 4 and above</td><td>The first year of a degree (HTQs, HNCs)</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Not sure which level is right for you? Call our careers team on <a href="tel:01245293031">01245 293031</a>.</p>
+      <p class="wf-note" data-note="L"><span class="wf-note-label">Behaviour</span>Opened from any level tag. When opened from a course page, that course's level row is highlighted. Content is managed once in the CMS.</p>
+    </div>
+  </div>
+
+  <!-- Global footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-campuses">
+        <div>
+          <span class="wf-placeholder logo">College logo</span>
+          <p class="muted" style="margin-top:0.75rem">Main switchboard <a href="tel:01245265611">01245 265611</a><br>Careers advice <a href="tel:01245293031">01245 293031</a></p>
+        </div>
+        <address><strong>Moulsham Street campus</strong><br>Moulsham Street, Chelmsford<br><a href="#">Map and directions</a></address>
+        <address><strong>Princes Road campus</strong><br>Princes Road, Chelmsford<br><a href="#">Map and directions</a></address>
+      </div>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>Study with us</h4>
+          <ul>
+            <li><a href="../pages/courses.html">Find a course</a></li>
+            <li><a href="../pages/apply.html">How to apply</a></li>
+            <li><a href="../pages/events.html">Open events</a></li>
+            <li><a href="#">Prospectus</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>For you</h4>
+          <ul>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="#">Current students</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">SEND and learning support</a></li>
+            <li><a href="#">Financial support</a></li>
+            <li><a href="#">Travel to college</a></li>
+            <li><a href="#">Safeguarding</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">About the college</a></li>
+            <li><a href="#">Ofsted report</a></li>
+            <li><a href="#">Jobs at the college</a></li>
+            <li><a href="#">Policies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; Chelmsford College &middot; <a href="#">Accessibility statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Cookies</a></span>
+        <span>Greyscale prototype: structure and behaviour only, not the visual design</span>
+      </div>
+    </div>
+  </footer>
+  <div class="journey-host"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/wireframe.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<title>Chelmsford College prototype</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/theme.css">
+<script>document.body.classList.add('wf-notes-hidden');</script>
+<main id="main">
+    <div class="container" style="padding-top:2rem;padding-bottom:3rem">
+      <span class="wf-placeholder logo" style="margin-bottom:1rem">College logo</span>
+      <h1>Chelmsford College website: greyscale prototype</h1>
+      <p class="lead">A clickable, mobile-first prototype of the four pages in the demonstration brief (homepage, course page, events and payment journey), plus search, shortlist and parent journeys. Every course page is generated from the college's supplied course data.</p>
+      <p>This is deliberately greyscale. It's for agreeing structure, content and behaviour. The visual design (brand blue <strong>#007AC5</strong> and green <strong>#7BC242</strong>, typography and photography) is applied in the next stage from our design system.</p>
+
+      <div class="wf-hub-meta">
+        <span>Version 1</span>
+        <span>29 October 2026</span>
+        <span>Status: draft for internal review</span>
+        <span>Prepared by ClerksWell</span>
+      </div>
+
+      <h2 class="section-title">Demo journeys</h2>
+      <p>Each journey starts on the homepage and shows a guide bar at the bottom of the screen with the next step. Present journeys 1 and 2 on a phone (or a narrow window) first, then show the same pages in the <a href="./pages/viewer.html">responsive viewer</a>.</p>
+      <div class="card-grid">
+        <article class="journey">
+          <span class="overline">About 6 minutes &middot; mobile</span>
+          <h3>1. Maya, 16, finds a course and books the Open Evening</h3>
+          <ol>
+            <li>Homepage campaign and course search, then “I'm 16–18”</li>
+            <li>Search “fashion” and filter to Level 3</li>
+            <li>Course page from SQL: level explainer, fees checker, save</li>
+            <li>Shortlist: share with a parent, compare</li>
+            <li>Book the Open Evening for two and add it to the calendar</li>
+            <li>Apply, with the course carried through</li>
+          </ol>
+          <a class="btn" href="./pages/home.html?journey=1">Start journey 1</a>
+        </article>
+        <article class="journey">
+          <span class="overline">About 5 minutes &middot; mobile</span>
+          <h3>2. Sam, a parent, pays a course deposit</h3>
+          <ol>
+            <li>“Make a payment” from the menu or the audience bar</li>
+            <li>Course deposit, as a parent or carer</li>
+            <li>Find the payment by application reference and date of birth</li>
+            <li>Payer details, check, then the provider's hosted card page</li>
+            <li>Confirmation and receipt (plus a declined-card state)</li>
+          </ol>
+          <a class="btn" href="./pages/home.html?journey=2">Start journey 2</a>
+        </article>
+        <article class="journey">
+          <span class="overline">About 4 minutes &middot; desktop</span>
+          <h3>3. Dee, 34, changes career</h3>
+          <ol>
+            <li>“I want to be a&hellip;” career search: nurse</li>
+            <li>Access to HE Diploma: three start dates, online</li>
+            <li>Fee checker for 24+ explains the Advanced Learner Loan</li>
+            <li>Events filtered to adult learners, then book</li>
+          </ol>
+          <a class="btn" href="./pages/home.html?journey=3">Start journey 3</a>
+        </article>
+        <article class="journey">
+          <span class="overline">About 1 minute</span>
+          <h3>4. Josh, a current student, pays a trip fee</h3>
+          <ol>
+            <li>Deep link from a tutor's email straight to the trip payment</li>
+            <li>Student ID lookup lists the outstanding items</li>
+            <li>Choose what to pay and pay</li>
+          </ol>
+          <a class="btn" href="./pages/pay.html?type=trip&amp;journey=4">Start journey 4</a>
+        </article>
+      </div>
+
+      <h2 class="section-title" style="margin-top:3rem">Page templates</h2>
+      <ul class="wf-hub-list">
+        <li><a href="./pages/home.html">Homepage</a> <span class="wf-req">R10 R11 R12 R30 R31 R43 R44</span><p>Campaign hero, course search with “who are you” routes and career search, subjects, video, events, news.</p></li>
+        <li><a href="./pages/courses.html?q=fashion">Course search results</a> <span class="wf-req">R13 R33</span><p>Filter by who it's for, subject, level, study mode and campus, with live counts, a mobile drawer and shareable URLs.</p></li>
+        <li><a href="./pages/course.html?id=374">Course page (one template, 33 courses)</a> <span class="wf-req">R14 R15 R16 R35–R39</span><p>Rendered from Appendix 2: key facts, accordions, fee checker, sticky Apply on mobile. Turn on annotations to see the SQL column behind each element.</p></li>
+        <li><a href="./pages/events.html">Events listing</a> <span class="wf-req">R17 R40</span><p>Filter by type, audience and campus, in a list or calendar view.</p></li>
+        <li><a href="./pages/event.html?id=ev1">Single event and booking</a> <span class="wf-req">R18 R41</span><p>Date, time, location, description, booking with validation, confirmation and add to calendar. <a href="./pages/event.html?id=ev7">Fully booked example</a>.</p></li>
+        <li><a href="./pages/pay.html">Payment journey</a> <span class="wf-req">R19–R23 R42</span><p>Deposits, materials fees and trips. Students or parents and carers pay without an account, and the card is taken on the provider's hosted page.</p></li>
+        <li><a href="./pages/shortlist.html">Shortlist and compare</a> <span class="wf-req">R25</span><p>Save courses, compare up to 3, and share with a parent or carer.</p></li>
+        <li><a href="./pages/apply.html?id=374">Apply hand-off</a> <span class="wf-req">R26</span><p>The course is carried through from the course page. This is the conversion point the college measures.</p></li>
+        <li><a href="./pages/parents.html">Parents and carers hub</a> <span class="wf-req">R24</span><p>Page outline for a priority audience that is currently buried.</p></li>
+      </ul>
+
+      <h2 class="section-title" style="margin-top:3rem">Tools</h2>
+      <ul class="wf-hub-list">
+        <li><a href="./pages/viewer.html">Responsive viewer</a><p>Any page at mobile, tablet and desktop sizes, side by side, for the “mobile first, then scale up” part of the brief.</p></li>
+        <li><a href="./modules/library.html">Module library</a><p>Every reusable module, shown once.</p></li>
+      </ul>
+
+      <h2 class="section-title" style="margin-top:3rem">How to review this</h2>
+      <ul class="wf-hub-list">
+        <li><p><strong>Annotations are off by default.</strong> Use the “Show annotations” button at the bottom right of any page. Yellow notes explain behaviour, data and CMS controls; red notes are questions for the college. On course pages, annotations also label each element with its SQL column.</p></li>
+        <li><p>Search, filters, accordions, the fee checker, shortlist, event booking and the whole payment journey work. Links to pages outside the brief (news, apprenticeships, about us) go nowhere by design.</p></li>
+        <li><p>Course content is the college's own demo data. Events, payment references and student stories are realistic placeholders.</p></li>
+      </ul>
+
+      <h2 class="section-title" style="margin-top:3rem">Brief coverage</h2>
+      <table class="req-table">
+        <thead><tr><th scope="col">Demonstration brief asks for</th><th scope="col">Where to see it</th></tr></thead>
+        <tbody>
+          <tr><td>Logo and main navigation</td><td>Every page: audience bar, five sections, Search and Apply</td></tr>
+          <tr><td>Prominent course search, with filtered results</td><td><a href="./pages/home.html">Homepage</a>, <a href="./pages/courses.html">results</a></td></tr>
+          <tr><td>Area for key messages and campaigns</td><td>Homepage campaign hero</td></tr>
+          <tr><td>Areas for video and images</td><td>Homepage video module, subject tiles, image slots throughout</td></tr>
+          <tr><td>One course template from the SQL data</td><td><a href="./pages/course.html?id=374">Course page</a> (switch annotations on)</td></tr>
+          <tr><td>Course information easy to scan on mobile</td><td>Key facts, jump links, accordions, sticky Apply</td></tr>
+          <tr><td>Events listing with filters; single event with booking</td><td><a href="./pages/events.html">Events</a>, <a href="./pages/event.html?id=ev1">Open Evening</a></td></tr>
+          <tr><td>Deposits, materials, trips; students or parents; one complete journey</td><td><a href="./pages/pay.html">Payments</a>, journeys 2 and 4</td></tr>
+          <tr><td>Mobile first, then tablet and desktop</td><td><a href="./pages/viewer.html">Responsive viewer</a></td></tr>
+          <tr><td>WCAG 2.2 AA</td><td>Skip link, landmarks, 44px targets, focus states, no carousel, error summaries, live result counts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script src="./js/data.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/wireframe.js"></script>

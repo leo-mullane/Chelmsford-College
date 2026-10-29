@@ -1,0 +1,18 @@
+/* ==========================================================================
+   theme.css — the design layer, deliberately empty at wireframe stage.
+
+   Loaded last, after base.css and components.css. Nothing here during the
+   structure phase. When the project moves to design, brand colour, typography
+   and imagery treatment go in this file ONLY — so the design layer can be
+   applied, reviewed and reverted without touching a single page file or any
+   structural CSS.
+
+   When you do fill it in, prefer overriding the custom properties in :root
+   over rewriting component rules:
+
+     :root {
+       --wf-action: #e8590c;
+       --wf-text:   #1a1a1a;
+     }
+
+   ========================================================================== */

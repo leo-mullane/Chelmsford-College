@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="courses">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <!-- Global header (R03 R04 R05) -->
+  <header class="site-header">
+    <div class="audience-bar">
+      <div class="container">
+        <nav aria-label="Audience">
+          <ul>
+            <li><a href="#">Current students</a></li>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+            <li><a href="#">Jobs at the college</a></li>
+          </ul>
+        </nav>
+        <span>Call us: <a href="tel:01245265611">01245 265611</a></span>
+      </div>
+    </div>
+    <div class="masthead">
+      <div class="container masthead-inner">
+        <a class="logo-link" href="../pages/home.html" aria-label="Chelmsford College home"><span class="wf-placeholder logo">College logo</span></a>
+        <nav class="site-nav" id="site-nav" aria-label="Main">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="courses">Courses <span aria-hidden="true">&#9662;</span></a>
+              <div class="nav-flyout wide">
+                <div class="flyout-columns">
+                  <div class="flyout-column">
+                    <h5>Who are you?</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?age=16-18">School leavers (16&ndash;18)</a></li>
+                      <li><a href="../pages/courses.html?age=adult">Adults (19+)</a></li>
+                      <li><a href="../pages/courses.html?age=supported">Supported learning (INSPIRE)</a></li>
+                      <li><a href="#">Apprenticeships</a></li>
+                      <li><a href="#">T Levels</a></li>
+                      <li><a href="#">Higher education (HTQs)</a></li>
+                    </ul>
+                  </div>
+                  <div class="flyout-column">
+                    <h5>Popular subjects</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?subject=48">Creative Industries</a></li>
+                      <li><a href="../pages/courses.html?subject=6">Construction</a></li>
+                      <li><a href="../pages/courses.html?subject=12">Hair &amp; Beauty</a></li>
+                      <li><a href="../pages/courses.html?subject=5">Business</a></li>
+                      <li><a href="../pages/courses.html?subject=14">Catering</a></li>
+                      <li><a href="../pages/courses.html">All courses A&ndash;Z</a></li>
+                    </ul>
+                  </div>
+                  <div class="flyout-column">
+                    <h5>Help choosing</h5>
+                    <ul>
+                      <li><a href="../pages/courses.html?mode=career">Search by career</a></li>
+                      <li><a href="#" data-modal-open="level-modal">What do the levels mean?</a></li>
+                      <li><a href="../pages/events.html">Open events and taster days</a></li>
+                      <li><a href="../pages/apply.html">How to apply</a></li>
+                      <li><a href="#">Download the prospectus</a></li>
+                      <li><a href="#">Talk to a careers adviser</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="../pages/courses.html?age=adult" data-section="adults">Adults</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="apprenticeships">Apprenticeships</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="life">Life at college</a></li>
+            <li class="nav-item"><a class="nav-link" href="../pages/events.html" data-section="events">Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-section="about">About us</a></li>
+          </ul>
+          <ul class="mobile-audience" aria-label="Quick links">
+            <li><a href="../pages/shortlist.html">My shortlist</a></li>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+            <li><a href="#">Current students</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="tel:01245265611">Call 01245 265611</a></li>
+          </ul>
+        </nav>
+        <div class="masthead-actions">
+          <a class="icon-btn" href="../pages/courses.html" aria-label="Search courses"><span class="glyph glyph-search" aria-hidden="true"></span><span class="hide-sm">Search</span></a>
+          <a class="icon-btn hide-sm" href="../pages/shortlist.html">Shortlist <span class="shortlist-count" data-shortlist-count>0</span></a>
+          <a class="btn btn-apply" href="../pages/apply.html">Apply</a>
+          <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="glyph glyph-menu" aria-hidden="true"></span> Menu</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="flyout-backdrop" aria-hidden="true"></div>
+
+
+  <main id="main" data-apply>
+    <div class="container">
+      <div class="pay-wrap">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="../pages/home.html">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">Apply</li>
+          </ul>
+        </nav>
+        <h1>Apply to Chelmsford College</h1>
+        <p class="lead">It takes about 15 minutes. Your application saves as you go.</p>
+
+        <!-- Apply hand-off (R26 R52) -->
+        <div data-apply-course></div>
+
+        <h2 style="font-size:1.25rem">What you'll need</h2>
+        <ul class="fact-list">
+          <li>Your predicted or actual GCSE grades (if you have them)</li>
+          <li>Your school or last place of study</li>
+          <li>A parent or carer's contact details if you are under 18</li>
+        </ul>
+
+        <div data-apply-form>
+          <ol class="stepper" aria-label="Application progress">
+            <li data-n="1" aria-current="step"><span>About you</span></li>
+            <li data-n="2"><span>Education</span></li>
+            <li data-n="3"><span>Support</span></li>
+            <li data-n="4"><span>Submit</span></li>
+          </ol>
+          <form novalidate>
+            <div class="field"><label for="a-first">First name</label><input type="text" id="a-first" autocomplete="given-name"></div>
+            <div class="field"><label for="a-last">Last name</label><input type="text" id="a-last" autocomplete="family-name"></div>
+            <div class="field"><label for="a-email">Email address</label><input type="email" id="a-email" autocomplete="email"></div>
+            <div class="field"><label for="a-postcode">Postcode</label><input type="text" id="a-postcode" autocomplete="postal-code" style="max-width:10rem"></div>
+            <button class="btn btn-apply btn-lg" type="submit">Save and continue</button>
+          </form>
+        </div>
+
+        <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>The course and start date are carried through from the course page, so the learner never has to find it again. This is the measurable step for the college's main objective, conversion from course page to application. Every Apply click is tracked as an analytics event with the course id.</p>
+        <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span><code>C_APPTYPE</code> and <code>C_APPLYFORMTYPE</code> are empty in the demo data. Does Apply hand off to an existing application system (with the course code passed through), or should the new site host the form and write applications to SQL? Either works. Personal data would be encrypted at rest and retained in line with the college's data protection policy.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Level explainer modal (R39), available on every page -->
+  <div class="wf-modal" id="level-modal" role="dialog" aria-modal="true" aria-labelledby="level-modal-title">
+    <div class="wf-modal-panel">
+      <button class="wf-modal-close" type="button" aria-label="Close">&times;</button>
+      <h2 id="level-modal-title">What do the levels mean?</h2>
+      <p>Every qualification has a level. The higher the level, the more advanced it is. You can move up a level each year.</p>
+      <table class="level-table">
+        <thead><tr><th scope="col">Level</th><th scope="col">Roughly the same as</th></tr></thead>
+        <tbody>
+          <tr data-level="0"><td>Entry level and supported</td><td>Building skills and confidence before Level 1</td></tr>
+          <tr data-level="1"><td>Level 1</td><td>GCSEs at grades 3 to 1</td></tr>
+          <tr data-level="2"><td>Level 2</td><td>GCSEs at grades 9 to 4</td></tr>
+          <tr data-level="3"><td>Level 3</td><td>A Levels and T Levels: can lead to university</td></tr>
+          <tr data-level="4"><td>Level 4 and above</td><td>The first year of a degree (HTQs, HNCs)</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Not sure which level is right for you? Call our careers team on <a href="tel:01245293031">01245 293031</a>.</p>
+      <p class="wf-note" data-note="L"><span class="wf-note-label">Behaviour</span>Opened from any level tag. When opened from a course page, that course's level row is highlighted. Content is managed once in the CMS.</p>
+    </div>
+  </div>
+
+  <!-- Global footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-campuses">
+        <div>
+          <span class="wf-placeholder logo">College logo</span>
+          <p class="muted" style="margin-top:0.75rem">Main switchboard <a href="tel:01245265611">01245 265611</a><br>Careers advice <a href="tel:01245293031">01245 293031</a></p>
+        </div>
+        <address><strong>Moulsham Street campus</strong><br>Moulsham Street, Chelmsford<br><a href="#">Map and directions</a></address>
+        <address><strong>Princes Road campus</strong><br>Princes Road, Chelmsford<br><a href="#">Map and directions</a></address>
+      </div>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>Study with us</h4>
+          <ul>
+            <li><a href="../pages/courses.html">Find a course</a></li>
+            <li><a href="../pages/apply.html">How to apply</a></li>
+            <li><a href="../pages/events.html">Open events</a></li>
+            <li><a href="#">Prospectus</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>For you</h4>
+          <ul>
+            <li><a href="../pages/parents.html">Parents and carers</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="#">Current students</a></li>
+            <li><a href="../pages/pay.html">Make a payment</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">SEND and learning support</a></li>
+            <li><a href="#">Financial support</a></li>
+            <li><a href="#">Travel to college</a></li>
+            <li><a href="#">Safeguarding</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">About the college</a></li>
+            <li><a href="#">Ofsted report</a></li>
+            <li><a href="#">Jobs at the college</a></li>
+            <li><a href="#">Policies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; Chelmsford College &middot; <a href="#">Accessibility statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Cookies</a></span>
+        <span>Greyscale prototype: structure and behaviour only, not the visual design</span>
+      </div>
+    </div>
+  </footer>
+  <div class="journey-host"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/wireframe.js"></script>
+</body>
+</html>

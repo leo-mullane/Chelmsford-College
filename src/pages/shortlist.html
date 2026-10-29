@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My shortlist | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden" data-section="courses">
+  <!-- @@include header.html -->
+
+  <main id="main">
+    <section class="page-head">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="~/pages/home.html">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">My shortlist</li>
+          </ul>
+        </nav>
+        <h1>My shortlist</h1>
+        <p class="lead">Save courses as you browse, compare them, and share the list with a parent or carer. No account needed.</p>
+      </div>
+    </section>
+    <!-- Shortlist and compare (R25) -->
+    <div class="container" style="padding:1.5rem 1rem 3rem">
+      <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>The shortlist is stored on the device, with no login and no personal data. “Share” creates a link like <code>shortlist.html?ids=374,482</code> that opens the same list on a parent's phone. If the learner books an event, the shortlist travels with the booking so tutors know what they are interested in.</p>
+      <div data-shortlist></div>
+    </div>
+  </main>
+
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

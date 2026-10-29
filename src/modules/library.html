@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module library | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden">
+  <main id="main">
+    <div class="container" style="padding-top:1.5rem;padding-bottom:3rem">
+      <p><a href="~/index.html">&larr; Back to the prototype contents</a></p>
+      <h1>Module library</h1>
+      <p class="lead">Every reusable module, shown once. Pages are built from these, and in the CMS most become blocks that editors can add, reorder and hide.</p>
+
+      <h2 class="section-title">Campaign hero (R30)</h2>
+      <p>One CMS-scheduled campaign with an image, headline, one sentence and one primary action. <a href="~/pages/home.html">See it on the homepage</a>.</p>
+
+      <h2 class="section-title">Course search (R11 R31 R32)</h2>
+      <div class="search-panel" data-search-panel>
+        <h3>Find your course</h3>
+        <div class="search-mode" role="group" aria-label="Search by">
+          <button type="button" data-mode="course" aria-pressed="true">Course or subject</button>
+          <button type="button" data-mode="career" aria-pressed="false">I want to be a&hellip;</button>
+        </div>
+        <form action="~/pages/courses.html" method="get" role="search">
+          <input type="hidden" name="mode" value="course">
+          <label for="lib-q">Search by subject or course</label>
+          <div class="search-field">
+            <input type="search" id="lib-q" name="q" autocomplete="off" aria-controls="lib-suggest" aria-expanded="false">
+            <button class="btn" type="submit">Search</button>
+            <ul class="suggest" id="lib-suggest" hidden></ul>
+          </div>
+        </form>
+      </div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Audience route card (R44)</h2>
+      <div class="route-grid"><a class="route-card" href="#"><h3>Leaving school</h3><span class="arrow" aria-hidden="true">&rarr;</span><p>Full-time courses and T Levels for 16 to 18 year olds.</p></a></div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Course card (R34) and tags</h2>
+      <div class="card-grid cols-3" data-home-courses></div>
+      <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>The whole card is one link, so there is one tab stop. The Save button sits above the link layer. Titles are never truncated.</p>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Event card (R40)</h2>
+      <div class="card-grid cols-3" data-home-events></div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Key facts (R35)</h2>
+      <dl class="key-facts">
+        <div><dt>Level</dt><dd>Level 3</dd></div><div><dt>Starts</dt><dd>September 2026</dd></div><div><dt>Duration</dt><dd>2 years</dd></div>
+        <div><dt>Study mode</dt><dd>Full time</dd></div><div><dt>Campus</dt><dd>Moulsham Street</dd></div><div><dt>Fees</dt><dd>£150</dd></div>
+      </dl>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Accordion (R36)</h2>
+      <div class="accordion">
+        <div class="accordion-item open"><button class="accordion-title" type="button">What you'll learn<span class="accordion-icon" aria-hidden="true">&#9662;</span></button><div class="accordion-content"><p>Accordion content: the course's <code>C_STUDYOVERVIEW</code> field.</p></div></div>
+        <div class="accordion-item"><button class="accordion-title" type="button">Entry requirements<span class="accordion-icon" aria-hidden="true">&#9662;</span></button><div class="accordion-content"><p>4 GCSEs at grades 9 to 4, including English or Maths.</p></div></div>
+      </div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Level explainer (R39)</h2>
+      <p><button type="button" class="tag tag-solid" data-modal-open="level-modal" data-level="3" aria-label="Level 3: what does this level mean?">Level 3</button> Level tags open the explainer.</p>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Filter chips and active filters (R33)</h2>
+      <div class="active-filters"><button type="button" class="chip" aria-pressed="true">Level 3 <span class="x" aria-hidden="true">&times;</span></button><button type="button" class="chip">School leavers <span class="x" aria-hidden="true">&times;</span></button><button type="button" class="btn-link">Clear all</button></div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Payment stepper and option cards (R42)</h2>
+      <ol class="stepper" aria-label="Payment progress"><li data-n="1" class="done"><span>Payment</span></li><li data-n="2" aria-current="step"><span>Find</span></li><li data-n="3"><span>Your details</span></li><li data-n="4"><span>Check</span></li><li data-n="5"><span>Pay</span></li></ol>
+      <div class="option-cards">
+        <label class="option-card"><input type="radio" name="lib-pay" checked><strong>Course deposit</strong><span class="desc">Secure your place on a course before you enrol</span></label>
+        <label class="option-card"><input type="radio" name="lib-pay"><strong>Materials fee</strong><span class="desc">Kit, equipment and materials, paid after you enrol</span></label>
+      </div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Notice and error summary</h2>
+      <div class="notice"><strong>Applications for September 2027 are open</strong>Apply early to secure your interview date.</div>
+      <div class="error-summary"><h2>There is a problem</h2><ul><li><a href="#">Enter your email address</a></li></ul></div>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Mobile sticky Apply bar (R38)</h2>
+      <p>Appears on course pages on mobile once the hero's Apply button scrolls out of view. <a href="~/pages/course.html?id=374">See it on a course page</a> (narrow your window).</p>
+
+      <h2 class="section-title" style="margin-top:2.5rem">Video (R43)</h2>
+      <div class="video" style="max-width:560px"><div class="wf-placeholder">Video 16:9 &middot; poster image</div><button class="play-btn" type="button" aria-label="Play video">Play</button></div>
+    </div>
+  </main>
+  <!-- @@include footer.html -->
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive viewer | Chelmsford College prototype</title>
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/components.css">
+  <link rel="stylesheet" href="~/css/theme.css">
+</head>
+<body class="wf-notes-hidden">
+  <main id="main" data-viewer>
+    <div class="container" style="max-width:none">
+      <p style="padding-top:1rem"><a href="~/index.html">&larr; Back to the prototype contents</a></p>
+      <h1>Mobile first, then tablet and desktop</h1>
+      <p>The brief asks to see each page on mobile first, then scaled up. Pick a page to see it at three sizes side by side. Each frame is the live page, so you can click and scroll in it.</p>
+      <div class="viewer-controls">
+        <div class="field">
+          <label for="viewer-page">Page</label>
+          <select id="viewer-page">
+            <option value="home.html">Homepage</option>
+            <option value="courses.html?q=fashion">Search results: “fashion”</option>
+            <option value="course.html?id=374">Course page: Fashion Design, Level 3</option>
+            <option value="events.html">Events listing</option>
+            <option value="event.html?id=ev1">Single event: Open Evening</option>
+            <option value="pay.html">Payment journey</option>
+          </select>
+        </div>
+      </div>
+      <div class="viewer" id="viewer-devices"></div>
+    </div>
+  </main>
+  <script src="~/js/data.js"></script>
+  <script src="~/js/app.js"></script>
+  <script src="~/js/wireframe.js"></script>
+</body>
+</html>
