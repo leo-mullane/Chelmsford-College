@@ -72,7 +72,8 @@
         <div class="career-hint" id="career-hint" hidden></div>
 
         <p class="wf-note" data-note="1"><span class="wf-note-label">Behaviour</span>Filters apply instantly. The count next to each option shows how many courses you would get, and options that would give no results are disabled, so users never hit a dead end. Screen readers hear “24 courses found” after each change. On mobile the filters open in a full-screen drawer with a sticky “Show 12 courses” button. The URL updates, so a filtered search can be bookmarked or shared.</p>
-        <p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>The brief asks to filter by <strong>study mode</strong> and <strong>campus</strong>. All 33 demo courses are full time and the data has no campus field, so campus is illustrative here and part-time and evening are disabled. Which tables hold these, and will apprenticeships and adult part-time courses come from the same source?</p>
+        <p class="wf-note" data-note="2"><span class="wf-note-label">Data</span>The college has confirmed that the old campus and level fields (<code>C_LEVEL</code>) are legacy and no longer hold data. Level comes from <code>course_level_link</code>, as it does here. Campus has no source today, so we propose a campus tag that admissions set against each course in the CMS. Campus here is illustrative, but it matches where the Showcase Open Evening places each subject.</p>
+        <p class="wf-note query" data-note="3"><span class="wf-note-label">Open question</span>All 33 demo courses are full time, so part-time and evening are disabled here. Will apprenticeships and adult part-time courses come from the same <code>courses</code> table?</p>
 
         <div id="results-list"></div>
       </div>

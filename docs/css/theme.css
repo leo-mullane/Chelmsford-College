@@ -496,3 +496,9 @@ html.a11y-contrast a:not(.btn) { text-decoration: underline; }
 .search-result h2 a:hover { text-decoration: underline; color: var(--blue-700); }
 .search-result .overline { color: var(--blue-700); }
 .search-help { border-radius: var(--radius-lg); }
+
+/* Event presentations (V3.3) */
+.event-arrival { border-left-color: var(--green); background: var(--green-100); }
+.pres-item { border-color: var(--border); border-radius: var(--radius-lg); background: #fff; }
+.pres-item h3 { color: var(--blue-900); }
+.pres-item dt { color: var(--blue-700); }

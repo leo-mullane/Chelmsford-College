@@ -83,11 +83,23 @@
   function fmtDate(iso) { var d = new Date(iso + 'T12:00:00'); return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
   function money(n) { return '£' + Number(n).toFixed(2); }
 
-  /* --- Events (sample content: the brief's sample events were not in the pack) */
+  /* --- Events. ev1 is the college's own sample event (Showcase Open Evening); the others are illustrative, to show filtering */
   var EVENTS = [
-    { id: 'ev1', title: 'Open Evening: explore courses and campuses', type: 'Open event', date: '2026-11-17', start: '5pm', end: '7.30pm', startH: '170000', endH: '193000', campus: 'Both campuses', location: 'Moulsham Street and Princes Road, Chelmsford', audience: ['16-18', 'parents', 'adult'], subjects: [], status: 'few',
-      summary: 'Meet our tutors, tour the workshops and salons, and get help with your application on the night.',
-      agenda: ['5pm: Welcome talk from the Principal (repeated at 6pm)', 'Subject zones: talk to tutors and see student work', 'Free shuttle bus between campuses every 15 minutes', 'Apply on the night with our admissions team', 'Finance, travel and learning support advice stand'] },
+    { id: 'ev1', title: 'Showcase Open Evening', type: 'Open event', date: '2027-03-10', start: '6pm', end: '8.30pm', startH: '180000', endH: '203000', campus: 'Both campuses', location: 'Moulsham Street and Princes Road campuses, Chelmsford', audience: ['16-18', 'parents', 'adult', 'supported'], subjects: [], status: 'few', sample: true,
+      summary: 'The Showcase event is an excellent opportunity to see what Chelmsford College is like. Visit the various departments, check out the campus and talk to the tutors who could be working with you next year.',
+      agenda: ['Visit as many departments as you’re interested in and talk to the tutors', 'Tour our recently refurbished leisure centre', 'Talk to staff about careers, SEND support and student support, including travel and finance', 'Drop in to subject presentations at either campus (times below)'],
+      arrival: 'Your booked time is the time you can arrive at the building. You can stay as long as you like and visit as many departments as you’re interested in.',
+      slots: ['6pm', '6.30pm', '7pm', '7.30pm', '8pm'],
+      presentations: [
+        { t: 'Apprenticeships', ms: '6.30pm, 7pm and 7.30pm', pr: '6.30pm, 7pm and 7.30pm' },
+        { t: 'Electrical', pr: '6.15pm, 6.45pm, 7.15pm and 7.45pm' },
+        { t: 'Football Academy', ms: '6.30pm (Boys Academy), 7pm (Girls Academy)' },
+        { t: 'Higher Qualifications', ms: '7pm', pr: '7pm' },
+        { t: 'Performing Arts', ms: '6.45pm, 7.15pm and 7.45pm' },
+        { t: 'SEND Support', d: 'Transition to college, and stakeholders and inclusion partners', ms: '6.15pm, 6.45pm, 7.15pm and 7.45pm', pr: '6.15pm, 6.45pm, 7.15pm and 7.45pm' },
+        { t: 'T Levels', ms: 'All other T Levels: 6.30pm, 6.45pm, 7pm and 7.15pm', pr: 'Construction and Engineering T Levels: 6.30pm and 7.30pm' },
+        { t: 'Uniformed Services', pr: '6.15pm, 6.45pm, 7.15pm and 7.45pm' }
+      ] },
     { id: 'ev2', title: 'Parents’ and carers’ information evening', type: 'Information session', date: '2026-11-26', start: '6pm', end: '7pm', startH: '180000', endH: '190000', campus: 'Online', location: 'Online (Microsoft Teams link sent when you book)', audience: ['parents'], subjects: [], status: 'available',
       summary: 'How college differs from school, how we keep learners safe, bursaries and travel, and how you can support your young person’s application.',
       agenda: ['College life and the student timetable', 'Safeguarding and wellbeing', 'Bursaries, free meals and travel support', 'Live Q&A'] },
@@ -100,9 +112,9 @@
     { id: 'ev5', title: 'Employer breakfast: apprenticeships and T Level placements', type: 'Employer event', date: '2026-12-10', start: '8am', end: '9.30am', startH: '080000', endH: '093000', campus: 'Princes Road', location: 'Princes Road campus, Chelmsford', audience: ['employer'], subjects: [], status: 'available',
       summary: 'How to take on an apprentice or host a T Level industry placement, with funding explained by our employer team.',
       agenda: ['Apprenticeship funding and levy transfer', 'Hosting a 45-day T Level placement', 'Networking breakfast'] },
-    { id: 'ev6', title: 'Open Evening: January', type: 'Open event', date: '2027-01-20', start: '5pm', end: '7.30pm', startH: '170000', endH: '193000', campus: 'Both campuses', location: 'Moulsham Street and Princes Road, Chelmsford', audience: ['16-18', 'parents', 'adult'], subjects: [], status: 'available',
-      summary: 'Our second Open Evening of the year: see the facilities, meet tutors and apply on the night.',
-      agenda: ['Welcome talks at 5pm and 6pm', 'Subject zones and facility tours', 'Apply on the night'] },
+    { id: 'ev6', title: 'January Open Evening', type: 'Open event', date: '2027-01-20', start: '6pm', end: '8.30pm', startH: '180000', endH: '203000', campus: 'Both campuses', location: 'Moulsham Street and Princes Road, Chelmsford', audience: ['16-18', 'parents', 'adult'], subjects: [], status: 'available',
+      summary: 'Another chance to visit the departments, see the campus and talk to the tutors who could be working with you next year.',
+      agenda: ['Visit the departments and talk to the tutors', 'Tour the campus and facilities', 'Talk to staff about careers, SEND support and student support'] },
     { id: 'ev7', title: 'Construction and engineering taster day', type: 'Taster day', date: '2027-01-30', start: '10am', end: '1pm', startH: '100000', endH: '130000', campus: 'Princes Road', location: 'Princes Road campus, Chelmsford', audience: ['16-18'], subjects: [6, 8, 9], status: 'full',
       summary: 'Have a go at carpentry, plumbing, electrical installation and engineering in our workshops.',
       agenda: ['Two practical workshop sessions', 'Meet the Institute of Technology team', 'Talk to current apprentices'] },
@@ -1008,7 +1020,7 @@
       '</div></section>' +
 
       '<div class="container"><p class="wf-note" data-note="1"><span class="wf-note-label">Data</span>Everything on this page is rendered from the supplied course data (Appendix 2). The orange labels show the SQL column behind each element. One template renders all ' + COURSES.length + ' courses: try <a href="course.html?id=527">Access to HE</a> or <a href="course.html?id=540">Carpentry and Joinery</a>. Empty fields hide themselves, so a course never shows “NULL”.</p>' +
-      '<p class="wf-note" data-note="2"><span class="wf-note-label">Build</span>In production, an Umbraco sync job reads <code>courses</code>, <code>course_sections</code>, <code>course_level_link</code> and <code>course_fund_link</code> every 15 minutes (or on a webhook from the college\'s course database) and caches them. Marketing adds images, video and testimonials in the CMS around the data. The data itself stays mastered in the college\'s systems.</p></div>' +
+      '<p class="wf-note" data-note="2"><span class="wf-note-label">Build</span>In production, a sync job in the CMS reads <code>courses</code>, <code>course_sections</code>, <code>course_level_link</code> and <code>course_fund_link</code> every 15 minutes and caches them, so pages stay fast if the database is busy. The college is happy to agree the connection method with us: read-only database views, an API or a scheduled export all work with the same job. Job adverts and newsletters are in the same SQL database, so they use the same approach. Everything runs on the college\'s own servers. Marketing adds images, video and testimonials in the CMS around the data, which stays mastered in the college\'s systems.</p></div>' +
 
       '<div class="container course-layout"><div>' +
       '<!-- Key facts (R35) --><h2 class="visually-hidden">Key facts</h2><dl class="key-facts">' +
@@ -1019,7 +1031,7 @@
       '<div><dt>Campus</dt><dd data-field="(not in data: illustrative)">' + esc(c.campus) + '</dd></div>' +
       '<div><dt>Fees</dt><dd data-field="C_FEES">' + esc(feeLine.length > 60 ? (funded ? 'Free for 16–18' : 'See fees and funding') : feeLine) + '</dd></div>' +
       '</dl>' +
-      '<p class="wf-note query" data-note="3"><span class="wf-note-label">Open question</span>Campus is not in the supplied <code>courses</code> table, so it is illustrative here. Which table holds campus, and will part-time and evening courses be in the same table (all 33 demo courses are <code>FT</code>)?</p>' +
+      '<p class="wf-note" data-note="3"><span class="wf-note-label">Data</span>Campus and <code>C_LEVEL</code> are legacy fields with no data (confirmed by the college). Level comes from <code>course_level_link</code>. Campus would be a tag set in the CMS against each course, so it is illustrative here.</p>' +
       '<details class="toc-mobile"><summary>On this page</summary><nav aria-label="On this page"><ul>' + sections.map(function (s) { return '<li><a href="#' + s.id + '">' + s.title + '</a></li>'; }).join('') + '<li><a href="#helper-title">Ask about this course</a></li><li><a href="#how-to-apply">How to apply</a></li></ul></nav></details>' +
       '<!-- Course detail accordions (R16 R36) --><div class="accordion" style="margin-top:1.5rem">' + accordion + '</div>' +
       '<p class="wf-note" data-note="4"><span class="wf-note-label">Behaviour</span>On mobile, accordions keep a long course page scannable: the first section opens by default and the headings act as a contents list. The chips above jump straight to a section and open it. On desktop, a sticky “On this page” panel sits beside the content.</p>' +
@@ -1164,10 +1176,17 @@
   }
 
   /* --- Single event + booking (R18 R41) --------------------------------- */
-  function icsFor(e) {
+  /* '6.30pm' -> '183000' */
+  function hhmmss(t) {
+    var m = /^(\d{1,2})(?:\.(\d{2}))?(am|pm)$/.exec(t); if (!m) return null;
+    var h = Number(m[1]) % 12 + (m[3] === 'pm' ? 12 : 0);
+    return (h < 10 ? '0' : '') + h + (m[2] || '00') + '00';
+  }
+  function icsFor(e, slot) {
     var d = e.date.replace(/-/g, '');
+    var startH = (slot && hhmmss(slot)) || e.startH;
     var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Chelmsford College//Prototype//EN', 'BEGIN:VEVENT',
-      'UID:' + e.id + '@chelmsford-prototype', 'DTSTAMP:20261029T120000Z', 'DTSTART;TZID=Europe/London:' + d + 'T' + e.startH,
+      'UID:' + e.id + '@chelmsford-prototype', 'DTSTAMP:20261030T120000Z', 'DTSTART;TZID=Europe/London:' + d + 'T' + startH,
       'DTEND;TZID=Europe/London:' + d + 'T' + e.endH, 'SUMMARY:' + e.title + ' (Chelmsford College)', 'LOCATION:' + e.location.replace(/,/g, '\\,'), 'END:VEVENT', 'END:VCALENDAR'];
     return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines.join('\r\n'));
   }
@@ -1193,13 +1212,47 @@
       '<div><dt>Places</dt><dd>' + statusTag(e.status) + '</dd></div></dl>' +
       '<p><a class="btn btn-secondary" href="' + icsFor(e) + '" download="chelmsford-college-' + e.id + '.ics">Add to calendar</a></p>' +
       '<h2>What to expect</h2><ul class="fact-list">' + e.agenda.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>' +
-      (e.campus !== 'Online' ? '<h2>Getting here</h2><div class="wf-placeholder map-ph">Map embed &middot; ' + esc(e.campus) + '</div><p class="muted" style="margin-top:0.5rem">Free parking on the evening. Step-free access to all areas. <a href="#">Accessibility information</a>.</p>' : '') +
-      '<p class="wf-note" data-note="1"><span class="wf-note-label">CMS</span>Events are a CMS content type: title, type, date and time, campus, audience, linked subjects, capacity and description. Capacity drives the “Few places left” and “Fully booked” states automatically. Past events drop off the listing.</p>' +
-      '<p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>The sample event details were not in the tender pack, so these events are placeholders. Do bookings need to go into a CRM (e.g. Dynamics, Salesforce) or the college\'s MIS for follow-up?</p>' +
+      (e.arrival ? '<p class="event-arrival"><strong>Arriving:</strong> ' + esc(e.arrival) + '</p>' : '') +
+      (e.presentations ? presentationsHtml(e) : '') +
+      (e.campus !== 'Online' ? '<h2>Getting here</h2><div class="wf-placeholder map-ph">Map embed &middot; ' + esc(e.campus) + '</div>' +
+        '<h3 class="event-sub">Parking</h3><p>Parking is available at both campuses, but it is limited. Street parking is available, but please check you are not parking in a resident-only zone.</p>' : '') +
+      '<h2>More help or information</h2><p>If you have any questions, or need help reading or accessing this information, call the Careers Advice Zone on <a href="tel:01245293031">01245 29 30 31</a> or email <a href="mailto:careersadvicezone@chelmsford.ac.uk">careersadvicezone@chelmsford.ac.uk</a> and we’ll get back to you.</p>' +
+      (e.campus !== 'Online' ? '<p>If you need help to get into the college building, call the Careers Advice Zone on the number above. <a href="#">Our Equality and Diversity policy</a>.</p>' : '') +
+      (e.sample
+        ? '<p class="wf-note" data-note="1"><span class="wf-note-label">Data</span>This is the college’s own sample event, entered as one CMS event. The presentations are a simple table per campus that editors fill in, and visitors can show one campus at a time. Arrival times are bookable slots, each with its own capacity, so the evening doesn’t fill up at 6pm and stay empty at 8pm.</p>' +
+          '<p class="wf-note query" data-note="2"><span class="wf-note-label">Open question</span>The sample says “your booked time” but doesn’t list the arrival slots, so the half-hourly slots here are our assumption. How are arrival times and capacity set today, and do bookings need to reach a CRM or the MIS for follow-up?</p>'
+        : '<p class="wf-note" data-note="1"><span class="wf-note-label">CMS</span>Events are a CMS content type: title, type, date and time, campus, audience, linked subjects, capacity and description. Capacity drives the “Few places left” and “Fully booked” states automatically. Past events drop off the listing.</p>' +
+          '<p class="wf-note" data-note="2"><span class="wf-note-label">Content</span>This event is illustrative, to show the listing filters. The <a href="event.html?id=ev1">Showcase Open Evening</a> uses the college’s own sample content.</p>') +
       '</div>' +
       '<!-- Booking (R41) --><aside><div class="booking" id="booking">' + bookingForm(e, full) + '</div></aside></div>' +
       '<section class="band band-alt"><div class="container"><div class="section-head"><h2>Other events</h2><a href="events.html">All events</a></div><div class="event-list">' + others.map(eventCard).join('') + '</div></div></section>';
     bindBooking(e, full);
+    bindPresentations(root);
+  }
+  function presentationsHtml(e) {
+    var rows = e.presentations.map(function (pz) {
+      return '<li class="pres-item" data-ms="' + (pz.ms ? 1 : 0) + '" data-pr="' + (pz.pr ? 1 : 0) + '"><h3>' + esc(pz.t) + '</h3>' + (pz.d ? '<p class="muted">' + esc(pz.d) + '</p>' : '') +
+        '<dl>' + (pz.ms ? '<div class="pres-ms"><dt>Moulsham Street</dt><dd>' + esc(pz.ms) + '</dd></div>' : '') + (pz.pr ? '<div class="pres-pr"><dt>Princes Road</dt><dd>' + esc(pz.pr) + '</dd></div>' : '') + '</dl></li>';
+    }).join('');
+    return '<section class="presentations" aria-labelledby="pres-title"><h2 id="pres-title">Presentations</h2>' +
+      '<div class="search-mode pres-campus" role="group" aria-label="Show presentations at"><button type="button" data-pres="all" aria-pressed="true">Both campuses</button><button type="button" data-pres="ms" aria-pressed="false">Moulsham Street</button><button type="button" data-pres="pr" aria-pressed="false">Princes Road</button></div>' +
+      '<p class="visually-hidden" role="status" data-pres-status></p><ul class="pres-list">' + rows + '</ul></section>';
+  }
+  function bindPresentations(root) {
+    var wrap = $('.presentations', root); if (!wrap) return;
+    $all('[data-pres]', wrap).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.getAttribute('data-pres');
+        $all('[data-pres]', wrap).forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        var n = 0;
+        $all('.pres-item', wrap).forEach(function (li) {
+          var show = v === 'all' || li.getAttribute('data-' + v) === '1';
+          li.hidden = !show; if (show) n++;
+          $all('.pres-ms, .pres-pr', li).forEach(function (d) { d.hidden = v !== 'all' && !d.classList.contains('pres-' + v); });
+        });
+        $('[data-pres-status]', wrap).textContent = n + ' presentations' + (v === 'all' ? '' : ' at ' + b.textContent);
+      });
+    });
   }
   function bookingForm(e, full) {
     return '<h2>' + (full ? 'Join the waiting list' : 'Book your place') + '</h2>' +
@@ -1210,6 +1263,9 @@
       '<div class="field"><label for="b-last">Last name</label><input type="text" id="b-last" autocomplete="family-name"></div>' +
       '<div class="field"><label for="b-email">Email address</label><input type="email" id="b-email" autocomplete="email" spellcheck="false"></div>' +
       '<div class="field"><label for="b-who">I am</label><select id="b-who"><option value="">Choose one</option><option>A school leaver (Year 11)</option><option>A parent or carer</option><option>An adult learner</option><option>An employer</option></select></div>' +
+      (e.slots && !full ? '<fieldset class="field pay-fieldset" id="b-slot"><legend>What time will you arrive?</legend><p class="field-hint">You can stay as long as you like after this.</p><div class="radio-row">' +
+        e.slots.map(function (t, i) { return '<label class="radio-pill"><input type="radio" name="b-slot" value="' + t + '"' + (i === 4 ? ' disabled' : '') + '><span>' + t + (i === 4 ? ' (full)' : i === 0 ? ' (2 left)' : '') + '</span></label>'; }).join('') +
+        '</div></fieldset>' : '') +
       '<div class="field"><label for="b-guests">How many people are coming, including you?</label><select id="b-guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select><p class="field-hint">Bring a parent, carer or friend.</p></div>' +
       '<div class="field"><label for="b-needs">Access or support needs <span class="opt">(optional)</span></label><textarea id="b-needs" rows="2"></textarea></div>' +
       '<label class="check" style="margin-bottom:1rem"><input type="checkbox" id="b-sms"> Text me a reminder the day before</label>' +
@@ -1223,11 +1279,13 @@
     var form = $('[data-booking]', box);
     $('[data-demo-fill]', box).addEventListener('click', function () {
       $('#b-first').value = 'Maya'; $('#b-last').value = 'Smith'; $('#b-email').value = 'maya.smith@example.com'; $('#b-who').selectedIndex = 1;
+      var sl = $all('input[name="b-slot"]', box); if (sl[1]) sl[1].checked = true;
     });
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var errs = [];
       $all('.field', form).forEach(function (f) { f.classList.remove('has-error'); var m = $('.field-error', f); if (m) m.remove(); });
+      if ($('#b-slot')) { $('#b-slot').classList.remove('has-error'); var se = $('#b-slot-err'); if (se) se.remove(); }
       function err(id, msg) {
         var input = $('#' + id); var f = input.closest('.field'); f.classList.add('has-error');
         var p = document.createElement('p'); p.className = 'field-error'; p.id = id + '-err'; p.textContent = msg; input.insertAdjacentElement('beforebegin', p);
@@ -1239,13 +1297,21 @@
       var em = $('#b-email').value.trim();
       if (!em) err('b-email', 'Enter your email address'); else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) err('b-email', 'Enter an email address in the correct format, like name@example.com');
       if (!$('#b-who').value) err('b-who', 'Tell us who you are, so we can send the right information');
+      var slotEl = $('input[name="b-slot"]:checked', form);
+      var slot = slotEl ? slotEl.value : '';
+      if ($('#b-slot') && !slot) {
+        var fs = $('#b-slot'); fs.classList.add('has-error');
+        var pe = document.createElement('p'); pe.className = 'field-error'; pe.id = 'b-slot-err'; pe.textContent = 'Choose the time you will arrive';
+        $('.radio-row', fs).insertAdjacentElement('beforebegin', pe);
+        errs.push('<li><a href="#b-slot">Choose the time you will arrive</a></li>');
+      }
       var sum = $('.error-summary', box);
       if (errs.length) { $('ul', sum).innerHTML = errs.join(''); sum.hidden = false; sum.focus(); return; }
       var guests = $('#b-guests').value;
       box.innerHTML = '<div class="confirm-panel" tabindex="-1" id="booked"><div class="tick" aria-hidden="true">&#10003;</div><h2>' + (full ? 'You’re on the waiting list' : 'You’re booked in') + '</h2>' +
-        '<p><strong>' + esc(e.title) + '</strong><br>' + fmtDate(e.date) + ', ' + e.start + ' to ' + e.end + '<br>' + esc(e.location) + '</p>' +
+        '<p><strong>' + esc(e.title) + '</strong><br>' + fmtDate(e.date) + ', ' + (slot ? 'arrive from ' + slot + ' (the evening ends at ' + e.end + ')' : e.start + ' to ' + e.end) + '<br>' + esc(e.location) + '</p>' +
         '<p>We’ve emailed your confirmation to <strong>' + esc(em) + '</strong>' + (full ? '.' : ' for ' + guests + (guests === '1' ? ' person.' : ' people.')) + '</p>' +
-        '<p><a class="btn btn-secondary btn-block" href="' + icsFor(e) + '" download="chelmsford-college-' + e.id + '.ics">Add to calendar</a></p>' +
+        '<p><a class="btn btn-secondary btn-block" href="' + icsFor(e, slot) + '" download="chelmsford-college-' + e.id + '.ics">Add to calendar</a></p>' +
         '<p><a class="btn btn-apply btn-block" href="courses.html">Find a course before you come</a></p>' +
         '<p class="wf-note" data-note="3"><span class="wf-note-label">Behaviour</span>Confirmation email with a calendar file and a QR code for fast check-in on the night. If the learner has a shortlist, the email lists those courses so tutors can be ready.</p></div>';
       var b = $('#booked'); b.focus();
@@ -1364,7 +1430,7 @@
           '<button class="btn btn-apply btn-lg btn-block" type="submit">Pay ' + money(total()) + '</button></form>' +
           '<p style="text-align:center;margin-top:1rem"><a href="#review">Cancel and go back</a></p></div>' +
           '<p style="margin-top:0.75rem"><button type="button" class="btn-link" data-decline>Simulate a declined card (prototype only)</button></p>' +
-          '<p class="wf-note" data-note="5"><span class="wf-note-label">Security</span>This panel is the payment provider\'s hosted page (e.g. Stripe Checkout, Worldpay, Pay360 or an education platform such as WisePay), styled with the college\'s colours. Card data never touches the college\'s servers, which keeps PCI DSS scope to SAQ-A. 3-D Secure (Strong Customer Authentication) is handled by the provider.</p>';
+          '<p class="wf-note" data-note="5"><span class="wf-note-label">Security</span>This panel is the payment provider\'s hosted page (e.g. Stripe Checkout, Worldpay, Pay360 or an education platform such as WisePay), styled with the college\'s colours. The college will contract the provider directly; our price covers the integration. Card data never touches the college\'s servers, which keeps PCI DSS scope to SAQ-A. 3-D Secure (Strong Customer Authentication) is handled by the provider.</p>';
       }
       if (name === 'done') {
         html = '<div class="confirm-panel" tabindex="-1" id="pay-done"><div class="tick" aria-hidden="true">&#10003;</div><h1>Payment complete</h1>' +

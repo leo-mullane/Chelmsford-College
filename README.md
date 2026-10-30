@@ -32,3 +32,4 @@ rm -rf docs && cp -r dist docs && touch docs/.nojekyll                  # refres
 - V3-02: the design system is provided as a PDF.
 - V3.1: hero contrast over the swoosh fixed; annotations no longer obscured; no sideways-scrolling rows on mobile; forms cleared between visits; leftover placeholders replaced.
 - V3.2: site-wide search (header overlay with grouped live results, plus a results page with type filters, best bets and “Did you mean”); the Courses menu search now lands on course results instead of a 404; desktop fly-outs fit the screen without their own scroll bar.
+- V3.3: the Showcase Open Evening uses the college's sample event (presentations by campus, arrival-time booking, parking and help); notes updated with the answers to our clarification questions (legacy campus and level fields, SQL connection, own hosting, payment provider, remote demo).
